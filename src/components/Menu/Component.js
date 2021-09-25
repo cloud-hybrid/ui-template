@@ -26,18 +26,18 @@ import { Link } from "react-router-dom";
 const Component = () => (
     <HeaderContainer
         render={ ({ isSideNavExpanded, onClickSideNavExpand }) => (
-            <Header aria-label="Carbon Tutorial">
+            <Header aria-label="UI Template">
                 <SkipToContent />
                 <HeaderMenuButton
-                    aria-label="Open menu"
+                    aria-label="Menu"
                     onClick={ onClickSideNavExpand }
                     isActive={ isSideNavExpanded }
                 />
-                <HeaderName element={ Link } to="/" prefix="IBM">
-                    Carbon Tutorial
+                <HeaderName element={ Link } to="/" prefix="Cloud">
+                    UI Template
                 </HeaderName>
-                <HeaderNavigation aria-label="Carbon Tutorial">
-                    <HeaderMenuItem element={ Link } to="/repos">
+                <HeaderNavigation aria-label="UI Template">
+                    <HeaderMenuItem element={ Link } to="/repositories">
                         Repositories
                     </HeaderMenuItem>
                 </HeaderNavigation>
@@ -48,24 +48,20 @@ const Component = () => (
                 >
                     <SideNavItems>
                         <HeaderSideNavItems>
-                            <HeaderMenuItem element={ Link } to="/repos">
+                            <HeaderMenuItem element={ Link } to="/repositories">
                                 Repositories
                             </HeaderMenuItem>
                         </HeaderSideNavItems>
                     </SideNavItems>
                 </SideNav>
                 <HeaderGlobalBar>
-                    <HeaderGlobalAction aria-label="Notifications" tooltipPosition={ "right" } tooltipAlignment={ "start" } isActive={false}>
+                    <HeaderGlobalAction aria-label="Notifications" tooltipPosition={ "right" } tooltipAlignment={ "start" }>
                         <Notification />
                     </HeaderGlobalAction>
                     <HeaderGlobalAction aria-label="User Avatar">
                         <UserAvatar />
                     </HeaderGlobalAction>
-                    {/*
-                     Tooltip-Position: 'bottom' | 'top' | 'left' | 'right';
-
-                    */}
-                    <HeaderGlobalAction aria-label="App Switcher" tooltipPosition={"left"} tooltipAlignment={"end"}>
+                    <HeaderGlobalAction aria-label="Switcher" tooltipPosition={"left"} tooltipAlignment={"end"}>
                         <Switcher />
                     </HeaderGlobalAction>
                 </HeaderGlobalBar>

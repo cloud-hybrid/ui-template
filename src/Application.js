@@ -6,21 +6,25 @@ import {
     Content,
     Theme
 } from "@carbon/react";
+
 import TutorialHeader from "./components/Menu";
+
 import {
     Route,
     Switch
 } from "react-router-dom";
-import LandingPage from "./content/Landing";
-import Page from "./content/GitHub";
+
+import { default as Landing } from "./content/Landing";
+
+import { default as Github } from "./content/GitHub";
 
 const Application = () => (
     <Theme theme="g100">
         <TutorialHeader />
         <Content>
             <Switch>
-                <Route exact path="/" component={ LandingPage } />
-                <Route path="/repos" component={ Page } />
+                <Route exact path="/" component={ Landing } />
+                <Route path="/repositories" component={ Github } />
             </Switch>
         </Content>
     </Theme>
