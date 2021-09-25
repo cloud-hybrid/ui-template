@@ -24,23 +24,22 @@ import {
     HashRouter as Router
 } from "react-router-dom";
 
-(process.env.NODE_ENV !== "production") ? Development(): Production();
+(process.env.NODE_ENV !== "production")
+    ? Development(): Production();
 
 const Application = Import(() => {
     return import("./Application").then((SPA) => SPA);
 });
 
-const DOM = () => {
-    return (
-        <Navigator forceRefresh={ false }>
-            <Router>
-                <Suspense fallback={ (<Skeleton />) }>
-                    <Application />
-                </Suspense>
-            </Router>
-        </Navigator>
-    );
-}
+const DOM = () => (
+    <Navigator forceRefresh={ false }>
+        <Router>
+            <Suspense fallback={ (<Skeleton />) }>
+                <Application />
+            </Suspense>
+        </Router>
+    </Navigator>
+);
 
 ReactDOM.render(
     (<DOM/>), document.getElementById(
@@ -50,28 +49,3 @@ ReactDOM.render(
 
  (process.env.ENVIRONMENT === "Production") ? Worker.register()
      : Worker.unregister();
-
-// const cache = new InMemoryCache();
-// import {
-//     ApolloProvider,
-//     ApolloClient,
-//     InMemoryCache
-// } from "@apollo/client";
-// const client = new ApolloClient({
-//   cache: cache,
-//   uri: "https://api.github.com/graphql",
-//   headers: {
-//     authorization: `Bearer ${
-//       process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN
-//     }`,
-//   },
-// });
-
-// ReactDOM.render(
-//   <ApolloProvider client={client}>
-//     <Router>
-//       <Application />
-//     </Router>
-//   </ApolloProvider>,
-//   document.getElementById("Application")
-// );
