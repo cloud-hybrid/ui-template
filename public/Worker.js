@@ -1,7 +1,7 @@
 "use static";
 
 (async function() {
-    console.debug("[DEBUG] Worker.js => H3l10 WoR1d");
+    console.debug("[DEBUG] Worker.js => Ready", true);
 
     const LOCALHOST = Boolean(
         window.location.hostname === "localhost" ||
@@ -11,5 +11,5 @@
         )
     );
 
-    console.debug("[DEBUG] Worker.js => Development", "-", LOCALHOST);
+    console.debug("[DEBUG] Worker.js => Development", LOCALHOST);
 })();

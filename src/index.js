@@ -1,11 +1,5 @@
 import "./index.scss";
 
-import "core-js/modules/es.array.includes";
-import "core-js/modules/es.array.fill";
-import "core-js/modules/es.string.includes";
-import "core-js/modules/es.string.trim";
-import "core-js/modules/es.object.values";
-
 import React, {
     Suspense,
     lazy as Import
@@ -15,37 +9,38 @@ import ReactDOM from "react-dom";
 
 import { default as Skeleton } from "./Page-Loader";
 
-import * as Worker from "./Worker";
-
-import Production, { default as Development } from "./Globals";
+import { default as Menu } from "./components/Menu";
 
 import {
     BrowserRouter as Navigator,
     HashRouter as Router
 } from "react-router-dom";
 
-(process.env.NODE_ENV !== "production")
-    ? Development(): Production();
-
 const Application = Import(() => {
-    return import("./Application").then((SPA) => SPA);
+    return import("./Application").then(
+        (SPA) => SPA
+    );
 });
 
-const DOM = () => (
-    <Navigator forceRefresh={ false }>
-        <Router>
-            <Suspense fallback={ (<Skeleton />) }>
-                <Application />
-            </Suspense>
-        </Router>
-    </Navigator>
+const DOM = () => {
+    return (
+        <React.StrictMode>
+            <Navigator forceRefresh={ true }>
+                <Router>
+                    <Menu />
+                    <Suspense fallback={ (<Skeleton Loader={ true } />) }>
+                        <Application />
+                    </Suspense>
+                </Router>
+            </Navigator>
+        </React.StrictMode>
+    );
+};
+
+ReactDOM.render((<DOM />), document
+    .getElementById("Application")
 );
 
-ReactDOM.render(
-    (<DOM/>), document.getElementById(
-        "Application"
-    )
-);
-
- (process.env.ENVIRONMENT === "Production") ? Worker.register()
-     : Worker.unregister();
+import("./Worker.js").then((Module) => {
+    Module.unregister();
+});

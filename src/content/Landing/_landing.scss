@@ -3,8 +3,8 @@
 @use "@carbon/react/scss/breakpoint" as *;
 @use "@carbon/react/scss/theme" as *;
 
-@use "Mixins" as *;
-@use "Overrides" as *;
+@use "mixins" as *;
+@use "overrides" as *;
 
 .landing-page__illo {
     max-width: 100%;

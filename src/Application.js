@@ -1,13 +1,9 @@
-import "./Application.scss";
-
 import React from "react";
 
 import {
     Content,
     Theme
 } from "@carbon/react";
-
-import TutorialHeader from "./components/Menu";
 
 import {
     Route,
@@ -18,16 +14,19 @@ import { default as Landing } from "./content/Landing";
 
 import { default as Github } from "./content/GitHub";
 
-const Application = () => (
-    <Theme theme="g100">
-        <TutorialHeader />
-        <Content>
-            <Switch>
-                <Route exact path="/" component={ Landing } />
-                <Route path="/repositories" component={ Github } />
-            </Switch>
-        </Content>
-    </Theme>
-);
+const Application = () => {
+    const Component = () => (
+        <Theme theme="g100">
+            <Content>
+                <Switch>
+                    <Route exact path="/" component={ Landing } />
+                    <Route path="/repositories" component={ Github } />
+                </Switch>
+            </Content>
+        </Theme>
+    );
+
+    return (<Component />)
+}
 
 export default Application;

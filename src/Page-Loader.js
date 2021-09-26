@@ -8,8 +8,7 @@ import {
 } from "@carbon/react";
 
 const Fallback = ({ Loader = false }) => (
-    <Content
-        children={(
+    <Content children={(
             (Loader) ? (<InlineLoading status={ "active" } style={ { marginTop: "1.0rem", marginLeft: "2.5rem" } } />)
                 : (<InlineLoading status={ "active" } style={ { marginTop: "1.0rem", display: "none" } } />)
         )}
