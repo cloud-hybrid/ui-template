@@ -8,7 +8,6 @@
         "start": "react-scripts start",
         "test": "react-scripts test"
     },
-    "module": "./src/index.js",
     "dependencies": {
         "@carbon/ibm-cloud-cognitive": "^0.87.3",
         "@carbon/icons-react": "^10.38.0",

@@ -1,9 +1,9 @@
-@use "@carbon/react" as styles;
-@use "@carbon/react/scss/breakpoint" as *;
+@use "~@carbon/react" as *;
+@use "~@carbon/react/scss/breakpoint" as *;
 
-@use "@carbon/react/scss/themes";
-@use "@carbon/react/scss/theme";
-@use "@carbon/react/scss/zone";
+@use "~@carbon/react/scss/themes";
+@use "~@carbon/react/scss/theme";
+@use "~@carbon/react/scss/zone";
 
 @use "./components/Informational-Card/informational-card";
 @use "./components/Menu/menu";
@@ -23,8 +23,10 @@
     background: var(--bx-background);
 }
 
+//@include styles.theme(styles.$g100);
+
 :root {
-    @include styles.theme(styles.$g100);
+    @include theme($g100);
 }
 
 .bx--content .bx--css-grid {
