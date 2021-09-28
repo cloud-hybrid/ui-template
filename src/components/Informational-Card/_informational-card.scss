@@ -1,7 +1,10 @@
 @use "@carbon/react/scss/spacing" as *;
 @use "@carbon/react/scss/type" as *;
 @use "@carbon/react/scss/breakpoint" as *;
-@use "@carbon/react/scss/theme" as *;
+@use "~@carbon/react/scss/themes" as *;
+
+@use "~@carbon/themes/scss/tokens";
+//@use "src/index" as *;
 
 .info-section__heading {
     @include type-style("heading-01");
@@ -20,7 +23,7 @@
     // top border in only small breakpoints to prevent overrides
     @include breakpoint-down(md) {
         &:not(:nth-child(2)) {
-            border-top:  1px solid $border-subtle-01;
+            border-top:  1px solid tokens.$border-subtle;
             padding-top: $spacing-09;
         }
     }
@@ -28,14 +31,14 @@
     // left border in just the 2nd column items
     @include breakpoint(md) {
         &:nth-child(odd) {
-            border-left: 1px solid $border-subtle-01;
+            border-left: 1px solid tokens.$border-subtle;
         }
     }
 
     // left border in all items
     @include breakpoint(lg) {
         margin-top:  0;
-        border-left: 1px solid $border-subtle-01;
+        border-left: 1px solid tokens.$border-subtle;
 
         svg {
             margin-top: $spacing-12;

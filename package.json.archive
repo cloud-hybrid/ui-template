@@ -1,0 +1,38 @@
+{
+    "name": "@cloud-technology/ui-template",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "build": "react-scripts build",
+        "eject": "react-scripts eject",
+        "start": "react-scripts start",
+        "test": "react-scripts test"
+    },
+    "dependencies": {
+        "@carbon/ibm-cloud-cognitive": "^0.88.0",
+        "@carbon/icons-react": "10.39.0",
+        "carbon-components": "10.43.0",
+        "carbon-icons": "7.0.7",
+        "carbon-components-react": "7.43.0",
+        "@carbon/react": "0.3.0-rc.0",
+        "axios": "^0.21.4",
+        "axios-cache-adapter": "^2.7.3",
+        "core-js": "^3.18.0",
+        "localforage": "^1.10.0",
+        "prettier": "^2.4.1",
+        "prop-types": "^15.7.2",
+        "react": "^16.14.0",
+        "react-dom": "^16.14.0",
+        "react-router-dom": "^5.3.0",
+        "react-scripts": "^4.0.3",
+        "sass": "^1.38.0",
+        "web-vitals": "^2.1.0",
+        "workbox-webpack-plugin": "^6.2.4"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        "last 1 version"
+    ]
+}
