@@ -15,13 +15,13 @@
 //    min-height: calc(100vh - 3.0rem);
 //}
 //
-//.bx--content {
+//.cds--content {
 //    margin-top: 3rem;
 //    padding:    0;
-//    background: var(--bx-background);
+//    background: var(--cds-background);
 //}
 //
-//.bx--content .bx--css-grid {
+//.cds--content .cds--css-grid {
 //    max-width: 100%;
 //    @include breakpoint(md) {
 //        padding-left:  20px;
@@ -30,7 +30,7 @@
 //}
 //
 //@media (min-width: 42rem) {
-//    .bx--grid--no-gutter {
+//    .cds--grid--no-gutter {
 //        padding-left:  1.0rem;
 //        padding-right: 1.0rem;
 //    }

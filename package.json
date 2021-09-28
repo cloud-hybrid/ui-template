@@ -9,7 +9,7 @@
         "test": "react-scripts test"
     },
     "dependencies": {
-        "@carbon/react": "0.4.0",
+        "@carbon/react": "^0.5.2",
         "@carbon/feature-flags": "^0.6.0",
         "@carbon/icons-react": "^10.39.0",
         "@carbon/styles": "^0.5.0",
@@ -20,22 +20,14 @@
         "carbon-icons": "^7.0.7",
         "localforage": "^1.10.0",
         "prop-types": "^15.7.2",
-        "react": "17.0.1",
-        "react-dom": "17.0.1",
-        "react-router": "5.2.1",
-        "react-router-dom": "5.2.1",
-        "react-scripts": "4.0.3",
+        "react": "^17.0.1",
+        "react-dom": "^17.0.1",
+        "react-router": "^5.2.1",
+        "react-router-dom": "^5.2.1",
+        "react-scripts": "^4.0.3",
         "workbox-expiration": "^6.3.0",
-        "workbox-precaching": "^6.3.0"
-    },
-    "devDependencies": {
-        "@rollup/plugin-babel": "^5.3.0",
-        "@rollup/plugin-commonjs": "^20.0.0",
-        "@rollup/plugin-node-resolve": "^13.0.5",
-        "eslint": "^7.32.0",
-        "rollup": "^2.57.0",
-        "rollup-plugin-strip-banner": "^2.0.0",
-        "sass": "1.39.2"
+        "workbox-precaching": "^6.3.0",
+        "sass": "^1.42.1"
     },
     "eslintConfig": {
         "extends": "react-app"
