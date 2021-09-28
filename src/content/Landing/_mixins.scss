@@ -1,7 +1,6 @@
 @use "@carbon/react/scss/spacing" as *;
-@use "~@carbon/themes/scss/tokens";
+@use "@carbon/themes/scss/tokens";
 
 @mixin landing-page-background() {
-    background-color: tokens.$layer;
     position:         relative;
 }

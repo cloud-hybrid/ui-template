@@ -1,6 +1,7 @@
 @use "@carbon/react/scss/spacing" as Spacing;
 @use "@carbon/react/scss/type" as Type;
 @use "@carbon/react/scss/breakpoint" as Breakpoint;
+@use "@carbon/themes/scss/tokens";
 
 @use "mixins" as *;
 @use "overrides" as *;
@@ -13,7 +14,7 @@
     padding-top: Spacing.$spacing-05;
     padding-bottom: Spacing.$spacing-07 * 4;
     padding-left: Spacing.$spacing-06;
-    //@include landing-page-background();
+    @include landing-page-background();
 }
 
 .landing-page__heading {
@@ -46,16 +47,12 @@
 
 .landing-page__r3 {
     padding: Spacing.$spacing-09 Spacing.$spacing-06;
-    //@include landing-page-background();
+    @include landing-page-background();
 }
 
 .landing-page__label {
     @include Type.type-style("heading-01");
 }
-
-//.tabs-group {
-//    background-color: Theme.$layer-01;
-//}
 
 .landing-page__banner,
 .landing-page__r2,

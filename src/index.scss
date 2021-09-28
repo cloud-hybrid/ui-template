@@ -16,8 +16,7 @@
 @use "./components/Informational-Card/informational-card";
 @use "./components/Menu/menu";
 @use "./content/GitHub/github";
-
-@use "./content/Landing2/landing";
+@use "./content/Landing/landing";
 
 /// Padding was introduced in 10.3.0, needs an option to let grid set the viewport gutter
 /// @link https://github.com/carbon-design-system/carbon/issues/3010
@@ -27,7 +26,7 @@ $menu-margin-top: 3.0rem;
 .bx--content {
     margin-top: $menu-margin-top;
     background: var(--bx-background);
-    padding:    0;
+    //padding:    0;
 
     min-height: calc(100vh - #{$menu-margin-top});
 }

@@ -1,5 +1,3 @@
-import "./Application.scss";
-
 import React from "react";
 
 import {
@@ -12,8 +10,7 @@ import {
     Switch
 } from "react-router-dom";
 
-import { default as Landing } from "./content/Landing2";
-
+import { default as Landing } from "./content/Landing";
 import { default as Github } from "./content/GitHub";
 
 const Application = () => {
