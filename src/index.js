@@ -28,7 +28,7 @@ const DOM = () => {
             <Navigator forceRefresh={ true }>
                 <Router>
                     <Menu />
-                    <Suspense fallback={ (<Skeleton Loader={ true } />) }>
+                    <Suspense fallback={ (<Skeleton Loader={ false } />) }>
                         <Application />
                     </Suspense>
                 </Router>
