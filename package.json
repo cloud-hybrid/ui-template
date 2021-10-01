@@ -24,6 +24,7 @@
         "sass": "^1.42.1"
     },
     "devDependencies": {
+        "husky": "^7.0.2",
         "sass-loader": "^10.2.0",
         "vscode-css-languageservice": "^5.1.7",
         "workbox-webpack-plugin": "^6.3.0"
