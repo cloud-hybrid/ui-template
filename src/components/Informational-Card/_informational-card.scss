@@ -3,7 +3,7 @@
 @use "@carbon/react/scss/breakpoint" as *;
 @use "@carbon/react/scss/themes" as *;
 
-@use "@carbon/themes/scss/tokens";
+@use "~@carbon/themes/scss/tokens";
 //@use "src/index" as *;
 
 .info-section__heading {

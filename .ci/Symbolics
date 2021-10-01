@@ -1,0 +1,33 @@
+#!/usr/bin/perl
+
+use Cwd;
+
+use strict;
+use warnings;
+use File::Find;
+
+my $CWD = Cwd::abs_path();
+
+my $Source = "$CWD/node_modules/\@carbon";
+my $Target = "$CWD/src/\@carbon";
+
+sub handler {
+    if (-d) {
+        my $X = $File::Find::dir;
+        $X =~ s,^$Source,$Target,g;
+        mkdir($X, 0777);
+
+        print($X);
+    }
+
+    if (-f) {
+        my $X = $File::Find::name;
+        $X =~ s,^$Source,$Target,g;
+        print "ln -s $File::Find::name $X\n";
+        symlink($File::Find::name, $X);
+    }
+}
+
+unless (-d "$Target") { mkdir($Target, 0777); };
+
+find(\&handler, $Source);
