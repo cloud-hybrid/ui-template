@@ -9,7 +9,7 @@ import ReactDOM from "react-dom";
 
 import { default as Skeleton } from "./Page-Loader";
 
-import { default as Menu } from "./components/Menu";
+import { default as Menu } from "./components/Menu/Index";
 
 import {
     BrowserRouter as Navigator,
@@ -25,9 +25,9 @@ const Application = Import(() => {
 const DOM = () => {
     return (
         <React.StrictMode>
-            <Navigator forceRefresh={ true }>
+            <Navigator forceRefresh={ false }>
                 <Router>
-                    <Menu />
+                    <Menu/>
                     <Suspense fallback={ (<Skeleton Loader={ false } />) }>
                         <Application />
                     </Suspense>

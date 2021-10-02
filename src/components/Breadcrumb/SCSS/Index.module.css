@@ -1,0 +1,11 @@
+.breadcrumb {
+  display: inline-flex;
+  flex-wrap: initial;
+  width: max-content;
+  margin-top: -1rem;
+  margin-left: -0.5rem;
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+
+/*# sourceMappingURL=Index.module.css.map */

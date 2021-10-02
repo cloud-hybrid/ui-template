@@ -1,12 +1,14 @@
 @use "@carbon/react" as *;
+@use "@carbon/react/index" as *;
+@use "@carbon/react/scss/grid" as *;
 @use "@carbon/react/scss/type" as *;
+@use "@carbon/react/scss/zone" as *;
+@use "@carbon/react/scss/colors" as *;
 @use "@carbon/react/scss/themes" as *;
 @use "@carbon/react/scss/spacing" as *;
 @use "@carbon/react/scss/breakpoint" as *;
+@use "@carbon/react/scss/feature-flags" as *;
 
-@use "./components/Menu/menu";
-@use "./content/GitHub/github";
-@use "./content/Landing/landing";
 @use "./components/Informational-Card/informational-card";
 
 $menu-margin-top: 3.0rem;
@@ -21,13 +23,13 @@ html {
     @include theme($g100);
 }
 
-.cds--content .cds--css-grid {
-    max-width: 100%;
-    @include breakpoint(md) {
-        padding-left:  20px;
-        padding-right: 20px;
-    }
-}
+// ... .cds--content .cds--css-grid {
+// ...     max-width: 100%;
+// ...     @include breakpoint(md) {
+// ...         padding-left:  20px;
+// ...         padding-right: 20px;
+// ...     }
+// ... }
 
 @media (min-width: 42rem) {
     .cds--grid--no-gutter {

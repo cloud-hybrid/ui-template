@@ -1,5 +1,7 @@
 import React from "react";
 
+import styles from "./SCSS/Index.module.scss";
+
 import {
     Header,
     HeaderContainer,

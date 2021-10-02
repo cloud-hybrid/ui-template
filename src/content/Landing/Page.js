@@ -1,5 +1,7 @@
 import React from "react";
 
+import * as Styles from "./SCSS/Index.module.scss";
+
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -31,33 +33,33 @@ const props = {
 
 const Page = () => {
     return (
-        <Grid className="landing-page">
-            <Column lg={ 16 } md={ 8 } sm={ 4 } className="landing-page__banner">
-                <Breadcrumb noTrailingSlash aria-label="Page navigation">
+        <Grid className={Styles["landing-page"]}>
+            <Column lg={ 16 } md={ 8 } sm={ 4 } className={Styles["landing-page-banner"]}>
+                <Breadcrumb noTrailingSlash aria-label={ "Page Navigation" }>
                     <BreadcrumbItem>
                         <a href="/">Getting started</a>
                     </BreadcrumbItem>
                 </Breadcrumb>
-                <h1 className="landing-page__heading">
+                <h1 className={Styles["landing-page-heading"]}>
                     Design &amp; build with Carbon
                 </h1>
             </Column>
-            <Column lg={ 16 } md={ 8 } sm={ 4 } className="landing-page__r2">
+            <Column lg={ 16 } md={ 8 } sm={ 4 } className={Styles["landing-page-row-2"]}>
                 <Tabs
                     { ... props.tabs }
                     aria-label="Tab navigation"
-                    className="tabs-group"
+                    className={Styles["landing-page-tabs-group"]}
                 >
-                    <Tab { ... props.tab } label="About">
-                        <Grid className="tabs-group-content">
+                    <Tab { ... props.tab } label="About" className={Styles["landing-page-label"]}>
+                        <Grid className={Styles["landing-page-tabs-group-content"]}>
                             <Column
                                 md={ 4 }
                                 lg={ 7 }
                                 sm={ 4 }
-                                className="landing-page__tab-content"
+                                className={ Styles["landing-page-tab-content"] }
                             >
-                                <h2 className="landing-page__subheading">Overview</h2>
-                                <p className="landing-page__p">
+                                <h2 className={Styles["landing-page-subheading"]}>Overview</h2>
+                                <p className={Styles["landing-page-paragraph"]}>
                                     Carbon is IBM’s open-source design system for digital products
                                     and experiences. With the IBM Design Language as its
                                     foundation, the system consists of working code, design tools
@@ -68,23 +70,23 @@ const Page = () => {
                             </Column>
                             <Column md={ 4 } lg={ { span: 8, offset: 7 } } sm={ 4 }>
                                 <img
-                                    className="landing-page__illo"
+                                    className={Styles["landing-page-primary-image"]}
                                     src={ `${ process.env.PUBLIC_URL }/illustration.png` }
                                     alt="Carbon illustration"
                                 />
                             </Column>
                         </Grid>
                     </Tab>
-                    <Tab { ... props.tab } label="Design">
-                        <Grid className="tabs-group-content">
+                    <Tab { ... props.tab } label="Design" className={ Styles["landing-page-label"] }>
+                        <Grid className={Styles["landing-page-tabs-group-content"]}>
                             <Column
                                 md={ 4 }
                                 lg={ 7 }
                                 sm={ 4 }
-                                className="landing-page__tab-content"
+                                className={Styles["landing-page-tab-content"]}
                             >
-                                <h2 className="landing-page__subheading">Designing with Carbon</h2>
-                                <p className="landing-page__p">
+                                <h2 className={Styles["landing-page-subheading"]}>Designing with Carbon</h2>
+                                <p className={Styles["landing-page-paragraph"]}>
                                     Rapidly build beautiful and accessible experiences. The Carbon
                                     kit contains all resources you need to get started.
                                 </p>
@@ -92,31 +94,31 @@ const Page = () => {
                             </Column>
                             <Column md={ 4 } lg={ { span: 8, offset: 7 } } sm={ 4 }>
                                 <img
-                                    className="landing-page__illo"
+                                    className={Styles["landing-page-primary-image"]}
                                     src={ `${ process.env.PUBLIC_URL }/illustration.png` }
                                     alt="Carbon illustration"
                                 />
                             </Column>
                         </Grid>
                     </Tab>
-                    <Tab { ... props.tab } label="Develop">
-                        <Grid className="tabs-group-content">
+                    <Tab { ... props.tab } label="Develop" className={ Styles["landing-page-label"] }>
+                        <Grid className={Styles["landing-page-tabs-group-content"]}>
                             <Column
                                 md={ 4 }
                                 lg={ 7 }
                                 sm={ 4 }
-                                className="landing-page__tab-content"
+                                className={Styles["landing-page-tab-content"]}
                             >
-                                <h2 className="landing-page__subheading">Development</h2>
-                                <p className="landing-page__p">
-                                    Carbon provides styles and components in Vanilla, React,
+                                <h2 className={Styles["landing-page-subheading"]}>Development</h2>
+                                <p className={Styles["landing-page-paragraph"]}>
+                                    Carbon provides Styles and components in Vanilla, React,
                                     Angular, and Vue for anyone building on the web.
                                 </p>
                                 <Button>Learn more</Button>
                             </Column>
                             <Column md={ 4 } lg={ { span: 8, offset: 7 } } sm={ 4 }>
                                 <img
-                                    className="landing-page__illo"
+                                    className={ Styles["landing-page-primary-image"] }
                                     src={ `${ process.env.PUBLIC_URL }/illustration.png` }
                                     alt="Carbon illustration"
                                 />
@@ -126,7 +128,7 @@ const Page = () => {
                 </Tabs>
             </Column>
             <Column lg={ 16 } md={ 8 } sm={ 4 }>
-                <Information.Section heading="The Principles" className="landing-page__r3">
+                <Information.Section heading="The Principles" className={Styles["landing-page-row-3"]}>
                     <Information.Card
                         heading="Carbon is Open"
                         body="It's a distributed effort, guided by the principles of the open-source movement. Carbon's users are also it's makers, and everyone is encouraged to contribute."

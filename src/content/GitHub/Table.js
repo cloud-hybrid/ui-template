@@ -1,5 +1,9 @@
 import React from "react";
 
+import styles from "./SCSS/Table.module.scss";
+
+import { default as Style } from "./../../utilities/Styles";
+
 import {
     DataTable,
     TableContainer,
@@ -42,6 +46,7 @@ const Tabular = ({ rows, headers }) => {
             }) => (
                 <TableContainer title="Carbon Repositories"
                     description="A collection of public Carbon repositories."
+                                className={ Style(styles).Name.Unique }
                 >
                     <Table { ... getTableProps() }>
                         <TableHead>

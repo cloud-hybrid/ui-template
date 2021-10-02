@@ -3,12 +3,12 @@ import React, { useState, useMemo, useEffect } from "react";
 import { default as Table } from "./Table";
 
 import {
-    Link,
-    DataTableSkeleton,
-    Pagination,
-    Grid,
-    Column
+    Link
 } from "@carbon/react";
+
+import { default as Pagination } from "./Paginator";
+
+import { default as Skeleton } from "./Skeleton";
 
 const headers = [
     {
@@ -37,15 +37,17 @@ const headers = [
     }
 ];
 
-const LinkList = ({ url, homepageUrl }) => (
+const Linker = ({ organization, url }) => (
     <ul style={ { display: "flex" } }>
-        <li>
-            <Link href={ url }>GitHub</Link>
-        </li>
-        { homepageUrl && (
+        { organization && (
+            <li>
+                <Link href={ organization }>Home</Link>
+            </li>
+        ) }
+        { url && (
             <li>
                 <span>&nbsp;|&nbsp;</span>
-                <Link href={ homepageUrl }>Homepage</Link>
+                <Link href={ url }>URL</Link>
             </li>
         ) }
     </ul>
@@ -54,7 +56,7 @@ const LinkList = ({ url, homepageUrl }) => (
 const generateData = () => {
     const repositories = [];
 
-    for (let i = 0; i <= 200; i++) {
+    for (let i = 0; i < 500; i++) {
         repositories[i] = {
             id: String(i),
             name: "Test",
@@ -76,6 +78,14 @@ const generateData = () => {
     return repositories;
 }
 
+
+/*****
+ *
+ * @param rows
+ *
+ * @returns Array[{*, key, stars, issueCount, createdAt, updatedAt, links}]
+ *
+ */
 const getRowItems = (rows) => {
     return rows.map(
         (row) => ({
@@ -85,24 +95,10 @@ const getRowItems = (rows) => {
             issueCount: row.issues.length,
             createdAt: new Date(row.createdAt).toLocaleDateString(),
             updatedAt: new Date(row.updatedAt).toLocaleDateString(),
-            links: <LinkList url={ row.url } homepageUrl={ row.homepageUrl } />
+            links: <Linker organization={ "https://github.com/cloud-hybrid" } url={ "https://github.com/cloud-hybrid" } />
         })
     );
 };
-
-const Skeleton = () => {
-    return (
-        <Grid className="repo-page">
-            <Column lg={ 16 } md={ 8 } sm={ 4 } className="repo-page__r1">
-                <DataTableSkeleton
-                    columnCount={ headers.length + 1 }
-                    rowCount={ 10 }
-                    headers={ headers }
-                />
-            </Column>
-        </Grid>
-    );
-}
 
 const Page = () => {
     const [firstRowIndex, setFirstRowIndex] = useState(0);
@@ -123,6 +119,7 @@ const Page = () => {
             ));
 
             await Waiter;
+
             Waiter.resolve();
         }
 
@@ -135,33 +132,17 @@ const Page = () => {
         }
     }, []);
 
-    if (awaiting === true) return (<Skeleton />)
+    if (awaiting === true) return (<Skeleton/>)
     else {
         const rows = getRowItems(Data);
-
         return (
-            <Grid className="repo-page">
-                <Column lg={ 16 } md={ 8 } sm={ 4 } className="repo-page__r1">
-                    <Table
-                        headers={ headers }
-                        rows={ rows.slice(firstRowIndex, firstRowIndex + currentPageSize) }
-                    />
-                    <Pagination
-                        totalItems={ Data.length }
-                        backwardText="Previous page"
-                        forwardText="Next page"
-                        pageSize={ currentPageSize }
-                        pageSizes={ [5, 10, 15, 25] }
-                        itemsPerPageText="Items per page"
-                        onChange={ ({ page, pageSize }) => {
-                            if (pageSize !== currentPageSize) {
-                                setCurrentPageSize(pageSize);
-                            }
-                            setFirstRowIndex(pageSize * (page - 1));
-                        } }
-                    />
-                </Column>
-            </Grid>
+            <>
+                <Table
+                    headers={ headers }
+                    rows={ rows.slice(firstRowIndex, firstRowIndex + currentPageSize) }
+                />
+                <Pagination Data={Data} currentPageSize={currentPageSize} setCurrentPageSize={setCurrentPageSize} setFirstRowIndex={setFirstRowIndex}/>
+            </>
         );
     }
 }

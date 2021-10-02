@@ -1,0 +1,13 @@
+@use "@carbon/react/scss/spacing" as Spacing;
+
+.breadcrumb-skeleton {
+    display: inline-flex;
+    flex-wrap: initial;
+    width: max-content;
+
+    margin-top: -#{Spacing.$spacing-05};
+    margin-left: -#{Spacing.$spacing-03};
+    margin-bottom: Spacing.$spacing-04;
+
+    position: relative;
+}

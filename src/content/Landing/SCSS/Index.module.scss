@@ -3,25 +3,35 @@
 @use "@carbon/react/scss/breakpoint" as Breakpoint;
 @use "@carbon/themes/scss/tokens";
 
-@use "mixins" as *;
-@use "overrides" as *;
+@use "Mixins";
 
-.landing-page__illo {
+.landing-page { /* ..... */ }
+
+.landing-page-primary-image {
     max-width: 100%;
 }
 
-.landing-page__banner {
+.landing-page-row-2 .cds--tabs--scrollable {
+    transform: translateZ(0);
+    justify-content: flex-end;
+}
+
+.landing-page-row-2 .cds--tab-content {
+    padding: 0;
+}
+
+.landing-page-banner {
     padding-top: Spacing.$spacing-05;
     padding-bottom: Spacing.$spacing-07 * 4;
     padding-left: Spacing.$spacing-06;
-    @include landing-page-background();
+    @include Mixins.Import;
 }
 
-.landing-page__heading {
+.landing-page-heading {
     @include Type.type-style("productive-heading-05");
 }
 
-.landing-page__r2 {
+.landing-page-row-2 {
     margin-top: rem(-40px);
 }
 
@@ -29,13 +39,13 @@
     padding: Spacing.$spacing-10 Spacing.$spacing-06;
 }
 
-.landing-page__subheading {
+.landing-page-subheading {
     @include Type.type-style("productive-heading-03");
 
     font-weight: 600;
 }
 
-.landing-page__p {
+.landing-page-paragraph {
     @include Type.type-style("productive-heading-03");
     margin-top: Spacing.$spacing-06;
     margin-bottom: Spacing.$spacing-08;
@@ -45,23 +55,33 @@
     }
 }
 
-.landing-page__r3 {
+.landing-page-row-3 {
     padding: Spacing.$spacing-09 Spacing.$spacing-06;
-    @include landing-page-background();
+    @include Mixins.Import;
 }
 
-.landing-page__label {
+.landing-page-label {
     @include Type.type-style("heading-01");
 }
 
-.landing-page__banner,
-.landing-page__r2,
-.landing-page__r3 {
-    margin-left:  -2rem;
+.landing-page-tabs-group {
+    /* ... */
+}
+.landing-page-tab-content {
+    /* ... */
+}
+.landing-page-tabs-group-content {
+    /* ... */
+}
+
+.landing-page-banner,
+.landing-page-row-2,
+.landing-page-row-3 {
+    margin-left: -2rem;
     margin-right: -2rem;
 
     @include Breakpoint.breakpoint-down(md) {
-        margin-left:  0;
+        margin-left: 0;
         margin-right: 0;
     }
 }
