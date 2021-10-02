@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "./Application.scss";
+import "./Application.module.scss";
 
 import PropTypes from "prop-types";
 
@@ -32,16 +32,6 @@ export const useTheme = (theme = "g100" ) => {
 
     Theme.theme = theme;
 
-    if (Theme.theme === "g100") {
-        Theme.className = styles.cdsG100;
-    } else if (Theme.theme === "g90") {
-        Theme.className = styles.cdsG90;
-    } else if (Theme.theme === "g10") {
-        Theme.className = styles.cdsG10;
-    } else {
-        Theme.className = styles.cdsWhite;
-    }
-
     return Theme;
 };
 
@@ -51,7 +41,7 @@ const Application = () => {
     const location = useLocation();
 
     const Component = () => (
-        <Theme theme={ theme.theme } className={theme.className}>
+        <Theme theme={ theme.theme }>
             <Content children={(
                 <Switch>
                     <Route exact path="/" component={ Landing }/>

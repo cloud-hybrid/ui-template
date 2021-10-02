@@ -4,6 +4,7 @@
 @use "@carbon/react/scss/type" as *;
 @use "@carbon/react/scss/zone" as *;
 @use "@carbon/react/scss/colors" as *;
+@use "@carbon/react/scss/config" as *;
 @use "@carbon/react/scss/themes" as *;
 @use "@carbon/react/scss/spacing" as *;
 @use "@carbon/react/scss/breakpoint" as *;
@@ -11,12 +12,10 @@
 
 @use "./components/Informational-Card/informational-card";
 
-$menu-margin-top: 3.0rem;
-
 .cds--content {
     background: var(--cds-background);
-    margin-top: $menu-margin-top;
-    min-height: calc(100vh - #{$menu-margin-top});
+    margin-top: 3.0rem;
+    min-height: calc(100vh - 3.0rem);
 }
 
 html {
