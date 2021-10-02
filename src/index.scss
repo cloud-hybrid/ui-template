@@ -1,10 +1,13 @@
+@use "@carbon/styles" as * with (
+    $prefix: "cds",
+);
+
 @use "@carbon/react" as *;
 @use "@carbon/react/index" as *;
 @use "@carbon/react/scss/grid" as *;
 @use "@carbon/react/scss/type" as *;
 @use "@carbon/react/scss/zone" as *;
 @use "@carbon/react/scss/colors" as *;
-@use "@carbon/react/scss/config" as *;
 @use "@carbon/react/scss/themes" as *;
 @use "@carbon/react/scss/spacing" as *;
 @use "@carbon/react/scss/breakpoint" as *;
