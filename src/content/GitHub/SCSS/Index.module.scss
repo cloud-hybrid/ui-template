@@ -1,5 +1,8 @@
-@use "@carbon/react/scss/spacing" as *;
+@use "@carbon/react/scss/spacing";
 
 .repo-page-github {
-    padding: $spacing-01;
+    padding: spacing.$spacing-01;
+
+    @import "Paginator.module";
+    @import "Table.module";
 }

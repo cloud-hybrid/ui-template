@@ -1,0 +1,11 @@
+.repo-page-github {
+  padding: 0.125rem;
+}
+.repo-page-github .repo-page-github-paginator {
+  width: calc(100%);
+}
+.repo-page-github .repo-page-github-data-table-container {
+  position: initial;
+}
+
+/*# sourceMappingURL=Index.module.css.map */

@@ -1,11 +1,12 @@
 @use "@carbon/react/scss/spacing" as Spacing;
 @use "@carbon/react/scss/type" as Type;
 @use "@carbon/react/scss/breakpoint" as Breakpoint;
-@use "@carbon/themes/scss/tokens";
 
 @use "Mixins";
 
-.landing-page { /* ..... */ }
+.landing-page {
+    /* ... */
+}
 
 .landing-page-primary-image {
     max-width: 100%;
@@ -67,9 +68,11 @@
 .landing-page-tabs-group {
     /* ... */
 }
+
 .landing-page-tab-content {
     /* ... */
 }
+
 .landing-page-tabs-group-content {
     /* ... */
 }

@@ -1,9 +1,7 @@
-@use "@carbon/styles" as * with (
-    $prefix: "cds",
-);
+$prefix: "cds" !default;
 
-@use "@carbon/react" as *;
-@use "@carbon/react/index" as *;
+@use "@carbon/react";
+@use "@carbon/react/scss/reset" as *;
 @use "@carbon/react/scss/grid" as *;
 @use "@carbon/react/scss/type" as *;
 @use "@carbon/react/scss/zone" as *;
@@ -13,7 +11,7 @@
 @use "@carbon/react/scss/breakpoint" as *;
 @use "@carbon/react/scss/feature-flags" as *;
 
-@use "./components/Informational-Card/informational-card";
+@use "@carbon/react/scss/theme" as *;
 
 .cds--content {
     background: var(--cds-background);
@@ -25,13 +23,13 @@ html {
     @include theme($g100);
 }
 
-// ... .cds--content .cds--css-grid {
-// ...     max-width: 100%;
-// ...     @include breakpoint(md) {
-// ...         padding-left:  20px;
-// ...         padding-right: 20px;
-// ...     }
-// ... }
+.cds--content .cds--css-grid {
+    max-width: 100%;
+    @include breakpoint(md) {
+        padding-left:  20px;
+        padding-right: 20px;
+    }
+}
 
 @media (min-width: 42rem) {
     .cds--grid--no-gutter {

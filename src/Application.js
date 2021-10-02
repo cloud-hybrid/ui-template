@@ -1,21 +1,26 @@
-import React from "react";
+import "./Application.scss";
 
-import "./Application.module.scss";
+import React from "react";
 
 import PropTypes from "prop-types";
 
 import {
     Content,
+    Column,
+    Grid,
     Theme
 } from "@carbon/react";
 
 import {
     Route,
     Switch,
-    useHistory, useLocation
+    useHistory,
+    useLocation
 } from "react-router-dom";
 
-import { default as Landing } from "./content/Landing/Index";
+import { Simulation } from "./components/Breadcrumb/Index";
+
+//import { default as Landing } from "./content/Landing/Index";
 import { default as GitHub } from "./content/GitHub/Index";
 import { default as GitLab } from "./content/GitLab/Index";
 
@@ -27,7 +32,7 @@ import { default as GitLab } from "./content/GitLab/Index";
  *
  */
 
-export const useTheme = (theme = "g100" ) => {
+export const useTheme = (theme = "g100") => {
     const Theme = React.createContext(theme);
 
     Theme.theme = theme;
@@ -43,11 +48,16 @@ const Application = () => {
     const Component = () => (
         <Theme theme={ theme.theme }>
             <Content children={(
-                <Switch>
-                    <Route exact path="/" component={ Landing }/>
-                    <Route path="/repositories" component={ GitHub }/>
-                    <Route path="/gitlab" component={ GitLab }/>
-                </Switch>
+                <Grid>
+                    <Simulation/>
+                    <Column lg={ 16 } md={ 8 } sm={ 4 }>
+                        <Switch>
+                            <Route exact path="/" component={ GitLab }/>
+                            {/*<Route exact path="/" component={ Landing }/>*/}
+                            <Route path="/repositories" component={ GitHub }/>
+                        </Switch>
+                    </Column>
+                </Grid>
             )}/>
         </Theme>
     );

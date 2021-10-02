@@ -1,3 +1,5 @@
+import * as System from "./Configuration";
+
 import "./index.scss";
 
 import React, {
@@ -23,6 +25,8 @@ const Application = Import(() => {
 });
 
 const DOM = () => {
+    console.debug(System);
+
     return (
         <React.StrictMode>
             <Navigator forceRefresh={ false }>
@@ -41,6 +45,6 @@ ReactDOM.render((<DOM />), document
     .getElementById("Application")
 );
 
-import("./Worker.js").then((Module) => {
-    Module.unregister();
-});
+/// ... import("./Service-Worker.js").then((Module) => {
+/// ...     Module.unregister();
+/// ... });

@@ -1,0 +1,21 @@
+.repo-page-github {
+  padding: 0.125rem;
+}
+.repo-page-github .repo-page-github-paginator {
+  width: calc(100%);
+}
+.repo-page-github .repo-page-github-data-table-container {
+  position: initial;
+}
+
+.repo-page-gitlab {
+  padding: 0.125rem;
+}
+.repo-page-gitlab .repo-page-gitlab-paginator {
+  width: calc(100%);
+}
+.repo-page-gitlab .repo-page-github-data-table-container {
+  position: initial;
+}
+
+/*# sourceMappingURL=Application.css.map */
