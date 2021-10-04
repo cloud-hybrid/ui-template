@@ -1,6 +1,3 @@
-const CSSLoader = require("css-loader");
-const SASSLoader = require("sass-loader");
-
 module.exports = {
     module: {
         rules: [
