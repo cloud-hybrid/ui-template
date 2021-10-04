@@ -5,6 +5,7 @@
     "scripts": {
         "setup": "node .ci",
         "sass": "sass --watch ./src --load-path ./node_modules/@carbon --load-path node_modules --load-path .",
+        "clean-css": "find . -type f -name \"*.css\" -delete && find . -type f -name \"*.css.map\" -delete",
         "build": "react-scripts build",
         "eject": "react-scripts eject",
         "start": "react-scripts start",

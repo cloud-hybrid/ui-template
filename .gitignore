@@ -77,6 +77,9 @@ dist
 
 .tern-port
 
+*.css
+*.css.map
+
 .DS_Store
 
 .idea
