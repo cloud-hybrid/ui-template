@@ -59,6 +59,8 @@ typings/
 
 .next
 
+build
+
 .nuxt
 
 dist

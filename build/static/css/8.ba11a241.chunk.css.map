@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack://src/content/GitHub/SCSS/Table.module.scss","webpack://src/content/GitHub/SCSS/Paginator.module.scss"],"names":[],"mappings":"AAAA,oDACI,eAAA,CCDJ,6CACI,UAAA","file":"8.ba11a241.chunk.css","sourcesContent":[".repo-page-github-data-table-container {\n    position: initial;\n}\n",".repo-page-github-paginator {\n    width: calc(100%);\n}\n"]}
