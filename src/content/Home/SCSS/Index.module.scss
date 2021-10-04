@@ -1,0 +1,7 @@
+@use "@carbon/react/scss/spacing";
+
+.home-page {
+    padding: spacing.$spacing-01;
+
+    @import "Paginator.module.scss";
+}

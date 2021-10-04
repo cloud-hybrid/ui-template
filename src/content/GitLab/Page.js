@@ -86,7 +86,7 @@ async function Refresh(setter) {
     );
 
     setter(true);
-};
+}
 
 const Schema = [{
     id: null,
@@ -133,7 +133,7 @@ const Schema = [{
  *
  */
 
-const Tabluar = ({ Data = Schema, Headers, State, Pages }) => {
+const Tabluar = ({ Data = Schema, Headers, State, Pages, Handler }) => {
     const Home = "https://gitlab.cloud-technology.io/";
 
     const Total = (Data) ? Data.length: 0;
@@ -351,10 +351,11 @@ const Component = () => {
             const Waiter = new Promise((_) => setTimeout(
                 (_) => {
                     console.debug("Updating Await := false");
-                    setAwaiting(false);
-                },
-                1500
-            ));
+                    if (awaiting === true) {
+                        setAwaiting(false);
+                    }
+                }
+            ), 1500);
 
             await Waiter;
         }
@@ -363,7 +364,7 @@ const Component = () => {
             /* ... */
         });
 
-        return () => setAwaiting(null);
+        return async () => await setAwaiting(false);
     }, []);
 
     const Handler = Query.default.Awaitable();
@@ -431,14 +432,14 @@ const Component = () => {
             return Component();
         }
 
-        const Data = (Handler !== null && Handler.Response !== null && Handler.Response[page] !== null) ? new Array(
+        const Data = (Handler && Handler.Response && Handler.Response[page] !== null) ? new Array(
                 Handler.Response[page])
             : new Array(0);
 
-        return (<Tabluar Headers={ Headers } Data={ Data.pop() } State={ setAwaiting } Pages={ Pages }/>);
+        return (<Tabluar Headers={ Headers } Data={ Data.pop() } State={ setAwaiting } Pages={ Pages } Handler={Handler}/>);
     };
 
-    return (Handler.Waiter === false && (awaiting === false || awaiting === null)) ? (<Awaitable/>) : (<Skeleton/>);
+    return (Handler.Waiter === false) ? (<Awaitable/>): (<Skeleton/>);
 };
 
 export default Component;

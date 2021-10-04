@@ -35,12 +35,18 @@ const Component = () => (
                     onClick={ onClickSideNavExpand }
                     isActive={ isSideNavExpanded }
                 />
-                <HeaderName element={ Link } to="/" prefix="Cloud">
-                    UI Template
+                <HeaderName element={ Link } to="/" prefix="Nexus">
+                    Cloud-UI
                 </HeaderName>
-                <HeaderNavigation aria-label="UI Template">
-                    <HeaderMenuItem element={ Link } to="/repositories">
-                        Repositories
+                <HeaderNavigation aria-label="Nexus">
+                    <HeaderMenuItem element={ Link } to="/home">
+                        Home
+                    </HeaderMenuItem>
+                    <HeaderMenuItem element={ Link } to="/github">
+                        GitHub
+                    </HeaderMenuItem>
+                    <HeaderMenuItem element={ Link } to="/gitlab">
+                        GitLab
                     </HeaderMenuItem>
                 </HeaderNavigation>
                 <SideNav
@@ -50,8 +56,14 @@ const Component = () => (
                 >
                     <SideNavItems>
                         <HeaderSideNavItems>
-                            <HeaderMenuItem element={ Link } to="/repositories">
-                                Repositories
+                            <HeaderMenuItem element={ Link } to="/home">
+                                Home
+                            </HeaderMenuItem>
+                            <HeaderMenuItem element={ Link } to="/github">
+                                GitHub
+                            </HeaderMenuItem>
+                            <HeaderMenuItem element={ Link } to="/gitlab">
+                                GitLab
                             </HeaderMenuItem>
                         </HeaderSideNavItems>
                     </SideNavItems>

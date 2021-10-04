@@ -18,9 +18,10 @@ import {
     useLocation
 } from "react-router-dom";
 
-import { Simulation } from "./components/Breadcrumb/Index";
+import { Simulation as Breadcrumbs } from "./components/Breadcrumb/Index";
 
 //import { default as Landing } from "./content/Landing/Index";
+import { default as Home } from "./content/Home/Index";
 import { default as GitHub } from "./content/GitHub/Index";
 import { default as GitLab } from "./content/GitLab/Index";
 
@@ -49,12 +50,13 @@ const Application = () => {
         <Theme theme={ theme.theme }>
             <Content children={(
                 <Grid>
-                    <Simulation/>
+                    <Breadcrumbs/>
                     <Column lg={ 16 } md={ 8 } sm={ 4 }>
                         <Switch>
-                            <Route exact path="/" component={ GitLab }/>
-                            {/*<Route exact path="/" component={ Landing }/>*/}
-                            <Route path="/repositories" component={ GitHub }/>
+                            <Route exact path="/" component={ Home }/>
+                            <Route exact path="/home" component={ Home }/>
+                            <Route path="/gitlab" component={ GitLab }/>
+                            <Route path="/github" component={ GitHub }/>
                         </Switch>
                     </Column>
                 </Grid>

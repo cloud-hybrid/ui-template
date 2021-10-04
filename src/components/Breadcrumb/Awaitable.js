@@ -1,11 +1,14 @@
 import React, {
     Suspense,
     useEffect,
-    useState,
-    useRef
+    useRef,
+    useState
 } from "react";
 
-import { Placeholder, default as Breadcrumb } from "./Index";
+import {
+    default as Breadcrumb,
+    Placeholder
+} from "./Index";
 
 /*****
  *
@@ -26,8 +29,11 @@ const Component = ({duration = 1500}) => {
             Duration.current
         ));
 
-        return (awaiting !== false) ? Waiter.then(() => Waiter.resolve()) : () => {
-            Duration.current = null;
+        (awaiting !== false) ? Waiter.then(() => Waiter.resolve())
+            : Duration.current = null;
+
+        return async () => {
+            await setAwaiting(false);
         };
     }, [awaiting]);
 
