@@ -1,4 +1,3 @@
-//@use "./content/Landing/SCSS/Index.module.scss" as Landing;
-@use "./content/GitHub/SCSS/Index.module.scss" as GitHub;
-@use "./content/GitLab/SCSS/Index.module.scss" as GitLab;
-//@use "./components/Informational-Card/informational-card" as Informational;
+@forward "./content/Home/SCSS/Index.module.scss";
+@forward "./content/GitHub/SCSS/Index.module.scss";
+@forward "./content/GitLab/SCSS/Index.module.scss";

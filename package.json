@@ -12,9 +12,9 @@
         "test": "react-scripts test"
     },
     "dependencies": {
+        "@carbon/ibm-cloud-cognitive": "^0.89.0",
         "@carbon/icons-react": "^10.39.0",
         "@carbon/react": "^0.6.0",
-        "@carbon/upgrade": "^10.15.0",
         "axios": "^0.21.4",
         "axios-cache-adapter": "^2.7.3",
         "carbon-components": "^10.45.0",
@@ -39,5 +39,8 @@
     },
     "browserslist": [
         "last 1 version"
-    ]
+    ],
+    "devDependencies": {
+        "web-vitals": "^2.1.0"
+    }
 }

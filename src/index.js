@@ -1,13 +1,17 @@
 import * as System from "./Configuration";
+import * as Worker from "./Worker";
 
 import "./index.scss";
 
 import React, {
+    Profiler,
     Suspense,
     lazy as Import
 } from "react";
 
 import ReactDOM from "react-dom";
+
+import { default as Vitals } from "./Vitals";
 
 import { default as Skeleton } from "./Page-Loader";
 
@@ -24,11 +28,9 @@ const Application = Import(() => {
     );
 });
 
-const DOM = () => {
-    console.debug(System);
-
-    return (
-        <React.StrictMode>
+const DOM = () => (
+    <React.StrictMode>
+        <Profiler id={"Navigation"} onRender={ Vitals }>
             <Navigator forceRefresh={ false }>
                 <Router>
                     <Menu/>
@@ -37,14 +39,11 @@ const DOM = () => {
                     </Suspense>
                 </Router>
             </Navigator>
-        </React.StrictMode>
-    );
-};
-
-ReactDOM.render((<DOM />), document
-    .getElementById("Application")
+        </Profiler>
+    </React.StrictMode>
 );
 
-/// ... import("./Service-Worker.js").then((Module) => {
-/// ...     Module.unregister();
-/// ... });
+ReactDOM.render((<DOM/>), document.getElementById("Application"));
+
+( process.env.NODE_ENV === "production" ) ? Worker.register()
+    : Worker.unregister();

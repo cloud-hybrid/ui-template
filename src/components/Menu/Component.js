@@ -1,7 +1,5 @@
 import React from "react";
 
-import styles from "./SCSS/Index.module.scss";
-
 import {
     Header,
     HeaderContainer,
@@ -25,63 +23,77 @@ import {
 
 import { Link } from "react-router-dom";
 
-const Component = () => (
-    <HeaderContainer
-        render={ ({ isSideNavExpanded, onClickSideNavExpand }) => (
-            <Header aria-label="UI Template">
-                <SkipToContent />
-                <HeaderMenuButton
-                    aria-label="Menu"
-                    onClick={ onClickSideNavExpand }
-                    isActive={ isSideNavExpanded }
-                />
-                <HeaderName element={ Link } to="/" prefix="Nexus">
-                    Cloud-UI
-                </HeaderName>
-                <HeaderNavigation aria-label="Nexus">
-                    <HeaderMenuItem element={ Link } to="/home">
-                        Home
-                    </HeaderMenuItem>
-                    <HeaderMenuItem element={ Link } to="/github">
-                        GitHub
-                    </HeaderMenuItem>
-                    <HeaderMenuItem element={ Link } to="/gitlab">
-                        GitLab
-                    </HeaderMenuItem>
-                </HeaderNavigation>
-                <SideNav
-                    aria-label="Side navigation"
-                    expanded={ isSideNavExpanded }
-                    isPersistent={ false }
-                >
-                    <SideNavItems>
-                        <HeaderSideNavItems>
-                            <HeaderMenuItem element={ Link } to="/home">
-                                Home
-                            </HeaderMenuItem>
-                            <HeaderMenuItem element={ Link } to="/github">
-                                GitHub
-                            </HeaderMenuItem>
-                            <HeaderMenuItem element={ Link } to="/gitlab">
-                                GitLab
-                            </HeaderMenuItem>
-                        </HeaderSideNavItems>
-                    </SideNavItems>
-                </SideNav>
-                <HeaderGlobalBar>
-                    <HeaderGlobalAction aria-label="Notifications" tooltipPosition={ "right" } tooltipAlignment={ "start" }>
-                        <Notification />
-                    </HeaderGlobalAction>
-                    <HeaderGlobalAction aria-label="User Avatar">
-                        <UserAvatar />
-                    </HeaderGlobalAction>
-                    <HeaderGlobalAction aria-label="Switcher" tooltipPosition={"left"} tooltipAlignment={"end"}>
-                        <Switcher />
-                    </HeaderGlobalAction>
-                </HeaderGlobalBar>
-            </Header>
-        ) }
-    />
-);
+const Component = () => {
+    return (
+        <HeaderContainer
+            render={ ({ isSideNavExpanded, onClickSideNavExpand }) => (
+                <Header aria-label="UI Template">
+                    <SkipToContent />
+                    <HeaderMenuButton
+                        aria-label="Menu"
+                        onClick={ onClickSideNavExpand }
+                        isActive={ isSideNavExpanded }
+                    />
+                    <HeaderName element={ Link } to="/" prefix="Nexus">
+                        Cloud-UI
+                    </HeaderName>
+                    <HeaderNavigation aria-label="Nexus">
+                        <HeaderMenuItem element={ Link } to="/home">
+                            Home
+                        </HeaderMenuItem>
+                        <HeaderMenuItem element={ Link } to="/github">
+                            GitHub
+                        </HeaderMenuItem>
+                        <HeaderMenuItem element={ Link } to="/gitlab">
+                            GitLab
+                        </HeaderMenuItem>
+                    </HeaderNavigation>
+                    <SideNav
+                        aria-label="Side navigation"
+                        expanded={ isSideNavExpanded }
+                        isPersistent={ false }
+                    >
+                        <SideNavItems>
+                            <HeaderSideNavItems>
+                                <HeaderMenuItem element={ Link } to="/home">
+                                    Home
+                                </HeaderMenuItem>
+                                <HeaderMenuItem element={ Link } to="/github">
+                                    GitHub
+                                </HeaderMenuItem>
+                                <HeaderMenuItem element={ Link } to="/gitlab">
+                                    GitLab
+                                </HeaderMenuItem>
+                            </HeaderSideNavItems>
+                        </SideNavItems>
+                    </SideNav>
+                    <HeaderGlobalBar>
+                        <HeaderGlobalAction
+                            aria-label="Notifications"
+                            tooltipAlignment="start"
+                            children={ (
+                                <Notification/>
+                            ) }
+                        />
+                        <HeaderGlobalAction
+                            aria-label="User Avatar"
+                            children={ (
+                                <UserAvatar/>
+                            ) }
+                        />
+                        <HeaderGlobalAction
+                            aria-label="Switcher"
+                            tooltipPosition={"left"}
+                            tooltipAlignment={"end"}
+                            children={ (
+                                <Switcher/>
+                            ) }
+                        />
+                    </HeaderGlobalBar>
+                </Header>
+            )}>
+        </HeaderContainer>
+    );
+}
 
 export default Component;
