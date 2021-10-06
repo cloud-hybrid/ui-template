@@ -2,8 +2,6 @@ import "./Application.scss";
 
 import React from "react";
 
-import PropTypes from "prop-types";
-
 import {
     Content,
     Column,
@@ -12,6 +10,7 @@ import {
 } from "@carbon/react";
 
 import {
+    Redirect,
     Route,
     Switch,
     useHistory,
@@ -22,9 +21,9 @@ import { Simulation as Breadcrumbs } from "./components/Breadcrumb/Index";
 
 //import { default as Landing } from "./content/Landing/Index";
 
-import { default as Home    }       from "./content/Home/Index";
-import { default as GitHub  }       from "./content/GitHub/Index";
-import { default as GitLab  }       from "./content/GitLab/Index";
+import { default as Home        }   from "./content/Home/Index";
+import { default as GitHub      }   from "./content/GitHub/Index";
+import { default as GitLab      }   from  "./content/GitLab/Index";
 
 /*****
  *
@@ -58,6 +57,8 @@ const Application = () => {
                             <Route exact path="/home" component={ Home }/>
                             <Route path="/gitlab" component={ GitLab }/>
                             <Route path="/github" component={ GitHub }/>
+
+                            <Redirect from={ "*" } to={ "/" }/>
                         </Switch>
                     </Column>
                 </Grid>

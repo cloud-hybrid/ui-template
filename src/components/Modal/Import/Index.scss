@@ -1,0 +1,47 @@
+$io-import-modal-dashboard-label-left-margin: 0.5825rem;
+
+.io-import-modal {
+    #Import-Field-ID {
+        margin-right: 0.725rem;
+    }
+
+    .exp--import-modal__label {
+        margin-top: 0.75rem;
+        margin-left: $io-import-modal-dashboard-label-left-margin;
+    }
+
+    .exp--import-modal__input-group {
+        width: 100%;
+        display: inline-flex;
+    }
+
+    .bx--modal-content {
+        margin-bottom: 0.2875rem;
+    }
+
+    .bx--modal-content.exp--import-modal__body-container {
+        .bx--file {
+            p.exp--import-modal__label {
+                margin-left: $io-import-modal-dashboard-label-left-margin;
+            }
+        }
+        .bx--file-container.exp--import-modal__file-container {
+            p.exp--import-modal__helper-text {
+                margin-left: $io-import-modal-dashboard-label-left-margin;
+
+                font-size: var(--cds-body-long-01-font-size, 0.875rem);
+                font-weight: var(--cds-body-long-01-font-weight, 400);
+                line-height: var(--cds-body-long-01-line-height, 1.43);
+                letter-spacing: var(--cds-body-long-01-letter-spacing, 0.16px);
+            }
+        }
+    }
+
+    .bx--modal-close {
+        margin: 0.25rem;
+    }
+
+    .bx--file .bx--file-container, .bx--file ~ .bx--file-container {
+        margin-bottom: 1.25rem;
+    }
+}
