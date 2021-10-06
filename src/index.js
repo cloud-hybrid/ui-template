@@ -1,4 +1,5 @@
 import * as System from "./Configuration";
+
 import * as Worker from "./Worker";
 
 import "./index.scss";
@@ -31,7 +32,7 @@ const Application = Import(() => {
 const DOM = () => (
     <React.StrictMode>
         <Profiler id={"Navigation"} onRender={ Vitals }>
-            <Navigator forceRefresh={ false }>
+            <Navigator>
                 <Router>
                     <Menu/>
                     <Suspense fallback={ (<Skeleton Loader={ false } />) }>

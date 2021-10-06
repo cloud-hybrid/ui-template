@@ -21,9 +21,10 @@ import {
 import { Simulation as Breadcrumbs } from "./components/Breadcrumb/Index";
 
 //import { default as Landing } from "./content/Landing/Index";
-import { default as Home } from "./content/Home/Index";
-import { default as GitHub } from "./content/GitHub/Index";
-import { default as GitLab } from "./content/GitLab/Index";
+
+import { default as Home    }       from "./content/Home/Index";
+import { default as GitHub  }       from "./content/GitHub/Index";
+import { default as GitLab  }       from "./content/GitLab/Index";
 
 /*****
  *

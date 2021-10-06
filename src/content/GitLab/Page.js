@@ -351,9 +351,7 @@ const Component = () => {
             const Waiter = new Promise((_) => setTimeout(
                 (_) => {
                     console.debug("Updating Await := false");
-                    if (awaiting === true) {
-                        setAwaiting(false);
-                    }
+                    setAwaiting(false);
                 }
             ), 1500);
 

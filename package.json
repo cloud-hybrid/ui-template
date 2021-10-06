@@ -12,6 +12,8 @@
         "test": "react-scripts test"
     },
     "dependencies": {
+        "@carbon/feature-flags": "^0.6.0",
+        "@carbon/grid": "^10.37.0",
         "@carbon/ibm-cloud-cognitive": "^0.89.0",
         "@carbon/icons-react": "^10.39.0",
         "@carbon/react": "^0.6.0",
