@@ -5,8 +5,7 @@ import {
 } from "@carbon/react";
 
 import React, {
-    Suspense,
-    lazy
+    lazy, Suspense
 } from "react";
 
 const Page = lazy(() => import("./Page").then((Module) => Module));
