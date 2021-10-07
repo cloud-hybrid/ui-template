@@ -13,7 +13,10 @@ import {
     Tab,
     Tabs
 } from "@carbon/react";
-import React from "react";
+
+import React, { useState } from "react";
+
+import { default as Selectable } from "./../../components/Tile-Mutli-Select/Index";
 
 function createArrayFromPhrase(phrase) {
     const splitPhrase = phrase.split(" ");
@@ -38,10 +41,16 @@ const Card = ({ heading, body, icon }) => {
     return (
         <Column sm={ 4 } md={ 8 } lg={ 4 } className={ Styles["home-page-info-card"] }>
             <h4 className={ Styles["home-page-info-heading"] }>
-                { `${ splitHeading[0] } ` }
-                <strong>{ splitHeading[1] }</strong>
+                { splitHeading[0] + " " }
+                <strong>
+                    {
+                        splitHeading[1]
+                    }
+                </strong>
             </h4>
-            <p className={ Styles["home-page-info-card-body"] }>{ body }</p>
+            <p className={ Styles["home-page-info-card-body"] }>
+                { body }
+            </p>
             { icon }
         </Column>
     );
@@ -66,7 +75,6 @@ const Component = () => {
                                 md={ 4 }
                                 lg={ 7 }
                                 sm={ 4 }
-                                // className={ Styles["home-page-tab-content"] }>
                             >
                                 <h2 className={ Styles["home-page-subheading"] }>Overview</h2>
                                 <p className={ Styles["home-page-paragraph"] }>
@@ -82,7 +90,6 @@ const Component = () => {
                                 md={ 4 }
                                 lg={ { span: 8, offset: 7 } }
                                 sm={ 4 }
-                                // className={ Styles["home-page-tab-content"] }>
                             >
                                 <img
                                     className={ Styles["home-page-primary-image"] }
@@ -98,7 +105,6 @@ const Component = () => {
                                 md={ 4 }
                                 lg={ 7 }
                                 sm={ 4 }
-                                // className={ Styles["home-page-tab-content"] }>
                             >
                                 <h2 className={ Styles["home-page-subheading"] }>Designing with Carbon</h2>
                                 <p className={ Styles["home-page-paragraph"] }>
@@ -111,7 +117,6 @@ const Component = () => {
                                 md={ 4 }
                                 lg={ { span: 8, offset: 7 } }
                                 sm={ 4 }
-                                // className={ Styles["home-page-tab-content"] }>
                             >
                                 <img
                                     className={ Styles["home-page-primary-image"] }
@@ -127,7 +132,6 @@ const Component = () => {
                                 md={ 4 }
                                 lg={ 7 }
                                 sm={ 4 }
-                                // className={ Styles["home-page-tab-content"] }>
                             >
                                 <h2 className={ Styles["home-page-subheading"] }>Development</h2>
                                 <p className={ Styles["home-page-paragraph"] }>
@@ -140,7 +144,6 @@ const Component = () => {
                                 md={ 4 }
                                 lg={ { span: 8, offset: 7 } }
                                 sm={ 4 }
-                                // className={ Styles["home-page-tab-content"] }>
                             >
                                 <img
                                     className={ Styles["home-page-primary-image"] }
@@ -170,6 +173,9 @@ const Component = () => {
                         icon={ <Globe size={ 50 }/> }
                     />
                 </Sectional>
+            </Column>
+            <Column>
+                <Selectable/>
             </Column>
         </>
     );

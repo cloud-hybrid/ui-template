@@ -31,8 +31,7 @@ const Deconstruct = () => {
 
     const Composition = Compose();
 
-    const Components = Composition.split("/")
-        .filter(($) => $ !== "");
+    const Components = Composition.split("/").filter(($) => $ !== "");
 
     Components.forEach(
         (Element, Index, Collection) => {
@@ -42,7 +41,7 @@ const Deconstruct = () => {
                 value: -1,
                 key: ["Breadcrumb-Item", String(Index)].join("-"),
                 isCurrentPage: (Index === Collection.length - 1)
-            } : {
+            }: {
                 "data-value": Element,
                 href: ["/#", Element.toLowerCase()].join("/"),
                 value: -1,
@@ -52,8 +51,8 @@ const Deconstruct = () => {
 
             Data.push(
                 (
-                    <BreadcrumbItem { ...Properties}>
-                        {Properties["data-value"]}
+                    <BreadcrumbItem { ... Properties }>
+                        { Properties["data-value"] }
                     </BreadcrumbItem>
                 )
             );
@@ -66,7 +65,7 @@ const Deconstruct = () => {
 const Component = () => {
     const Data = Deconstruct();
     return (
-        <Breadcrumb aria-label={"Parent Navigation"} noTrailingSlash={true} className={Name}>
+        <Breadcrumb aria-label={ "Parent Navigation" } noTrailingSlash={ true } className={ Name }>
             {
                 Data.map((Component) => Component)
             }

@@ -54,7 +54,6 @@ const Application = () => {
                     <Column lg={ 16 } md={ 8 } sm={ 4 }>
                         <Switch>
                             <Route exact path="/" component={ Home }/>
-                            <Route exact path="/home" component={ Home }/>
                             <Route path="/gitlab" component={ GitLab }/>
                             <Route path="/github" component={ GitHub }/>
 
