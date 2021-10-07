@@ -18,7 +18,7 @@ import { default as Skeleton } from "./Page-Loader";
 
 import { default as Menu } from "./components/Menu/Index";
 
-import { default as Footer } from "./components/Footer/Index";
+/// import { default as Footer } from "./components/Footer/Index";
 
 import {
     BrowserRouter as Navigator,

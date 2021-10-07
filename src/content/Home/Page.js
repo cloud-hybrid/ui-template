@@ -16,6 +16,8 @@ import {
 
 import { default as Selectable } from "./../../components/Tile-Mutli-Select/Index";
 
+import { default as Editor } from "./../../utilities/Markdown-Editor";
+
 function createArrayFromPhrase(phrase) {
     const splitPhrase = phrase.split(" ");
     const thirdWord = splitPhrase.pop();
@@ -172,9 +174,9 @@ const Component = () => {
                     />
                 </Sectional>
             </Column>
-            <Column>
-                <Selectable/>
-            </Column>
+            <Selectable/>
+            <br style={{ marginBottom: "1.0rem"}} />
+            <Editor/>
         </>
     );
 };

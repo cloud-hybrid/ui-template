@@ -7,6 +7,10 @@
 .home-page {
     padding: $spacing-01;
 
+    .toastui-editor-defaultUI {
+        background: white;
+    }
+
     #{&}-heading {
         @include type-style("productive-heading-07");
     }
