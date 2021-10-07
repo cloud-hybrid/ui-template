@@ -7,15 +7,15 @@ import {
 
 import { Skeleton } from "./Paginator";
 
-const Table = ({Rows = 20, Headers = 6}) => (
+const Table = ({ Rows = 20, Headers = 6 }) => (
     <TableContainer>
         <DataTableSkeleton
-            compact={false}
-            columnCount={Headers}
-            rowCount={Rows}
-            showHeader={true}
-            showToolbar={true}
-            zebra={false}
+            compact={ false }
+            columnCount={ Headers }
+            rowCount={ Rows }
+            showHeader={ true }
+            showToolbar={ true }
+            zebra={ false }
         />
         <Skeleton/>
     </TableContainer>

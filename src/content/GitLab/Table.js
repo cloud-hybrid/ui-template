@@ -44,8 +44,6 @@ import {
     ChartCombo32 as Metrics
 } from "@carbon/icons-react";
 
-/// ... import { default as Breadcrumb } from "./Breadcrumb/Index";
-
 import { default as Pagination } from "./Paginator";
 
 const URL = ({ url, home }) => {
@@ -86,7 +84,7 @@ async function Refresh(setter) {
     );
 
     setter(true);
-};
+}
 
 const Schema = [{
     id: null,
@@ -110,7 +108,7 @@ const Schema = [{
 /***
  *
  * @param Headers {Array}
- * @param Data {Map}
+ * @param Data {[{visibility: null, web_url: null, last_activity_at: null, name: null, id: null}]}
  * @param Page {Number}
  * @param Offset {Number}
  * @returns {JSX.Element}
@@ -158,175 +156,185 @@ const Tabluar = ({ Data = Schema, Headers, State, Pages }) => {
     });
 
     return (
-    <DataTable
-        rows={ Projects }
-        headers={ Headers }
-        isSortable={ false }
-        render={
-            ({
-                rows,
-                headers,
-                getTableProps,
-                getTableContainerProps,
-                getSelectionProps,
-                getExpandHeaderProps,
-                getHeaderProps,
-                getRowProps,
-                getToolbarProps,
-                getBatchActionProps
-            }) => (
-                <TableContainer className={ Style(styles).Name.Unique } title={ "Cloud-Technology" } description="Cloud-Technology's GitHub Repositories" { ... getTableContainerProps() }>
-                    <TableToolbar { ... getToolbarProps() }>
-                        <TableBatchActions { ... getBatchActionProps() }>
-                            <TableBatchAction
-                                id="Development-Table-JSON-Trigger-Button"
-                                tabIndex={ getBatchActionProps().shouldShowBatchActions ? 0: -1 }
-                                renderIcon={ DICO }
-                                onClick={ batchActionClick }
-                            >
-                                JSON
-                            </TableBatchAction>
-                            <TableBatchAction
-                                id="Development-Table-Metrics-Trigger-Button"
-                                tabIndex={ getBatchActionProps().shouldShowBatchActions ? 0: -1 }
-                                renderIcon={ Metrics }
-                                onClick={ batchActionClick }
-                            >
-                                Metrics
-                            </TableBatchAction>
-                            <TableBatchAction
-                                id="Development-Table-Download-Trigger-Button"
-                                tabIndex={ getBatchActionProps().shouldShowBatchActions ? 0: -1 }
-                                renderIcon={ CSV }
-                                onClick={ batchActionClick }
-                            >
-                                Download
-                            </TableBatchAction>
-                        </TableBatchActions>
-                        <TableToolbarContent>
-                            <TableToolbarSearch persistent={false}
-                                 labelText={ "Test-Label-Text" }
-                                 placeholder={ "Test-Place-Holder-Text" }
-                                 tabIndex={ getBatchActionProps().shouldShowBatchActions ? -1: 0 }
-//                                 onChange={ (event) => console.debug(event) }
-                            />
-                            <Button
-                                kind="ghost"
-                                size="default"
-                                hasIconOnly={ true }
-                                onClick={ async () => await Refresh(State) }
-                                renderIcon={ Reload }
-                                tabIndex={ 0 }
-                                iconDescription={ "Reload Table & Clear Cache" }
-                                tooltipAlignment={ "center" }
-                                tooltipPosition={ "left" }
-                                type={ "button" }
-                            />
-                        </TableToolbarContent>
-                    </TableToolbar>
-                    <Table { ... getTableProps() }>
-                        <TableHead>
-                            <TableRow>
-                                <TableExpandHeader enableExpando={ true } { ... getExpandHeaderProps() } />
-                                <TableSelectAll { ... getSelectionProps() } />
-                                {
-                                    Headers.map((Header, Index) => (Header.value === "Name")
-                                        ? (
-                                            <TableHeader { ... getHeaderProps({ header: Header }) } colSpan={ 1 }>
-                                                { Header.value }
-                                            </TableHeader>
-                                        ): (
-                                            <TableHeader { ... getHeaderProps({ header: Header }) } colSpan={ 1 }>
-                                                { Header.value }
-                                            </TableHeader>
-                                        ))
-                                }
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            { Projects.map((Row, Index) => {
-                                Row = {... Row, ... rows[Index] };
-                                return (
-                                    <Fragment key={ String(Index) }>
-                                        <TableExpandRow
-                                            expandIconDescription={ "Select to Expand Repository's Description" } {
-                                            ... getRowProps({ row: Row })
-                                        } >
-                                            <TableSelectRow { ... getSelectionProps({ row: Row }) } />
-                                            <TableCell key={ String(Index) + "-" + "ID" + "-" + Row.UID } name={ String(Index) + "-" + "ID" + "-" + Row.UID }>
-                                                <CodeSnippet type="single" feedback={ "Copied" } copyButtonDescription={ "Copy Code Snippet Content" } hideCopyButton={ false } copyLabel={ "Row-ID" }>
-                                                    { String(Row.UID) }
-                                                </CodeSnippet>
-                                            </TableCell>
-                                            <TableCell key={ String(Index) + "-" + "Name" + "-" + Row.UID } name={ String(Index) + "-" + "Name" + "-" + Row.UID }>
-                                                <strong>
-                                                    <CodeSnippet type={"single"} feedback={ "Saved to Clipboard" }>
-                                                        { Row.Name }
+        <DataTable
+            rows={ Projects }
+            headers={ Headers }
+            isSortable={ false }
+            render={
+                ({
+                    rows,
+                    headers,
+                    getTableProps,
+                    getTableContainerProps,
+                    getSelectionProps,
+                    getExpandHeaderProps,
+                    getHeaderProps,
+                    getRowProps,
+                    getToolbarProps,
+                    getBatchActionProps
+                }) => (
+                    <TableContainer className={ Style(styles).Name.Unique } title={ "Cloud-Technology" } description="Cloud-Technology's GitHub Repositories" { ... getTableContainerProps() }>
+                        <TableToolbar { ... getToolbarProps() }>
+                            <TableBatchActions { ... getBatchActionProps() }>
+                                <TableBatchAction
+                                    id="Development-Table-JSON-Trigger-Button"
+                                    tabIndex={ getBatchActionProps().shouldShowBatchActions ? 0: -1 }
+                                    renderIcon={ DICO }
+                                    onClick={ batchActionClick }
+                                >
+                                    JSON
+                                </TableBatchAction>
+                                <TableBatchAction
+                                    id="Development-Table-Metrics-Trigger-Button"
+                                    tabIndex={ getBatchActionProps().shouldShowBatchActions ? 0: -1 }
+                                    renderIcon={ Metrics }
+                                    onClick={ batchActionClick }
+                                >
+                                    Metrics
+                                </TableBatchAction>
+                                <TableBatchAction
+                                    id="Development-Table-Download-Trigger-Button"
+                                    tabIndex={ getBatchActionProps().shouldShowBatchActions ? 0: -1 }
+                                    renderIcon={ CSV }
+                                    onClick={ batchActionClick }
+                                >
+                                    Download
+                                </TableBatchAction>
+                            </TableBatchActions>
+                            <TableToolbarContent>
+                                <TableToolbarSearch
+                                    persistent={ false }
+                                    labelText={ "Test-Label-Text" }
+                                    placeholder={ "Test-Place-Holder-Text" }
+                                    tabIndex={ getBatchActionProps().shouldShowBatchActions ? -1: 0 }
+                                    //                                 onChange={ (event) => console.debug(event) }
+                                />
+                                <Button
+                                    kind="ghost"
+                                    size="default"
+                                    hasIconOnly={ true }
+                                    onClick={ async () => await Refresh(State) }
+                                    renderIcon={ Reload }
+                                    tabIndex={ 0 }
+                                    iconDescription={ "Reload Table & Clear Cache" }
+                                    tooltipAlignment={ "center" }
+                                    tooltipPosition={ "left" }
+                                    type={ "button" }
+                                />
+                            </TableToolbarContent>
+                        </TableToolbar>
+                        <Table { ... getTableProps() }>
+                            <TableHead>
+                                <TableRow>
+                                    <TableExpandHeader enableExpando={ true } { ... getExpandHeaderProps() } />
+                                    <TableSelectAll { ... getSelectionProps() } />
+                                    {
+                                        Headers.map((Header, Index) => (Header.value === "Name")
+                                            ? (
+                                                <TableHeader { ... getHeaderProps({ header: Header }) } colSpan={ 1 }>
+                                                    { Header.value }
+                                                </TableHeader>
+                                            ): (
+                                                <TableHeader { ... getHeaderProps({ header: Header }) } colSpan={ 1 }>
+                                                    { Header.value }
+                                                </TableHeader>
+                                            ))
+                                    }
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                { Projects.map((Row, Index) => {
+                                    Row = { ... Row, ... rows[Index] };
+                                    return (
+                                        <Fragment key={ String(Index) }>
+                                            <TableExpandRow
+                                                expandIconDescription={ "Select to Expand Repository's Description" } {
+                                                ... getRowProps({ row: Row })
+                                            } >
+                                                <TableSelectRow { ... getSelectionProps({ row: Row }) } />
+                                                <TableCell
+                                                    key={ String(Index) + "-" + "ID" + "-" + Row.UID } name={ String(
+                                                    Index) + "-" + "ID" + "-" + Row.UID }
+                                                >
+                                                    <CodeSnippet type="single" feedback={ "Copied" } copyButtonDescription={ "Copy Code Snippet Content" } hideCopyButton={ false } copyLabel={ "Row-ID" }>
+                                                        { String(Row.UID) }
                                                     </CodeSnippet>
-                                                </strong>
-                                            </TableCell>
-                                            <TableCell key={ String(Index) + "-" + "Activity" } name={ String(Index) + "-" + "Activity" }>
-                                                { String(Row.Activity).slice(0, 10) }
-                                            </TableCell>
-                                            <TableCell key={ String(Index) + "-" + "Visibility" + "-" + Row.UID } id={ String(Index) + "-" + "Visibility" + "-" + Row.UID }>
-                                                {
-                                                    (Row.Visibility === "PUBLIC") ? (
-                                                            <Tag
-                                                                id={ "Visibility-Tag" + "-" + String(Index) }
-                                                                type="green"
-                                                                title="Public-Visibility-Tag"
-                                                                onClick={ () => window.open(Row.URL) }
-                                                            >
-                                                                <strong>Public</strong>
-                                                            </Tag>)
-                                                        : (Row.Visibility === "PRIVATE") ? (
+                                                </TableCell>
+                                                <TableCell
+                                                    key={ String(Index) + "-" + "Name" + "-" + Row.UID } name={ String(
+                                                    Index) + "-" + "Name" + "-" + Row.UID }
+                                                >
+                                                    <strong>
+                                                        <CodeSnippet type={ "single" } feedback={ "Saved to Clipboard" }>
+                                                            { Row.Name }
+                                                        </CodeSnippet>
+                                                    </strong>
+                                                </TableCell>
+                                                <TableCell key={ String(Index) + "-" + "Activity" } name={ String(Index) + "-" + "Activity" }>
+                                                    { String(Row.Activity).slice(0, 10) }
+                                                </TableCell>
+                                                <TableCell
+                                                    key={ String(Index) + "-" + "Visibility" + "-" + Row.UID } id={ String(
+                                                    Index) + "-" + "Visibility" + "-" + Row.UID }
+                                                >
+                                                    {
+                                                        (Row.Visibility === "PUBLIC") ? (
                                                                 <Tag
                                                                     id={ "Visibility-Tag" + "-" + String(Index) }
-                                                                    type="red"
-                                                                    title="Private-Visibility-Tag"
-                                                                    // className={ "io--tag--red-non-interactive" }
+                                                                    type="green"
+                                                                    title="Public-Visibility-Tag"
+                                                                    onClick={ () => window.open(Row.URL) }
                                                                 >
-                                                                    <strong>Private</strong>
+                                                                    <strong>Public</strong>
                                                                 </Tag>)
-                                                            : (
-                                                                <Tag
-                                                                    id={ "Visibility-Tag" + "-" + String(Index) }
-                                                                    type="purple"
-                                                                    title="Internal-Visibility-Tag"
-                                                                >
-                                                                    <strong>Internal</strong>
-                                                                </Tag>)
-                                                }
-                                            </TableCell>
-                                            <TableCell
-                                                id={ String(Index) + "-" + "URL" + "-" + Row.UID }
-                                                key={ String(Index) + "-" + "URL" + "-" + Row.UID }
-                                            >
-                                                <URL
-                                                    url={ Row.URL } home={ Home } key={ "VCS-URL-Link-Key" + "-" + String(
-                                                    Index) }
-                                                />
-                                            </TableCell>
-                                        </TableExpandRow>
-                                        <TableExpandedRow colSpan={ headers.length + 2 }>
-                                            <p>
-                                                <strong>Description</strong>:&nbsp;
-                                                { (Data) ? Data[Index].description: "N/A" }
-                                            </p>
-                                        </TableExpandedRow>
-                                    </Fragment>
-                                )
-                            }) }
-                        </TableBody>
-                    </Table>
-                    { (Data) ? (
-                        <Pagination Pages={Pages}/>
-                    ): (
-                        <></>
-                    ) }
-                </TableContainer>
-            ) }
-        size={ "normal" }
+                                                            : (Row.Visibility === "PRIVATE") ? (
+                                                                    <Tag
+                                                                        id={ "Visibility-Tag" + "-" + String(Index) }
+                                                                        type="red"
+                                                                        title="Private-Visibility-Tag"
+                                                                        // className={ "io--tag--red-non-interactive" }
+                                                                    >
+                                                                        <strong>Private</strong>
+                                                                    </Tag>)
+                                                                : (
+                                                                    <Tag
+                                                                        id={ "Visibility-Tag" + "-" + String(Index) }
+                                                                        type="purple"
+                                                                        title="Internal-Visibility-Tag"
+                                                                    >
+                                                                        <strong>Internal</strong>
+                                                                    </Tag>)
+                                                    }
+                                                </TableCell>
+                                                <TableCell
+                                                    id={ String(Index) + "-" + "URL" + "-" + Row.UID }
+                                                    key={ String(Index) + "-" + "URL" + "-" + Row.UID }
+                                                >
+                                                    <URL
+                                                        url={ Row.URL } home={ Home } key={ "VCS-URL-Link-Key" + "-" + String(
+                                                        Index) }
+                                                    />
+                                                </TableCell>
+                                            </TableExpandRow>
+                                            <TableExpandedRow colSpan={ headers.length + 2 }>
+                                                <p>
+                                                    <strong>Description</strong>:&nbsp;
+                                                    { (Data) ? Data[Index].description: "N/A" }
+                                                </p>
+                                            </TableExpandedRow>
+                                        </Fragment>
+                                    )
+                                }) }
+                            </TableBody>
+                        </Table>
+                        { (Data) ? (
+                            <Pagination Pages={ Pages }/>
+                        ): (
+                            <></>
+                        ) }
+                    </TableContainer>
+                ) }
+            size={ "normal" }
         />
     );
 };
@@ -400,7 +408,7 @@ const Component = () => {
         Rows: {
             Data: rows,
             Setter: (value) => setRows(value)
-        }, Total: (Handler.Total > rows) ? Handler.Total - rows : rows,
+        }, Total: (Handler.Total > rows) ? Handler.Total - rows: rows,
         Index: {
             Data: page,
             Setter: (value) => setPage(value)
@@ -413,15 +421,22 @@ const Component = () => {
             return Component();
         }
 
-        const Data = (Handler !== null && Handler.Response !== null && Handler.Response[page] !== null) ? new Array(Handler.Response[page])
+        const Data = (Handler !== null && Handler.Response !== null && Handler.Response[page] !== null)
+            ? new Array(Handler.Response[page])
             : new Array(0);
 
-        const Offset = Data.length;
-
-        return (<Tabluar Headers={Headers} Data={Data.pop()} State={setAwaiting} Pages={Pages}/>);
+        return (
+            <Tabluar
+                Headers={ Headers }
+                Data={ Data.pop() }
+                State={ setAwaiting }
+                Pages={ Pages }/>
+        );
     };
 
-    return (Handler.Waiter === false) ? (<Awaitable/>) : (<Skeleton/>);
+    return (Handler.Waiter === false)
+        ? (<Awaitable/>)
+        : (<Skeleton/>);
 };
 
 export default Component;

@@ -26,7 +26,7 @@ const Component = ({Pages}) => {
             itemsPerPageText="Total Paged Items"
             pageNumberText="Page Number"
             pageSize={ Pages.Size }
-//            pageSizes={ [5, 10, 15, 25, 50, 100, 1000] }
+            /// pageSizes={ [5, 10, 15, 25, 50, 100, 1000] }
             pageSizes={[20]}
             totalItems={ Pages.Total }
             page={ Pages.Index.Data }

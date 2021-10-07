@@ -1,8 +1,7 @@
 import * as Styles from "./SCSS/Index.module.scss";
 
 import {
-    Column,
-    Grid
+    Grid, Column
 } from "@carbon/react";
 
 import React, {

@@ -60,69 +60,6 @@ export const Responses = {
     Stream:     "stream"
 };
 
-/*** Example Implementation
- * =========================
- * >>> class Example extends Base {
- * >>>     constructor(props) {
- * >>>         super(props);
- * >>>     };
- * >>>
- * >>>    static URL = "/API/Gitlab/Projects";
- * >>>
- * >>>    static Request = () => {
- * >>>        const Query = () => {
- * >>>            const [data, setData] = useState(null);
- * >>>            const [loading, setLoading] = useState(null);
- * >>>            const [error, setError] = useState(null);
- * >>>            useEffect(() => {
- * >>>                let ignore = false;
- * >>>                const fetch = async () => {
- * >>>                    setLoading(true);
- * >>>                    try {
- * >>>                        setError({});
- * >>>                        const response = await Request(Example.URL, {
- * >>>                            method: "GET",
- * >>>                            timeout: 30000,
- * >>>                            withCredentials: false,
- * >>>                            responseType: Responses.JSON,
- * >>>                            onUploadProgress: async () => console.log("Upload in Progress"),
- * >>>                            onDownloadProgress: async () => console.log("Download in Progress")
- * >>>                        });
- * >>>                        console.debug(response);
- * >>>                        if (!ignore) setData(response.data);
- * >>>                    } catch (err) {
- * >>>                        setError(err);
- * >>>                    }
- * >>>                    setLoading(false);
- * >>>                }; fetch().then().finally();
- * >>>                return (() => { ignore = true; });
- * >>>            }, [URL]);
- * >>>            return { data, loading, error };
- * >>>         };
- * >>>         return Query(URL);
- * >>>     };
- * >>>
- * >>>     static Awaitable = () => {
- * >>>         const { data, loading, error } = Example.Request();
- * >>>         return {
- * >>>             Response: data,
- * >>>             Waiter: loading,
- * >>>             Error: error
- * >>>         };
- * >>>     };
- */
-
-//class Base extends Object {
-//    static URL = null;
-//    static Store = null;
-//    static Cache = null;
-//
-//    static API = null;
-//
-//    static Request = () => null;
-//    static Awaitable = () => null;
-//}
-
 export class AIO {
     static URL = String(process.env.REACT_APP_API_ENDPOINT) + "/API/Gitlab/Projects";
 
