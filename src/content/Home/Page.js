@@ -1,10 +1,10 @@
+import * as Styles from "./SCSS/Index.module.scss";
+
 import {
     Application,
     Globe,
     PersonFavorite
 } from "@carbon/icons-react/next";
-
-import * as Styles from "./SCSS/Index.module.scss";
 
 import {
     Button,
@@ -13,8 +13,6 @@ import {
     Tab,
     Tabs
 } from "@carbon/react";
-
-import React, { useState } from "react";
 
 import { default as Selectable } from "./../../components/Tile-Mutli-Select/Index";
 
