@@ -38,6 +38,8 @@ import {
 
 import { Link } from "react-router-dom";
 
+import { default as Mode } from "./Mode-Tagger";
+
 const Icons = {
     Home: () => (<DataBackup/>),
     Debug: () => (<Debug/>),
@@ -97,6 +99,7 @@ const Component = () => {
                                 GitLab
                             </HeaderMenuItem>
                         </HeaderNavigation>
+                        <Mode/>
                         <SideNav
                             aria-label="Side Navigation"
                             expanded={ isSideNavExpanded }
