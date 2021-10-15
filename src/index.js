@@ -18,6 +18,9 @@ import { default as Skeleton } from "./Page-Loader";
 
 import { default as Menu } from "./components/Menu/Index";
 
+import { default as BTT } from "./components/Back-To-Top/Index";
+import { default as ICB } from "./components/Informational-Corner-Button/Index";
+
 /// import { default as Footer } from "./components/Footer/Index";
 
 import {
@@ -40,6 +43,8 @@ const DOM = () => (
                     <Suspense fallback={ (<Skeleton Loader={ false } />) }>
                         <Application />
                     </Suspense>
+                    <ICB/>
+                    <BTT/>
                     {/*<Footer/>*/}
                 </Router>
             </Navigator>

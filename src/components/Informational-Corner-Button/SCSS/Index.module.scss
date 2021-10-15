@@ -14,10 +14,10 @@
     cursor: pointer;
     position: fixed;
     bottom: $spacing-03;
-    right: $spacing-03;
+    right: $spacing-04;
 
     @include breakpoint(md) {
-        bottom: $spacing-05;
+        bottom: calc(#{$spacing-04} + #{$spacing-09} + 0.75rem);
         right: $spacing-06;
     }
 }

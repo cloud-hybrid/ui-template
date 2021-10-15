@@ -1,13 +1,19 @@
 import React from "react";
-import { UpToTop as Icon } from "@carbon/icons-react/next";
+import {
+    Information as Icon
+} from "@carbon/icons-react/next";
 import { button } from "./SCSS/Index.module.scss";
 
 const Component = () => (
     <button
-        onClick={ () => window.scrollTo({ top: 0, left: 0, behavior: "smooth" }) }
+        onClick={
+            (event) => {
+                console.debug("[DEBUG] Click Event", event);
+            }
+        }
         className={ button }
         type="button"
-        aria-label="Back to Top"
+        aria-label="Page Information"
         children={(<Icon/>)}
     />
 );

@@ -10,18 +10,22 @@ $prefix: "cds" !default;
 );
 
 @use "@carbon/react";
+
 @use "@carbon/grid";
 
 @use "@carbon/react/scss/reset" as *;
 @use "@carbon/react/scss/type" as *;
 @use "@carbon/react/scss/zone" as *;
 @use "@carbon/react/scss/colors" as *;
+@use "@carbon/react/scss/motion" as *;
 @use "@carbon/react/scss/themes" as *;
 @use "@carbon/react/scss/spacing" as *;
 @use "@carbon/react/scss/breakpoint" as *;
 @use "@carbon/react/scss/feature-flags" as *;
 
 @use "@carbon/react/scss/theme" as *;
+
+@use "@carbon/themes/scss/generated/tokens" as *;
 
 @forward "@carbon/grid";
 
