@@ -25,9 +25,14 @@ $prefix: "cds" !default;
 
 @use "@carbon/react/scss/theme" as *;
 
-@use "@carbon/themes/scss/generated/tokens" as *;
+:root {
+    font-feature-settings: normal;
+    font-kerning: auto;
+    font-optical-sizing: auto;
+    text-rendering: geometricPrecision;
 
-@forward "@carbon/grid";
+    @include theme($g100);
+}
 
 .cds--content {
     background: var(--cds-background);
@@ -35,8 +40,8 @@ $prefix: "cds" !default;
     min-height: calc(100vh - 3.0rem);
 }
 
-html {
-    @include theme($g100);
+.cds--content {
+    padding: 0.0rem;
 }
 
 .cds--content .cds--css-grid {
@@ -44,12 +49,24 @@ html {
     @include breakpoint(md) {
         padding-left:  20px;
         padding-right: 20px;
+        padding-bottom: 20px;
     }
 }
 
 @media (min-width: 42rem) {
     .cds--grid--no-gutter {
-        padding-left:  1rem;
-        padding-right: 1rem;
+        padding-left:  1.0rem;
+        padding-right: 1.0rem;
+    }
+}
+
+@media (min-width: 42rem) {
+    .cds--content .cds--css-grid {
+        max-width: 100%;
+        @include breakpoint(md) {
+            padding-left: 5.0rem;
+            padding-right: 5.0rem;
+            padding-bottom: 5.0rem;
+        }
     }
 }

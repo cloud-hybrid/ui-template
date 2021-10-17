@@ -4,9 +4,9 @@ import React, {
     useEffect
 } from "react";
 
-import styles from "./SCSS/Table.module.scss";
+import "./SCSS/Cell.scss";
 
-import { default as Style } from "./../../utilities/Styles";
+import { dataElement } from "./SCSS/Index.module.scss";
 
 import * as Query from "./Query";
 
@@ -43,6 +43,8 @@ import {
     CrossTab32 as CSV,
     ChartCombo32 as Metrics
 } from "@carbon/icons-react";
+
+/// ... import { default as Breadcrumb } from "./Breadcrumb/Index";
 
 import { default as Pagination } from "./Paginator";
 
@@ -108,7 +110,7 @@ const Schema = [{
 /***
  *
  * @param Headers {Array}
- * @param Data {[{visibility: null, web_url: null, last_activity_at: null, name: null, id: null}]}
+ * @param Data {Map}
  * @param Page {Number}
  * @param Offset {Number}
  * @returns {JSX.Element}
@@ -131,7 +133,7 @@ const Schema = [{
  *
  */
 
-const Tabluar = ({ Data = Schema, Headers, State, Pages }) => {
+const Tabluar = ({ Data = Schema, Headers, State, Pages, Handler }) => {
     const Home = "https://gitlab.cloud-technology.io/";
 
     const Total = (Data) ? Data.length: 0;
@@ -168,12 +170,13 @@ const Tabluar = ({ Data = Schema, Headers, State, Pages }) => {
                     getTableContainerProps,
                     getSelectionProps,
                     getExpandHeaderProps,
+                    overflowMenuOnHover,
                     getHeaderProps,
                     getRowProps,
                     getToolbarProps,
                     getBatchActionProps
                 }) => (
-                    <TableContainer className={ Style(styles).Name.Unique } title={ "Cloud-Technology" } description="Cloud-Technology's GitHub Repositories" { ... getTableContainerProps() }>
+                    <TableContainer title={ "Cloud-Technology" } description="Cloud-Technology's GitHub Repositories" { ... getTableContainerProps() }>
                         <TableToolbar { ... getToolbarProps() }>
                             <TableBatchActions { ... getBatchActionProps() }>
                                 <TableBatchAction
@@ -226,7 +229,7 @@ const Tabluar = ({ Data = Schema, Headers, State, Pages }) => {
                         <Table { ... getTableProps() }>
                             <TableHead>
                                 <TableRow>
-                                    <TableExpandHeader enableExpando={ true } { ... getExpandHeaderProps() } />
+                                    <TableExpandHeader enableToggle={ true } { ... getExpandHeaderProps() } />
                                     <TableSelectAll { ... getSelectionProps() } />
                                     {
                                         Headers.map((Header, Index) => (Header.value === "Name")
@@ -342,21 +345,28 @@ const Tabluar = ({ Data = Schema, Headers, State, Pages }) => {
 const Component = () => {
     const [rows, setRows] = useState(20);
     const [page, setPage] = useState(1);
-    const [awaiting, setAwaiting] = useState(false);
-
-    const Handler = Query.default.Awaitable();
+    const [awaiting, setAwaiting] = useState(true);
 
     useEffect(() => {
-        switch (awaiting) {
-            case true:
-                return () => setAwaiting(false);
-            case false:
-                return () => setAwaiting(true);
-            default:
-                break;
+        async function Await() {
+            const Waiter = new Promise((_) => setTimeout(
+                (_) => {
+                    console.debug("Updating Await := false");
+                    setAwaiting(false);
+                }
+            ), 1500);
+
+            await Waiter;
         }
-        return () => setAwaiting(null);
-    }, [awaiting]);
+
+        Await().then((_) => {
+            /* ... */
+        });
+
+        return async () => await setAwaiting(false);
+    }, []);
+
+    const Handler = Query.default.Awaitable();
 
     const Headers = [ // Total = 8
         {
@@ -421,22 +431,14 @@ const Component = () => {
             return Component();
         }
 
-        const Data = (Handler !== null && Handler.Response !== null && Handler.Response[page] !== null)
-            ? new Array(Handler.Response[page])
+        const Data = (Handler && Handler.Response && Handler.Response[page] !== null) ? new Array(
+                Handler.Response[page])
             : new Array(0);
 
-        return (
-            <Tabluar
-                Headers={ Headers }
-                Data={ Data.pop() }
-                State={ setAwaiting }
-                Pages={ Pages }/>
-        );
+        return (<Tabluar Headers={ Headers } Data={ Data.pop() } State={ setAwaiting } Pages={ Pages } Handler={Handler}/>);
     };
 
-    return (Handler.Waiter === false)
-        ? (<Awaitable/>)
-        : (<Skeleton/>);
+    return (Handler.Waiter === false) ? (<Awaitable/>): (<Skeleton/>);
 };
 
 export default Component;

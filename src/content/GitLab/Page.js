@@ -4,7 +4,7 @@ import React, {
     useEffect
 } from "react";
 
-import styles from "./SCSS/Table.module.scss";
+import "./SCSS/Cell.scss";
 
 import { default as Style } from "./../../utilities/Styles";
 
@@ -175,7 +175,7 @@ const Tabluar = ({ Data = Schema, Headers, State, Pages, Handler }) => {
                     getToolbarProps,
                     getBatchActionProps
                 }) => (
-                    <TableContainer className={ Style(styles).Name.Unique } title={ "Cloud-Technology" } description="Cloud-Technology's GitHub Repositories" { ... getTableContainerProps() }>
+                    <TableContainer title={ "Cloud-Technology" } description="Cloud-Technology's GitHub Repositories" { ... getTableContainerProps() }>
                         <TableToolbar { ... getToolbarProps() }>
                             <TableBatchActions { ... getBatchActionProps() }>
                                 <TableBatchAction
@@ -228,7 +228,7 @@ const Tabluar = ({ Data = Schema, Headers, State, Pages, Handler }) => {
                         <Table { ... getTableProps() }>
                             <TableHead>
                                 <TableRow>
-                                    <TableExpandHeader enableExpando={ true } { ... getExpandHeaderProps() } />
+                                    <TableExpandHeader enableToggle={ true } { ... getExpandHeaderProps() } />
                                     <TableSelectAll { ... getSelectionProps() } />
                                     {
                                         Headers.map((Header, Index) => (Header.value === "Name")

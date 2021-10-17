@@ -19,6 +19,7 @@ import { default as Skeleton } from "./Page-Loader";
 import { default as Menu } from "./components/Menu/Index";
 
 import { default as BTT } from "./components/Back-To-Top/Index";
+
 import { default as ICB } from "./components/Informational-Corner-Button/Index";
 
 /// import { default as Footer } from "./components/Footer/Index";
@@ -36,16 +37,15 @@ const Application = Import(() => {
 
 const DOM = () => (
     <React.StrictMode>
-        <Profiler id={"Navigation"} onRender={ Vitals }>
+        <Profiler id={ "Navigation" } onRender={ Vitals }>
             <Navigator>
                 <Router>
                     <Menu/>
-                    <Suspense fallback={ (<Skeleton Loader={ false } />) }>
+                    <Suspense fallback={ (<Skeleton Loader={ true } />) }>
                         <Application />
                     </Suspense>
                     <ICB/>
                     <BTT/>
-                    {/*<Footer/>*/}
                 </Router>
             </Navigator>
         </Profiler>

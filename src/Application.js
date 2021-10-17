@@ -19,11 +19,12 @@ import {
 
 import { Simulation as Breadcrumbs } from "./components/Breadcrumb/Index";
 
-//import { default as Landing } from "./content/Landing/Index";
+// import { default as Landing } from "./content/Landing/Index";
 
 import { default as Home        }   from "./content/Home/Index";
 import { default as GitHub      }   from "./content/GitHub/Index";
 import { default as GitLab      }   from  "./content/GitLab/Index";
+import { default as Pipelines } from "./content/Pipelines/Index";
 
 /*****
  *
@@ -50,12 +51,13 @@ const Application = () => {
         <Theme theme={ theme.theme }>
             <Content children={(
                 <Grid>
-                    <Breadcrumbs/>
                     <Column lg={ 16 } md={ 8 } sm={ 4 }>
+                        <Breadcrumbs/>
                         <Switch>
                             <Route exact path="/" component={ Home }/>
                             <Route path="/gitlab" component={ GitLab }/>
                             <Route path="/github" component={ GitHub }/>
+                            <Route path="/pipelines" component={ Pipelines }/>
 
                             <Redirect from={ "*" } to={ "/" }/>
                         </Switch>

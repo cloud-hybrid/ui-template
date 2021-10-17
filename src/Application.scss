@@ -1,9 +1,5 @@
 @use "sass:map";
 
-@forward "./content/Home/SCSS/Index.module.scss";
-@forward "./content/GitHub/SCSS/Index.module.scss";
-@forward "./content/GitLab/SCSS/Index.module.scss";
-
 .cds--data-table th.cds--table-expand + .cds--table-column-checkbox,
 .cds--data-table td.cds--table-expand + .cds--table-column-checkbox {
     min-width: 35px;

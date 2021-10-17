@@ -1,15 +1,66 @@
+import PropTypes from "prop-types";
+
 import React from "react";
-import { UpToTop as Icon } from "@carbon/icons-react/next";
+
+import { UpToTop } from "@carbon/icons-react/next";
+
+import * as Styles from "./SCSS/Index.module.scss";
+
 import { button } from "./SCSS/Index.module.scss";
 
-const Component = () => (
+const Defaults = {
+    /***
+     * Icon JSX Element XOR null
+     */
+    Icon: () => (<UpToTop/>),
+
+    /***
+     * Title Pop-Over Content (String)
+     */
+    Title: "Page Information",
+
+    /***
+     * Text Assistive Reading Content (String)
+     */
+    ARIA: "Page Information Button",
+
+    Styles: {
+        Styles: Styles,
+        Target: button
+    }
+}
+
+const Component = ({Properties = Defaults}) => (
     <button
         onClick={ () => window.scrollTo({ top: 0, left: 0, behavior: "smooth" }) }
-        className={ button }
-        type="button"
-        aria-label="Back to Top"
-        children={(<Icon/>)}
+        className={Properties.Styles.Target}
+        data-tooltip-position={"left"}
+        data-tooltip-title={Properties.Title}
+        type={"button"}
+        aria-label={Properties.ARIA}
+        children={
+            (<Properties.Icon/>)
+        }
     />
 );
 
+Component.propTypes = {
+    /***
+     * Icon JSX Element XOR null
+     */
+    Icon: PropTypes.object,
+
+    /***
+     * Title Pop-Over Content (String)
+     */
+    Title: PropTypes.any,
+
+    /***
+     * Text Assistive Reading Content (String)
+     */
+    ARIA: PropTypes.any
+}
+
 export default Component;
+
+export const Settings = Defaults;

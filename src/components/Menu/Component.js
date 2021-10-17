@@ -98,6 +98,9 @@ const Component = () => {
                             <HeaderMenuItem element={ Link } to="/gitlab">
                                 GitLab
                             </HeaderMenuItem>
+                            <HeaderMenuItem element={ Link } to="/pipelines">
+                                Pipelines
+                            </HeaderMenuItem>
                         </HeaderNavigation>
                         <Mode/>
                         <SideNav
@@ -127,6 +130,17 @@ const Component = () => {
                                         async={ true }
                                     >
                                         GitHub
+                                    </SideNavLink>
+                                    <SideNavLink
+                                        renderIcon={ Icons.Code } href="/#/pipelines"
+                                        onClick={
+                                            () => {
+                                                onClickSideNavExpand();
+                                            }
+                                        }
+                                        async={ true }
+                                    >
+                                        GitLab
                                     </SideNavLink>
                                     <SideNavMenu
                                         renderIcon={ Icons.Debug }
