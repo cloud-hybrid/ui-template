@@ -1,6 +1,6 @@
 import "./SCSS/Editor.scss";
 
-import { Editor } from "@toast-ui/react-editor";
+// import { Editor } from "@toast-ui/react-editor";
 
 const Component = () => {
     return (
