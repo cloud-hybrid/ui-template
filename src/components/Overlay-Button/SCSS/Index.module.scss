@@ -27,10 +27,10 @@
     cursor: pointer;
     position: fixed;
     bottom: $spacing-03;
-    right: $spacing-04;
+    right: $spacing-03;
 
     @include breakpoint(md) {
-        bottom: calc(#{$spacing-04} + #{$spacing-09} + 0.75rem);
+        bottom: $spacing-05;
         right: $spacing-06;
     }
 }

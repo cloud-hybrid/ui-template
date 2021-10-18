@@ -20,8 +20,6 @@ import { default as Menu } from "./components/Menu/Index";
 
 import { default as BTT } from "./components/Back-To-Top/Index";
 
-import { default as ICB } from "./components/Informational-Corner-Button/Index";
-
 /// import { default as Footer } from "./components/Footer/Index";
 
 import {
@@ -41,11 +39,10 @@ const DOM = () => (
             <Navigator>
                 <Router>
                     <Menu/>
-                    <Suspense fallback={ (<Skeleton Loader={ true } />) }>
+                    <Suspense fallback={ (<Skeleton Loader={ false } />) }>
                         <Application />
                     </Suspense>
-                    <ICB/>
-                    <BTT/>
+                    <BTT Title={"Back to Top"}/>
                 </Router>
             </Navigator>
         </Profiler>
