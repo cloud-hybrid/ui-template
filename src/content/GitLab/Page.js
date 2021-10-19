@@ -6,8 +6,6 @@ import React, {
 
 import "./SCSS/Cell.scss";
 
-import { default as Style } from "./../../utilities/Styles";
-
 import * as Query from "./Query";
 
 import Skeleton from "./Skeleton";

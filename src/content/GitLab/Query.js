@@ -20,7 +20,7 @@ const Store = Forage.createInstance({
 });
 
 const Cache = Adapter.setupCache({
-    excludeFromCache: true, // --> Debugging
+    excludeFromCache: false, // --> Debugging
     debug: (process.env.NODE_ENV !== "production"),
     clearOnStale: true,
     ignoreCache: true,

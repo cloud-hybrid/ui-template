@@ -24,7 +24,10 @@ import { Simulation as Breadcrumbs } from "./components/Breadcrumb/Index";
 import { default as Home        }   from "./content/Home/Index";
 import { default as GitHub      }   from "./content/GitHub/Index";
 import { default as GitLab      }   from  "./content/GitLab/Index";
-import { default as Pipelines } from "./content/Pipelines/Index";
+import { default as Pipelines   }   from "./content/Pipelines/Index";
+import { default as Template    }   from "./content/Template/Index";
+
+import { default as Notifications    } from "./content/Development/Notifications/Index";
 
 /*****
  *
@@ -58,7 +61,8 @@ const Application = () => {
                             <Route path="/gitlab" component={ GitLab }/>
                             <Route path="/github" component={ GitHub }/>
                             <Route path="/pipelines" component={ Pipelines }/>
-
+                            <Route path="/template" component={ Template }/>
+                            <Route path="/notifications" component={ Notifications }/>
                             <Redirect from={ "*" } to={ "/" }/>
                         </Switch>
                     </Column>

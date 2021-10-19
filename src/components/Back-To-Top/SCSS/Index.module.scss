@@ -191,6 +191,8 @@
 .button[data-tooltip-position="left"]:hover::after,
 .button[data-tooltip-position="right"]:hover::after {
     transform: translate3d(0px, -50%, 0);
+    font-size: small;
+
 }
 
 .button:active {

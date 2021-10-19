@@ -35,6 +35,7 @@ const Selectable = (Properties = Properties()) => {
         <SelectableTile
             id={ Properties.ID }
             name={ Properties.Name }
+            value={""}
             selected={ selected }
             onClick={ () => setSelected(!selected) }
             disabled={ false }
@@ -67,9 +68,9 @@ const Selectables = ({ Children = [Properties()] }) => {
 
 const Component = () => {
     const States = [
-        useState(false),
-        useState(false),
-        useState(false)
+        useState([false, "Value"]),
+        useState([false, "Value"]),
+        useState([false, "Value"])
     ];
 
     return (
@@ -77,8 +78,9 @@ const Component = () => {
             <SelectableTile
                 id="tile-1"
                 name="tiles"
-                selected={ States[0][0] }
-                onClick={ () => States[0][1]( ! States[0][0]) }
+                selected={ States[0][0][0] }
+                onClick={ () => States[0][1]( ! States[0][0][0]) }
+                value={""}
                 disabled={ false }
                 className={ ["unselectable", Styles["selectable-tile"]].join(" ") }
             >
@@ -87,8 +89,9 @@ const Component = () => {
             <SelectableTile
                 id="tile-2"
                 name="tiles"
-                selected={ States[1][0] }
-                onClick={ () => States[1][1]( ! States[0][0]) }
+                selected={ States[1][0][0] }
+                onClick={ () => States[1][1]( ! States[0][0][0] ) }
+                value={""}
                 disabled={ false }
                 className={ ["unselectable", Styles["selectable-tile"]].join(" ") }
             >
@@ -97,8 +100,9 @@ const Component = () => {
             <SelectableTile
                 id="tile-3"
                 name="tiles"
-                selected={ States[2][0] }
-                onClick={ () => States[2][1]( ! States[0][0]) }
+                selected={ States[2][0][0] }
+                onClick={ () => States[2][1]( ! States[0][0][0] ) }
+                value={""}
                 disabled={ false }
                 className={ ["unselectable", Styles["selectable-tile"]].join(" ") }
             >

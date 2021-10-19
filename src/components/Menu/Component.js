@@ -1,4 +1,6 @@
-import "./SCSS/Side-Panel.scss";
+// import "./SCSS/Side-Panel.scss";
+
+import "./SCSS/Index.scss";
 
 import React, { useState } from "react";
 
@@ -20,7 +22,7 @@ import {
     SideNavMenuItem,
     SwitcherDivider,
     SwitcherItem,
-    HeaderPanel
+    HeaderPanel, HeaderMenu
 } from "@carbon/react";
 
 import {
@@ -64,6 +66,18 @@ const Icons = {
 const Component = () => {
     const [applicationsIsOpen, setApplicationsIsOpen] = useState(false);
 
+    const [currentPage, setCurrentPage] = useState("/")
+
+    const checkIsCurrentPage = (comparator = "/") => {
+        const Hash = location.hash.replace("#", "");
+
+        return (comparator === Hash);
+    }
+
+    const handleCurrentPage = (link) => {
+        setCurrentPage(link);
+    }
+
     return (
         <>
             <HeaderContainer
@@ -85,6 +99,8 @@ const Component = () => {
                             prefix="Cloud"
                             onClick={
                                 () => {
+                                    setCurrentPage(null);
+
                                     if (isSideNavExpanded) onClickSideNavExpand();
                                 }
                             }
@@ -92,15 +108,28 @@ const Component = () => {
                             Nexus
                         </HeaderName>
                         <HeaderNavigation aria-label="Nexus">
-                            <HeaderMenuItem element={ Link } to="/github">
+                            {/* ... Current-Page State --> isCurrentPage={location.hash === "#/github"} onClick={() => handleCurrentPage("/github")} */}
+                            <HeaderMenuItem element={ Link } to="/github" isCurrentPage={location.hash === "#/github"} onClick={() => handleCurrentPage("/github")}>
                                 GitHub
                             </HeaderMenuItem>
+                            {/* ... Current-Page State --> isCurrentPage={location.hash === "#/gitlab"} onClick={() => handleCurrentPage("/gitlab")} */}
                             <HeaderMenuItem element={ Link } to="/gitlab">
                                 GitLab
                             </HeaderMenuItem>
+                            {/* ... Current-Page State --> isCurrentPage={location.hash === "#/pipelines"} onClick={() => handleCurrentPage("/pipelines")} */}
                             <HeaderMenuItem element={ Link } to="/pipelines">
                                 Pipelines
                             </HeaderMenuItem>
+                            <hr width="1px" size="auto" style={{borderStyle: "solid", color: "var(--cds-border-subtle)", marginLeft: "0.5rem", marginRight: "0.5rem"}}/>
+                            <HeaderMenu aria-label={"Label"} menuLinkName={"Development"}>
+                                <HeaderMenuItem element={Link} to="/template">
+                                    <strong>Template</strong>
+                                </HeaderMenuItem>
+                                <HeaderMenuItem element={Link} to="/notifications">
+                                    <strong>Notifications</strong>
+                                </HeaderMenuItem>
+                            </HeaderMenu>
+                            <hr width="1px" size="auto" style={{borderStyle: "solid", color: "var(--cds-border-subtle)", marginLeft: "0.5rem", marginRight: "0.5rem"}}/>
                         </HeaderNavigation>
                         <Mode/>
                         <SideNav
