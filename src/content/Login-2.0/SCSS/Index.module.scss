@@ -1,0 +1,13 @@
+.form {
+    & .normalized label {
+        margin-top: auto;
+    }
+
+    & label {
+        margin-top: 1.0rem;
+    }
+
+    & .button {
+        margin-top: 1.0rem;
+    }
+}
