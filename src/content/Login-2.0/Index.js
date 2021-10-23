@@ -7,7 +7,7 @@ import React, {
 } from "react";
 
 const Default = () => {
-    const Page = Import(() => import("./Page"));
+    const Page = Import(() => import("./Page").then((Module) => Module));
 
     return (
         <Grid>

@@ -26,10 +26,11 @@ const Compose = () => {
     return ["Nexus", window.location.pathname, Relative].join("/");
 };
 
-const Deconstruct = () => {
+const Deconstruct = (Title = null) => {
     const Data = [];
 
-    const Composition = Compose();
+    const Composition = (Title === null) ? Compose()
+        : Title.join("/")
 
     const Components = Composition.split("/").filter(($) => $ !== "");
 
@@ -42,7 +43,8 @@ const Deconstruct = () => {
                 key: ["Breadcrumb-Item", String(Index)].join("-"),
                 isCurrentPage: (Index === Collection.length - 1)
             }: {
-                "data-value": Element,
+                "data-value": String(Element).charAt(0).toUpperCase()
+                    + String(Element).slice(1),
                 href: ["/#", Element.toLowerCase()].join("/"),
                 value: -1,
                 key: ["Breadcrumb-Item", String(Index)].join("-"),
@@ -63,9 +65,21 @@ const Deconstruct = () => {
 }
 
 const Component = () => {
-    const Data = Deconstruct();
+    const Data = Deconstruct(null);
     return (
         <Breadcrumb aria-label={ "Parent Navigation" } noTrailingSlash={ true } className={ Name }>
+            {
+                Data.map((Component) => Component)
+            }
+        </Breadcrumb>
+    );
+};
+
+export const Strict = ({Title}) => {
+    const Data = Deconstruct(["Nexus", Title]);
+
+    return (
+        <Breadcrumb aria-label={"Parent Navigation"} noTrailingSlash={true} className={Name}>
             {
                 Data.map((Component) => Component)
             }

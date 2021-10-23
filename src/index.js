@@ -12,40 +12,17 @@ import React, {
 
 import ReactDOM from "react-dom";
 
-import { default as Vitals } from "./Vitals";
+import { BrowserRouter as Navigator, HashRouter as Router } from "react-router-dom";
 
-import { default as Skeleton } from "./Page-Loader";
-
-import { default as Menu } from "./components/Menu/Index";
-
-import { default as BTT } from "./components/Back-To-Top/Index";
-
-/// import { default as Footer } from "./components/Footer/Index";
-
-import {
-    BrowserRouter as Navigator,
-    HashRouter as Router
-} from "react-router-dom";
-
-const Application = Import(() => {
-    return import("./Application").then(
-        (SPA) => SPA
-    );
-});
+import { default as Application } from "./Application";
 
 const DOM = () => (
     <React.StrictMode>
-        <Profiler id={ "Navigation" } onRender={ Vitals }>
-            <Navigator>
-                <Router>
-                    <Menu/>
-                    <Suspense fallback={ (<Skeleton Loader={ false } />) }>
-                        <Application />
-                    </Suspense>
-                    <BTT Title={"Back to Top"}/>
-                </Router>
-            </Navigator>
-        </Profiler>
+        <Navigator forceRefresh={true}>
+            <Router>
+                <Application/>
+            </Router>
+        </Navigator>
     </React.StrictMode>
 );
 

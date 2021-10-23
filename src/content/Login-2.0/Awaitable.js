@@ -15,9 +15,8 @@ import {
     Loading
 } from "@carbon/react";
 
-// import * as Query from "./Login";
-
 import { default as Authenticator } from "./Authenticator";
+import {useHistory, useLocation} from "react-router-dom";
 
 const Debug = process.env.NODE_ENV !== "production";
 
@@ -83,7 +82,7 @@ const Properties = {
     }
 };
 
-const Component = ({}) => {
+const Component = () => {
     const Data = useState(null);
 
     const [passwordValidation, setPasswordValidation] = useState(null);
@@ -274,9 +273,22 @@ const Component = ({}) => {
                 className={ Styles.form }
                 onSubmit={
                     (event) => {
-                        event.preventDefault();
-                        document.getElementById("submit-button")
-                            .click();
+                        const Values = Object.values(event.target.parentNode).slice(0, 2);
+
+                        const Username = Values[0].value;
+                        const Password = Values[1].value;
+
+                        (Username === "") ? setUsernameInvalid(true) : setUsernameInvalid(false);
+                        (Password === "") ? setPasswordInvalid(true) : setPasswordInvalid(false);
+
+                        setUsernameValidation(!usernameInvalid);
+                        setPasswordValidation(!passwordInvalid);
+
+                        if (usernameValidation === true && passwordValidation === true) {
+                            setAwaiting(true);
+                        } else {
+                            setAwaiting(null);
+                        }
                     }
                 }
             >
@@ -326,34 +338,14 @@ const Component = ({}) => {
                     tooltipAlignment={ "center" }
                     tooltipPosition={ "right" }
                     children={ "Submit" }
-                    onClick={(event) => {
-                        event.preventDefault();
-
-                        const Values = Object.values(event.target.parentNode).slice(0, 2);
-
-                        const Username = Values[0].value;
-                        const Password = Values[1].value;
-
-                        (Username === "") ? setUsernameInvalid(true) : setUsernameInvalid(false);
-                        (Password === "") ? setPasswordInvalid(true) : setPasswordInvalid(false);
-
-                        setUsernameValidation(!usernameInvalid);
-                        setPasswordValidation(!passwordInvalid);
-
-                        if (usernameValidation === true && passwordValidation === true) {
-                            setAwaiting(true);
-                        } else {
-                            setAwaiting(null);
-                        }
-                    }}
-                ></Button>
+                />
                 { (awaiting) ? (
                     <Authenticator Fields={
                         {
                             Username: document.getElementById("username-field").value,
                             Password: document.getElementById("password-field").value
                         }
-                    } State={ Data[1] } Waiter={[awaiting, setAwaiting]}/>
+                    } Waiter={[awaiting, setAwaiting]}/>
                 ): (<React.Fragment/>) }
             </Form>
         );

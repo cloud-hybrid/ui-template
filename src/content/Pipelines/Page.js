@@ -360,10 +360,10 @@ const Component = () => {
         }
 
         Await().then((_) => {
-            /* ... */
+            setAwaiting(false);
         });
 
-        return async () => await setAwaiting(false);
+        /// return async () => await setAwaiting(false);
     }, []);
 
     const Handler = Query.default.Awaitable();

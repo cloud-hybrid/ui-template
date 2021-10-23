@@ -2,9 +2,7 @@ import "./Application.scss";
 
 import React, {
     useEffect,
-    useState,
-    Suspense,
-    lazy as Import
+    useState
 } from "react";
 
 import {
@@ -18,6 +16,7 @@ import {
     Redirect,
     Route,
     Switch,
+    useHistory,
     useLocation
 } from "react-router-dom";
 
@@ -25,13 +24,13 @@ import { default as Menu } from "./components/Menu/Index";
 
 import { default as BTT } from "./components/Back-To-Top/Index";
 
-import { default as Breadcrumbs } from "./components/Breadcrumb/Index";
+import { Simulation as Breadcrumbs } from "./components/Breadcrumb/Index";
 
-// import { default as Home        }   from "./content/Home/Index";
-// import { default as GitHub      }   from "./content/GitHub/Index";
-// import { default as GitLab      }   from  "./content/GitLab/Index";
-// import { default as Pipelines   }   from "./content/Pipelines/Index";
-// import { default as Template    }   from "./content/Template/Index";
+import { default as Home        }   from "./content/Home/Index";
+import { default as GitHub      }   from "./content/GitHub/Index";
+import { default as GitLab      }   from  "./content/GitLab/Index";
+import { default as Pipelines   }   from "./content/Pipelines/Index";
+import { default as Template    }   from "./content/Template/Index";
 
 import { default as Login } from "./content/Login-2.0/Index";
 
@@ -49,7 +48,7 @@ import { default as Skeleton } from "./Page-Loader";
 
 import * as Authentication from "./components/Authenticate";
 
-/***
+/*****
  *
  * @param Theme: {React.Context}
  *
@@ -65,84 +64,98 @@ export const useTheme = (theme = "g100") => {
     return Theme;
 };
 
-const Home = Import(() => import("./content/Home/Index").then((Module) => Module));
-const GitHub = Import(() => import("./content/GitHub/Index").then((Module) => Module));
-const GitLab = Import(() => import("./content/GitLab/Index").then((Module) => Module));
-const Pipelines = Import(() => import("./content/Pipelines/Index").then((Module) => Module));
-const Template = Import(() => import("./content/Template/Index").then((Module) => Module));
-
 const Application = () => {
     const theme = useTheme();
-    const location = useLocation();
-
-    console.debug("[Debug] - Location :::", location);
 
     const Authorization = useState(null);
     const Handler = Authentication.Cancellation.source();
 
     useEffect(() => {
-        Authentication.Token(Handler).then((Validation) => {
-            (Validation?.Content?.status === 200) ? Authorization[1](true) : Authorization[1](false);
-        });
-    }, [Authorization, Handler]);
+        try {
+            Authentication.Token(Handler).then((Value) => {
+                (Value && Value.Content && Value.Content.status === 200) ? Authorization[1](true)
+                    : Authorization[1](false);
+            });
+        } catch (error) {
+            console.warning("Exception" + ":", Authorization, error);
+            Authorization[1](false);
+        }
+    }, []);
 
     const Component = () => (
         <Theme theme={ theme.theme }>
-            <Menu Target={location.pathname}/>
+            <Menu/>
             <Content children={(
                 <Grid>
-                    <Breadcrumbs Title={location.pathname}/>
                     <Column lg={ 16 } md={ 8 } sm={ 4 }>
-                        <Suspense fallback={<Skeleton Loader={true}/>}>
-                            <Switch>
+                        <Switch>
                             {/* Base Endpoint(s) */}
 
                             <Route exact path={"/"}>
+                                <Breadcrumbs/>
                                 <Home/>
                             </Route>
 
                             <Route path={"/login"} sensitive={false}>
-                                <Login/>
+                                <Breadcrumbs/>
+                                {
+                                    (Authorization[0] === null)
+                                        ? (<Skeleton Loader={false}/>)
+                                        : (Authorization[0] === false)
+                                            ? (<Login/>)
+                                            : (<Redirect to={"/"}/>)
+                                }
                             </Route>
 
                             {/* Development Endpoint(s) */}
 
                             <Route path="/template" sensitive={false}>
+                                <Breadcrumbs/>
                                 <Template/>
                             </Route>
 
                             <Route path="/notifications" sensitive={false}>
+                                <Breadcrumbs/>
                                 <Notifications/>
                             </Route>
 
                             {/* Authorization-Only Endpoint(s) */}
 
                             <Route path={"/gitlab"} sensitive={false}>
+                                <Breadcrumbs/>
                                 {
                                     (Authorization[0] === null)
                                         ? (<Skeleton Loader={false}/>)
-                                        : (Authorization[0] === true)
+                                        : (Authorization[0] === false)
                                             ? (<GitLab/>)
-                                            : (<Redirect to={"/login"} from={"/gitlab"} push={true}/>)
+                                            : (<Redirect to={"/login"} push={true} from={"/gitlab"}/>)
                                 }
                             </Route>
+
                             <Route path={"/github"} sensitive={false}>
+                                <Breadcrumbs/>
                                 {
                                     (Authorization[0] === null)
                                         ? (<Skeleton Loader={false}/>)
                                         : (Authorization[0] === false)
                                             ? (<GitHub/>)
-                                            : (<Redirect to={"/login"} />)
+                                            : (<Redirect to={"/login"} push={true} from={"/github"}/>)
                                 }
                             </Route>
 
                             <Route path={"/pipelines"} sensitive={false}>
-                                <Pipelines/>
+                                <Breadcrumbs/>
+                                {
+                                    (Authorization[0] === null)
+                                        ? (<Skeleton Loader={false}/>)
+                                        : (Authorization[0] === false)
+                                            ? (<Pipelines/>)
+                                            : (<Redirect to={"/login"} push={true} from={"/pipelines"}/>)
+                                }
                             </Route>
 
                             <Redirect from={"*"} to={"/"}/>
                         </Switch>
-                        </Suspense>
                     </Column>
                 </Grid>
             )}/>

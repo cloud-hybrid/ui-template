@@ -200,17 +200,14 @@ export const Authenticate = async (Payload, Handler) => {
             }, {
                 cancelToken: Handler.token,
                 responseType: "json"
-            }).then((Data) => {
+            }).then(async (Data) => {
                 console.debug("[Debug] Authentication Authorization Request", Data);
 
                 Response.Loading = false;
                 Response.Data = Data;
                 Response.Error = null;
 
-                (async () => await Store.setItem(STORE, Data.data))
-                    ().then(
-                        () => console.debug("[Informational] Updated JWT Token")
-                    );
+                await Store.setItem(STORE, Data.data);
             }).catch((Error) => {
                 Response.Loading = false;
                 Response.Data = null;

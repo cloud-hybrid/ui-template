@@ -1,8 +1,6 @@
 @use "@carbon/react/scss/spacing";
 
 .repo-page-github {
-    padding: spacing.$spacing-01;
-
     @import "Paginator.module";
     @import "Table.module";
 }

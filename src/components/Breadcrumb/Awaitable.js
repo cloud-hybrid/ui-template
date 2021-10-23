@@ -10,13 +10,13 @@ import {
     Placeholder
 } from "./Index";
 
-/*****
+/***
  *
  * @param duration {Number} Number of Milliseconds to Simulate Load
  * @returns {JSX.Element}
  * @constructor
  *
- */
+*/
 
 const Component = ({duration = 1500}) => {
     const Duration = useRef(duration);
@@ -24,25 +24,18 @@ const Component = ({duration = 1500}) => {
     const [awaiting, setAwaiting] = useState(true);
 
     useEffect(() => {
-        const Waiter = new Promise((_) => setTimeout(
+        const Waiter = () => new Promise((_) => setTimeout(
             ($) => setAwaiting(false),
             Duration.current
         ));
 
-        (awaiting !== false) ? Waiter.then(() => Waiter.resolve())
-            : Duration.current = null;
-
-        return async () => {
-            await setAwaiting(false);
-        };
+        Waiter().finally();
     }, [awaiting]);
 
-    return (awaiting === true) ? (
-        (<Placeholder/>)
+    return (awaiting === false) ? (
+        <Breadcrumb/>
     ): (
-        <Suspense fallback={ (<Placeholder/>) }>
-            <Breadcrumb/>
-        </Suspense>
+        <Placeholder/>
     )
 };
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 const Request = require("axios");
 const Adapter = require("axios-cache-adapter");
@@ -88,14 +88,8 @@ class AIO extends Object {
         return Query(URL);
     };
 
-    static Awaitable = (State) => {
+    static Awaitable = () => {
         const Response = AIO.Resolve();
-
-        useEffect(() => {
-            if (Response.loading === false) {
-                State(false);
-            }
-        });
 
         return {
             Response: Response.data,
@@ -107,4 +101,4 @@ class AIO extends Object {
 
 export default AIO;
 
-export const State = ($) => AIO.Awaitable($);
+export const State = AIO.Awaitable;

@@ -38,7 +38,7 @@ import {
     UserData
 } from "@carbon/icons-react/next";
 
-import { Link } from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 import { default as Mode } from "./Mode-Tagger";
 
@@ -63,19 +63,15 @@ const Icons = {
     }
 };
 
-const Component = () => {
+const Component = ({Target}) => {
     const [applicationsIsOpen, setApplicationsIsOpen] = useState(false);
 
-    const [currentPage, setCurrentPage] = useState("/")
+    const Active = (_ = "") => {
+        const $ = "/" + _;
+        const Path = ($ === Target);
+        const Hash = ($ === "#" + Path);
 
-    const checkIsCurrentPage = (comparator = "/") => {
-        const Hash = location.hash.replace("#", "");
-
-        return (comparator === Hash);
-    }
-
-    const handleCurrentPage = (link) => {
-        setCurrentPage(link);
+        return (Path || Hash);
     }
 
     return (
@@ -99,8 +95,6 @@ const Component = () => {
                             prefix="Cloud"
                             onClick={
                                 () => {
-                                    setCurrentPage(null);
-
                                     if (isSideNavExpanded) onClickSideNavExpand();
                                 }
                             }
@@ -109,15 +103,15 @@ const Component = () => {
                         </HeaderName>
                         <HeaderNavigation aria-label="Nexus">
                             {/* ... Current-Page State --> isCurrentPage={location.hash === "#/github"} onClick={() => handleCurrentPage("/github")} */}
-                            <HeaderMenuItem element={ Link } to="/github" isCurrentPage={location.hash === "#/github"} onClick={() => handleCurrentPage("/github")}>
+                            <HeaderMenuItem element={ Link } to={"/github"} isCurrentPage={Active("github")}>
                                 GitHub
                             </HeaderMenuItem>
                             {/* ... Current-Page State --> isCurrentPage={location.hash === "#/gitlab"} onClick={() => handleCurrentPage("/gitlab")} */}
-                            <HeaderMenuItem element={ Link } to="/gitlab">
+                            <HeaderMenuItem element={ Link } to="/gitlab" isCurrentPage={Active("gitlab")}>
                                 GitLab
                             </HeaderMenuItem>
                             {/* ... Current-Page State --> isCurrentPage={location.hash === "#/pipelines"} onClick={() => handleCurrentPage("/pipelines")} */}
-                            <HeaderMenuItem element={ Link } to="/pipelines">
+                            <HeaderMenuItem element={ Link } to="/pipelines" isCurrentPage={Active("pipelines")}>
                                 Pipelines
                             </HeaderMenuItem>
                             <hr width="1px" size="auto" style={{borderStyle: "solid", color: "var(--cds-border-subtle)", marginLeft: "0.5rem", marginRight: "0.5rem"}}/>
