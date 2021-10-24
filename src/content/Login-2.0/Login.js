@@ -17,7 +17,7 @@ const URL = process.env.REACT_APP_API_ENDPOINT;
  *
 */
 
-const Deserialize = URL + "/API/Authentication/Deserialized";
+const Deserialize = URL + "/API/Authentication/Deserializedtest";
 
 /***
  * API Basic Authentication Endpoint + JWT Generator
@@ -97,26 +97,32 @@ const API = Request.create({
  * @param Token {null|{JWT: String, Type: null|String}}
  * @param Handler {CancelTokenSource}
  *
- * @returns {Promise<null|{Loading: boolean, Content: null, Transmission: boolean, Error: boolean}>}
+ * @returns {Promise<{Loading: boolean, Content: null, Error: boolean}>}
  *
  * @constructor
  *
 */
 
 export const Validate = async (Token, Handler) => {
+    let $ = false;
+
     const Validation = {
         Content: null,
         Loading: false,
-        Error: false
+        Error: false,
+        Status: {
+            Code: -1,
+            Message: ""
+        }
     };
 
     try {
         Validation.Loading = true;
 
-        if (Token !== null && Token.Type === "Bearer") {
+        if (Token !== null && Token.Type === "Bearer" && $ === false) {
             const JWT = Token.JWT;
 
-            const Valid = await API.post(Deserialize, {
+            await API.post(Deserialize, {
                 Token
             }, {
                 headers: {
@@ -124,25 +130,52 @@ export const Validate = async (Token, Handler) => {
                 }, cancelToken: Handler.token,
                 responseType: "json"
             }).then(async (Data) => {
-                console.debug("[Debug] JWT Authorization Request", Data);
+                $ = true;
+
+                console.debug("[Debug] JWT Validation Data", Data.data);
+                console.debug("[Debug] JWT Validation Response Headers", Data.headers);
 
                 Validation.Loading = false;
-                Validation.Data = Data;
-                Validation.Error = null;
+                Validation.Error = false;
+                Validation.Data = {
+                    Payload: Data.data,
+                    Headers: Data.headers,
+                    Status: {
+                        Code: Data.status,
+                        Message: Data.statusText
+                    }
+                };
 
-                await Store.setItem(STORE, Data);
-            }).catch((Error) => {
+                Validation.Status.Code = Data.status;
+                Validation.Status.Message = Data.statusText;
+
+                try {
+                    console.trace("[Trace] Validation Object", Validation);
+                    await Store.setItem(STORE, Validation.Data.Payload.JWT);
+                    console.info("[Informational] Successfully Updated JWT Token", Validation.Data.Payload.JWT);
+                } catch (error) {
+                    await Store.clear();
+
+                    console.debug("[Warning] Unsuccessfully Updated JWT Token", error);
+
+                    Validation.Error = error;
+
+                    Handler.cancel(JSON.stringify({Validation, error}, null, 4));
+                }
+            }).catch(async (Error) => {
+                $ = true;
+
                 Validation.Loading = false;
                 Validation.Data = null;
                 Validation.Error = Error;
 
                 console.debug("[Error]", Validation);
 
-                Handler.cancel(JSON.stringify({ ... {Task: "... @Task Login.js"}, ... Validation}, null, 4));
+                console.warn("[Warning] Cleared JWT Token after Unsuccessful Login Establishment");
 
-                (async () => await Store.clear())().then(() => console
-                    .debug("[Informational] Cleared JWT Token")
-                );
+                await Store.clear();
+
+                Handler.cancel(JSON.stringify({Response, Error}, null, 4));
             }).finally(() => Validation.Loading = false);
         }
         else {
@@ -158,7 +191,6 @@ export const Validate = async (Token, Handler) => {
 
     return Validation;
 };
-
 
 /***
  *
@@ -178,7 +210,11 @@ export const Authenticate = async (Payload, Handler) => {
     const Response = {
         Data: null,
         Loading: false,
-        Error: false
+        Error: false,
+        Status: {
+            Code: -1,
+            Message: ""
+        }
     };
 
     if (Payload.Username === null || Payload.Password === null) {
@@ -193,7 +229,7 @@ export const Authenticate = async (Payload, Handler) => {
         (Debug) ? console.log("[Trace]", Payload) : console.debug("[Trace] Submitting Authentication Payload ...");
 
         if ($ === false)
-            Response.Request = await API.post(Authorizer, {
+            await API.post(Authorizer, {
                 Grant: "Password",
                 Username: Payload.Username,
                 Password: Payload.Password
@@ -201,26 +237,50 @@ export const Authenticate = async (Payload, Handler) => {
                 cancelToken: Handler.token,
                 responseType: "json"
             }).then(async (Data) => {
-                console.debug("[Debug] Authentication Authorization Request", Data);
-
-                Response.Loading = false;
-                Response.Data = Data;
-                Response.Error = null;
-
-                await Store.setItem(STORE, Data.data);
-            }).catch((Error) => {
-                Response.Loading = false;
-                Response.Data = null;
-                Response.Error = Error;
-
-                console.debug("[Error]", Response);
-
-                (async () => await Store.clear())
-                    ().then(
-                        () => console.debug("[Informational] Cleared JWT Token")
-                );
-
                 $ = true;
+
+                console.debug("[Debug] JWT Authorization Data", Data.data);
+                console.debug("[Debug] JWT Authorization Response Headers", Data.headers);
+
+                Response.Loading = false;
+                Response.Error = false;
+                Response.Data = {
+                    Payload: Data.data,
+                    Headers: Data.headers,
+                    Status: {
+                        Code: Data.status,
+                        Message: Data.statusText
+                    }
+                };
+
+                Response.Status.Code = Data.status;
+                Response.Status.Message = Data.statusText;
+
+                try {
+                    console.trace("[Trace] Authentication Object", Response);
+                    await Store.setItem(STORE, Response.Data.Payload.JWT);
+                    console.info("[Informational] Successfully Established JWT Token", Response.Data.Payload.JWT);
+                } catch(error) {
+                    await Store.clear();
+                    console.debug("[Warning] Unsuccessfully Established JWT Token", error);
+                    Response.Error = error;
+                    Handler.cancel(JSON.stringify({Response, error}, null, 4));
+                }
+            }).catch(async (Error) => {
+                $ = true;
+
+                Response.Loading = false;
+                Response.Error = Error;
+                Response.Data = null;
+
+                Response.Status.Code = 401;
+                Response.Status.Message = Error;
+
+                console.warn("[Warning] Cleared JWT Token after Unsuccessful Login Establishment");
+
+                await Store.clear();
+
+                Handler.cancel(JSON.stringify(Error, null, 4));
             }).finally(() => Response.Loading = false);
         else {
             $ = true
@@ -242,7 +302,7 @@ export const Authenticate = async (Payload, Handler) => {
  *
  * @param Handler {CancelTokenSource}
  *
- * @returns {Promise<{Loading: boolean, Content: null, Transmission: boolean, Error: boolean}|null>}
+ * @returns {Promise<{Loading: boolean, Content: null, Error: boolean}>}
  *
  * @constructor
  *

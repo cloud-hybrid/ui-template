@@ -51,8 +51,6 @@ import * as Authentication from "./components/Authenticate";
 
 /***
  *
- * @param Theme: {React.Context}
- *
  * @param theme: {String("g100" | "g90" | "g10" | "white")}
  *
  */
@@ -65,6 +63,23 @@ export const useTheme = (theme = "g100") => {
     return Theme;
 };
 
+const Direct = ({Target}) => {
+    return (
+        <Redirect to={{
+            pathname: "/login",
+            state: {
+                to: Target,
+                from: Target,
+                pathname: Target
+            }
+        }}/>
+    );
+};
+
+const Path = (Location) => {
+    return (Location?.state?.pathname) ? Location?.state?.pathname : "/";
+};
+
 const Home = Import(() => import("./content/Home/Index").then((Module) => Module));
 const GitHub = Import(() => import("./content/GitHub/Index").then((Module) => Module));
 const GitLab = Import(() => import("./content/GitLab/Index").then((Module) => Module));
@@ -75,14 +90,12 @@ const Application = () => {
     const theme = useTheme();
     const location = useLocation();
 
-    console.debug("[Debug] - Location :::", location);
-
     const Authorization = useState(null);
     const Handler = Authentication.Cancellation.source();
 
     useEffect(() => {
         Authentication.Token(Handler).then((Validation) => {
-            (Validation?.Content?.status === 200) ? Authorization[1](true) : Authorization[1](false);
+            (Validation && Validation.Content) ? Authorization[1](true) : Authorization[1](false);
         });
     }, [Authorization, Handler]);
 
@@ -93,55 +106,67 @@ const Application = () => {
                 <Grid>
                     <Breadcrumbs Title={location.pathname}/>
                     <Column lg={ 16 } md={ 8 } sm={ 4 }>
-                        <Suspense fallback={<Skeleton Loader={true}/>}>
+                        <Suspense fallback={<Skeleton Loader={false}/>}>
                             <Switch>
-                            {/* Base Endpoint(s) */}
+                                {/* Base Endpoint(s) */}
 
-                            <Route exact path={"/"}>
-                                <Home/>
-                            </Route>
+                                <Route exact path={"/"}>
+                                    <Home/>
+                                </Route>
 
-                            <Route path={"/login"} sensitive={false}>
-                                <Login/>
-                            </Route>
+                                <Route path={"/login"} sensitive={false}>
+                                    {
+                                        (Authorization[0] === null)
+                                            ? (<Skeleton Loader={false}/>)
+                                            : (Authorization[0] === false)
+                                                ? (<Login Target={location} Authorizer={Authorization} description={"Registering Authoritative Session ..."}/>)
+                                                : (<Redirect to={Path(location)}/>)
+                                    }
+                                </Route>
 
-                            {/* Development Endpoint(s) */}
+                                {/* Development Endpoint(s) */}
 
-                            <Route path="/template" sensitive={false}>
-                                <Template/>
-                            </Route>
+                                <Route path="/template" sensitive={false}>
+                                    <Template/>
+                                </Route>
 
-                            <Route path="/notifications" sensitive={false}>
-                                <Notifications/>
-                            </Route>
+                                <Route path="/notifications" sensitive={false}>
+                                    <Notifications/>
+                                </Route>
 
-                            {/* Authorization-Only Endpoint(s) */}
+                                {/* Authorization-Only Endpoint(s) */}
 
-                            <Route path={"/gitlab"} sensitive={false}>
-                                {
-                                    (Authorization[0] === null)
-                                        ? (<Skeleton Loader={false}/>)
-                                        : (Authorization[0] === true)
-                                            ? (<GitLab/>)
-                                            : (<Redirect to={"/login"} from={"/gitlab"} push={true}/>)
-                                }
-                            </Route>
-                            <Route path={"/github"} sensitive={false}>
-                                {
-                                    (Authorization[0] === null)
-                                        ? (<Skeleton Loader={false}/>)
-                                        : (Authorization[0] === false)
-                                            ? (<GitHub/>)
-                                            : (<Redirect to={"/login"} />)
-                                }
-                            </Route>
+                                <Route path={"/gitlab"} sensitive={false}>
+                                    {
+                                        (Authorization[0] === null)
+                                            ? (<Skeleton Loader={false}/>)
+                                            : (Authorization[0] === true)
+                                                ? (<GitLab Authorizer={Authorization}/>)
+                                                : (<Direct Target={"/gitlab"}/>)
+                                    }
+                                </Route>
+                                <Route path={"/github"} sensitive={false}>
+                                    {
+                                        (Authorization[0] === null)
+                                            ? (<Skeleton Loader={false}/>)
+                                            : (Authorization[0] === true)
+                                                ? (<GitHub Authorizer={Authorization}/>)
+                                                : (<Direct Target={"/github"}/>)
+                                    }
+                                </Route>
 
-                            <Route path={"/pipelines"} sensitive={false}>
-                                <Pipelines/>
-                            </Route>
+                                <Route path={"/pipelines"} sensitive={false}>
+                                    {
+                                        (Authorization[0] === null)
+                                            ? (<Skeleton Loader={false}/>)
+                                            : (Authorization[0] === true)
+                                                ? (<Pipelines description={"Loading Available Pipelines ..."}/>)
+                                                : (<Direct Target={"/pipelines"}/>)
+                                    }
+                                </Route>
 
-                            <Redirect from={"*"} to={"/"}/>
-                        </Switch>
+                                <Redirect from={"*"} to={"/"}/>
+                            </Switch>
                         </Suspense>
                     </Column>
                 </Grid>

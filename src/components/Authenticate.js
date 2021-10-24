@@ -295,7 +295,7 @@ export const Store = Forage.createInstance({
 });
 
 const Cache = Adapter.setupCache({
-    debug: (process.env.NODE_ENV !== "production"),
+    debug: false, /// (process.env.NODE_ENV !== "production"),
     clearOnStale: true,
     ignoreCache: false,
     limit: false,
@@ -312,6 +312,7 @@ const API = Request.create({
 });
 
 const Validate = async (Token, Handler) => {
+    let $ = false;
     const Validation = {
         Content: null,
         Loading: false,
@@ -322,46 +323,147 @@ const Validate = async (Token, Handler) => {
     try {
         Validation.Loading = true;
 
-        if (Token !== null && Token.Type === "Bearer") {
-            const JWT = Token.JWT;
+        if ($ === false) {
+            if (Token !== null && Token.Type === "Bearer") {
+                const JWT = Token.JWT;
 
-            if (Validation.Transmission === false)
-                Validation.Request = await API.post(Deserialize, {
-                    Token
-                }, {
-                    headers: {
-                        "Authorization": JWT
-                    }, cancelToken: Handler.token,
-                    responseType: "json"
-                }).then((Data) => {
-                    console.debug("[Debug] JWT Authorization Request", Data);
+                if (Validation.Transmission === false)
+                    Validation.Request = await API.post(Deserialize, {
+                        Token
+                    }, {
+                        headers: {
+                            "Authorization": JWT
+                        }, cancelToken: Handler.token,
+                        responseType: "json",
+                        method: "post"
+                    }).then((Response) => {
+                        $ = true;
 
-                    Validation.Transmission = true;
-                    Validation.Content = Data;
-                    Validation.Error = null;
-                }).catch((Error) => {
-                    Validation.Transmission = true;
-                    Validation.Content = false;
-                    Validation.Error = Error;
+                        Validation.Transmission = true;
+                        Validation.Content = Response.data;
+                        Validation.Error = null;
+                    }).catch(async (error) => {
+                        $ = true;
 
-                    console.debug("[Error]", Validation);
+                        Validation.Transmission = true;
+                        Validation.Content = false;
+                        Validation.Error = error;
 
-                    (async () => await Store.clear())().then(() => console
-                        .debug("[Informational] Cleared JWT Token")
-                    );
-                }).finally(() => Validation.Loading = false);
+                        console.error("[Error]", error, Validation);
+
+                        await Store.clear();
+
+                        Handler.cancel(JSON.stringify({Response, Error}, null, 4));
+                    }).finally(() => Validation.Loading = false);
+            }
+        } else {
+            $ = true
+
+            Validation.Loading = false;
+
+            console.debug("[Debug] JWT Validation {ELSE} Request", Validation);
+
+            Handler.cancel("[Debug] JWT Validation {ELSE} Request", Validation);
         }
     } catch (Error) {
+        $ = true;
+
         console.debug("[Warning] JWT Validation", Error);
+
+        Handler.cancel(JSON.stringify({Response, Error}, null, 4));
     }
 
-    switch (Validation.Loading) {
-        case false:
-            return Validation;
-        default:
-            return null;
-    }
+    return Validation;
 };
+
+/***
+ *
+ * Authentication Entry Point
+ *
+ * @param Payload {{Username: null|String, Password: null|String}}
+ * @param Handler {CancelTokenSource}
+ *
+ * @returns {Promise<null|{Loading: boolean, Data: AxiosResponse, Error: boolean}>}
+ *
+ * @constructor
+ *
+*/
+
+export const Authenticate = async (Payload, Handler, Authorization) => {
+    let $ = false;
+    const Response = {
+        Data: null,
+        Loading: false,
+        Error: false
+    };
+
+    if (Payload.Username === null || Payload.Password === null) {
+        console.warn("[Warning] Authentication Payload Username || Password :== null");
+
+        return null;
+    }
+
+    try {
+        Response.Loading = true;
+
+        console.log("[Trace]", Payload);
+
+        if ($ === false)
+            Response.Request = await API.post(Authorizer, {
+                Grant: "Password",
+                Username: Payload.Username,
+                Password: Payload.Password
+            }, {
+                cancelToken: Handler.token,
+                responseType: "json"
+            }).then(async (Data) => {
+                console.debug("[Debug] Authentication Authorization Request", Data);
+
+                Response.Loading = false;
+                Response.Data = Data;
+                Response.Error = null;
+
+                await Store.setItem(STORE, Data.data);
+
+                Authorization[1](true);
+            }).catch(async (Error) => {
+                Response.Loading = false;
+                Response.Data = null;
+                Response.Error = Error;
+
+                console.debug("[Error]", Response);
+
+                await Store.clear();
+
+                console.debug("[Warning] Cleared JWT Token");
+
+                $ = true;
+            }).finally(() => Response.Loading = false);
+        else {
+            $ = true
+
+            Response.Loading = false;
+        }
+    } catch (Error) {
+        $ = true;
+
+        console.debug("[Warning] JWT Validation", Error);
+
+        Handler.cancel(JSON.stringify({Response, Error}, null, 4));
+    }
+
+    return Response;
+};
+
+/***
+ *
+ * @param Handler
+ *
+ * @returns {Promise<{Loading: boolean, Content: null, Transmission: boolean, Error: boolean}|null>}
+ *
+ * @constructor
+ *
+*/
 
 export const Token = async (Handler) => {
     const Schema = await Store.getItem(STORE);

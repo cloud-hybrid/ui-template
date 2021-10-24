@@ -7,11 +7,12 @@ const Mode = () => {
 
     return (display === true)
         ? (
-            <div className={ Tagger["mode-tag"] }>
+            <div className={ Tagger.modeTag }>
                 <span>
-                    { (process.env.NODE_ENV === "development")
-                        ? (<Tag>Development</Tag>)
-                        : (<Tag>Staging</Tag>)
+                    {
+                        (process.env.NODE_ENV === "development")
+                            ? (<Tag>Development</Tag>)
+                            : (<Tag>Staging</Tag>)
                     }
                 </span>
             </div>

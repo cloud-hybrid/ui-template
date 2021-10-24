@@ -4,7 +4,7 @@ import * as API from "./Login";
 
 import {Loading} from "@carbon/react";
 
-import {Redirect, useLocation} from "react-router-dom";
+import {Redirect, useLocation, useHistory} from "react-router-dom";
 
 /***
  *
@@ -22,10 +22,12 @@ import {Redirect, useLocation} from "react-router-dom";
  *
  */
 
-const Component = ({Fields, Waiter}) => {
+const Component = ({Fields, Waiter, Target, Authorizer}) => {
     const location = useLocation();
 
     const { from } = location.state || { from: { pathname: "/" } };
+
+    const history = useHistory();
 
     useEffect(() => {
         const Handler = async () => {
@@ -43,14 +45,20 @@ const Component = ({Fields, Waiter}) => {
             return Response;
         }
 
-        Handler().finally(() => {
+        Handler().then((Response) => {
+            console.debug("[Debug]", Response);
+        }).finally(() => {
+            Authorizer[1](true);
+
             console.debug("Proceeding with Authentication ...");
 
             Waiter[1](false);
 
-            setTimeout(() => window.location.href = from.pathname);
+            console.debug("[Debug] - Page Redirect Event", JSON.stringify(Response));
+
+            history.push(Target);
         });
-    }, [Fields.Password, Fields.Username, Waiter]);
+    }, [Fields.Password, Fields.Username, Waiter, Target]);
 
     return (
         <Loading

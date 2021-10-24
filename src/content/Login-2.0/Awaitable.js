@@ -3,20 +3,19 @@ import { default as Types } from "prop-types";
 import * as Styles from "./SCSS/Index.module.scss";
 
 import React, {
-    useState,
-    useEffect
+    useState
 } from "react";
 
 import {
     Button,
     Form,
-    Grid,
-    TextInput,
-    Loading
+    TextInput
 } from "@carbon/react";
 
-import { default as Authenticator } from "./Authenticator";
-import {useHistory, useLocation} from "react-router-dom";
+import { Inline, Toast, Actionable } from "./../../components/Notifications/Authentication/Informational";
+
+import {useHistory} from "react-router-dom";
+import * as API from "./Login";
 
 const Debug = process.env.NODE_ENV !== "production";
 
@@ -82,7 +81,9 @@ const Properties = {
     }
 };
 
-const Component = () => {
+const Component = ({Target, Authorizer}) => {
+    const history = useHistory();
+
     const Data = useState(null);
 
     const [passwordValidation, setPasswordValidation] = useState(null);
@@ -98,173 +99,6 @@ const Component = () => {
     const [password, setPassword] = useState("");
 
     const [awaiting, setAwaiting] = useState(false);
-    //
-    // const Expression = {
-    //     Password: /.*/, // Password: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/,
-    //     Username: /.*/  // Username: /^[a-zA-Z0-9](_(?!(\.|_))|\.(?!(_|\.))|[a-zA-Z0-9]){4,32}[a-zA-Z0-9]$/
-    // };
-    //
-    const Username = () => {
-        const Element = document.getElementById(Properties.Username.ID);
-        const Validation = true;
-
-        // (Debug) ? console.debug("[Debug]", "Username Client-Side Validation", Validation, Element.value)
-        //     : console.debug("[Debug]", "Username Client-Side Validation", Validation);
-
-        /// setUsernameValidation(Validation);
-
-        return Validation;
-
-        // (Element.value !== null) ? setUsernameValidation(true)
-        //     : setUsernameValidation(null);
-
-        // setUsernameValidation(Element.value !== null);
-    };
-    //
-    const Password = () => {
-        const Element = document.getElementById(Properties.Password.ID);
-        const Validation = (Element && Element.value !== "");
-
-        // (Debug) ? console.debug("[Debug]", "Password Client-Side Validation", Validation, Element.value)
-        //     : console.debug("[Debug]", "Password Client-Side Validation", Validation);
-
-        return Validation;
-    };
-    //
-    // const Fields = () => {
-    //     setFormValidation(
-    //         usernameValidation === true && passwordValidation === true
-    //     );
-    // };
-    //
-    // const Validations = (attribute) => {
-    //     const Default = () => (
-    //         usernameValidation === true
-    //         && passwordValidation === true
-    //     );
-    //
-    //     switch (attribute) {
-    //         case "Username": {
-    //             Username(true);
-    //             // break;
-    //         }
-    //         case "Password": {
-    //             Password(true);
-    //             // break;
-    //         }
-    //         case "Fields": {
-    //             Default();
-    //         }
-    //         default:
-    //             Fields();
-    //
-    //             break;
-    //     }
-    // };
-    //
-    // const Invalidate = () => {
-    //     setUsernameValidation(false);
-    //     setPasswordValidation(false);
-    //     setFormValidation(false);
-    // };
-    //
-    // const Reject = (event) => {
-    //     console.debug("[Debug]", "Invalid Form Rejection Event", event);
-    //     document.getElementById(Properties.Password.ID).value = "";
-    // };
-    //
-    // const Approve = (event) => {
-    //     console.debug("[Debug]", "Valid Form Succession Event", event);
-    //     setAwaiting(true);
-    // };
-
-    const Events = useState({
-        Username: null,
-        Password: {
-            Valid: null,
-            Value: "",
-            Error: null
-        }
-    });
-
-    // /***
-    //  *
-    //  * Username & Password Form Field IDs
-    //  *
-    //  * @param Fields {{ Username: String, Password: String }}
-    //  *
-    //  * @returns {JSX.Element}
-    //  *
-    //  * @constructor
-    //  *
-    // */
-    //
-    // const Authenticator = ({ Fields }) => {
-    //     const Data = useState(null);
-    //
-    //     const [awaiting, setAwaiting] = useState(true);
-    //
-    //     useEffect(() => {
-    //         const Handler = async () => {
-    //             const Transmission = Query.Cancellation();
-    //
-    //             const Response = await Query.Authenticate(
-    //                 {
-    //                     Username: document.getElementById(Fields.Username).value,
-    //                     Password: document.getElementById(Fields.Password).value
-    //                 },
-    //                 Transmission
-    //             );
-    //
-    //             if (Response.Error) setAwaiting(false);
-    //
-    //             switch (Response.Loading) {
-    //                 case true:
-    //                     setAwaiting(true);
-    //                     break;
-    //                 case false:
-    //                     setAwaiting(false);
-    //                     break;
-    //                 default:
-    //                     setAwaiting(null);
-    //                     break;
-    //             }
-    //
-    //             return Response;
-    //         }
-    //
-    //         Handler().then($ => console.debug("[Debug]", "Handler Event", $));
-    //     }, []);
-    //
-    //     return (
-    //         <Loading
-    //             withOverlay={true}
-    //             small={false}
-    //             active={awaiting}
-    //             description={"Authenticating ..."}
-    //         />
-    //     );
-    // }
-
-    const Debounce = (_, $) => {
-        setTimeout(_, $);
-    }
-
-    const Notification = () => {
-        console.debug("[Debug]", Data[0]);
-
-        if (Data[0].status === 200) {
-            console.log("@Task: Implement Successful Notification");
-        } else if (Data[0].status > 200 && Data[0] < 300) {
-            console.info("@Task: Implement Informational Notification");
-        } else if (Data[0].status >= 300 && Data[0].status < 500) {
-            console.error("@Task: Implement Error Notification");
-        } else if (Data[0].status >= 500) {
-            console.error("@Task: Implement Internal Server Error Notification");
-        } else {
-            console.error("@Task: Implement Unknown Notification");
-        }
-    }
 
     const Awaitable = () => {
         return (
@@ -273,10 +107,12 @@ const Component = () => {
                 className={ Styles.form }
                 onSubmit={
                     (event) => {
-                        const Values = Object.values(event.target.parentNode).slice(0, 2);
+                        event.preventDefault();
 
-                        const Username = Values[0].value;
-                        const Password = Values[1].value;
+                        const Username = document.getElementById("username-field").value;
+                        const Password = document.getElementById("password-field").value
+
+                        console.debug(Username, Password);
 
                         (Username === "") ? setUsernameInvalid(true) : setUsernameInvalid(false);
                         (Password === "") ? setPasswordInvalid(true) : setPasswordInvalid(false);
@@ -284,11 +120,60 @@ const Component = () => {
                         setUsernameValidation(!usernameInvalid);
                         setPasswordValidation(!passwordInvalid);
 
-                        if (usernameValidation === true && passwordValidation === true) {
-                            setAwaiting(true);
-                        } else {
-                            setAwaiting(null);
+                        /***
+                         *
+                         * @returns {Promise<{Loading: boolean, Data: null, Error: boolean, Status: {Code: Number, Message: String}}|null>}
+                         * @constructor
+                         */
+                        const Handler = async () => {
+                            const Transmission = API.Cancellation();
+
+                            const Response = await API.Authenticate(
+                                {
+                                    Username, Password
+                                }, Transmission
+                            );
+
+                            if (Response?.Error) setAwaiting(false);
+
+                            return Response;
                         }
+
+                        Handler().then((Response) => {
+                            console.debug("[Debug] Validating Authentication Attempt ...");
+
+                            if (Response.Status.Code === -1) {
+                                console.log("@Task: Implement Race-Condition Notification");
+                            }
+                            else if (Response.Status.Code === 200) {
+                                console.log("@Task: Implement Successful Notification");
+                            } else if (Response.Status.Code >= 300 && Response.Status.Code < 500) {
+                                console.error("@Task: Implement Error Notification");
+                            } else if (Response.Status.Code >= 500) {
+                                console.error("@Task: Implement Internal Server Error Notification");
+                            } else {
+                                console.error("@Task: Implement Unknown Notification");
+                            }
+
+                            if (Response?.Error) {
+                                console.warn("[Error]", Response?.Error);
+
+                                setUsernameInvalid(true);
+                                setPasswordInvalid(true);
+                            } else {
+                                console.info("[Informational] Successfully Validated. Proceeding with Authentication ...");
+
+                                setTimeout(() => Authorizer[1](true), 5500);
+
+                                console.debug("[Debug] Terminating Waiter(s) ...");
+
+                                setAwaiting(false);
+
+                                console.info("[Informational] Creating Success Notification ...");
+
+
+                            }
+                        });
                     }
                 }
             >
@@ -302,18 +187,6 @@ const Component = () => {
                     invalidText={(usernameInvalid === true) ? "Username Login Field" : ""}
                     labelText={ "Username" }
                     hideLabel={ false }
-                    autoComplete={"current-username"}
-                    // onChange={
-                    //     (event) => {
-                    //         // event.preventDefault();
-                    //
-                    //         Username();
-                    //     }
-                    // }
-                    // onChange={
-                    //     (event) => Debounce(() => Username(), 2500)
-                    // }
-                    // onChange={Debounce(() => Username(), 1000)}
                     autoComplete={ "username" }
                     light={ false }
                 />
@@ -326,27 +199,20 @@ const Component = () => {
                     invalidText={(passwordInvalid === true) ? "Password Login Field" : ""}
                     labelText={ "Password" }
                     hideLabel={ false }
-                    autoComplete={"current-password"}
+                    autoComplete={"password"}
                 />
                 <Button
                     id={ "submit-button" }
                     className={ Styles.button }
                     kind={ Properties.Button.Kind }
                     tabIndex={ Properties.Button.Index }
-                    disabled={(usernameValidation === true && passwordValidation !== true) ? true : false}
+                    disabled={(usernameValidation === true && passwordValidation !== true)}
                     type={ Properties.Button.Type }
                     tooltipAlignment={ "center" }
                     tooltipPosition={ "right" }
                     children={ "Submit" }
                 />
-                { (awaiting) ? (
-                    <Authenticator Fields={
-                        {
-                            Username: document.getElementById("username-field").value,
-                            Password: document.getElementById("password-field").value
-                        }
-                    } Waiter={[awaiting, setAwaiting]}/>
-                ): (<React.Fragment/>) }
+                <Actionable title={"Test Title"}/>
             </Form>
         );
     };
