@@ -4,11 +4,7 @@ import * as Worker from "./Worker";
 
 import "./index.scss";
 
-import React, {
-    Profiler,
-    Suspense,
-    lazy as Import
-} from "react";
+import React from "react";
 
 import ReactDOM from "react-dom";
 
@@ -18,7 +14,7 @@ import { default as Application } from "./Application";
 
 const DOM = () => (
     <React.StrictMode>
-        <Navigator forceRefresh={true}>
+        <Navigator>
             <Router>
                 <Application/>
             </Router>

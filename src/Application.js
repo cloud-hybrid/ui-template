@@ -100,21 +100,29 @@ const Application = () => {
     useEffect(() => {
         const Handler = Authentication.Cancellation.source();
 
-        Authentication.Token(Handler).then((Response) => {
-            if (Response && Response?.Data && Response?.Status?.Code === 200) {
-                console.debug("[Debug]", "Authentication Validation", Response);
-                Authorization[1](true);
-            } else {
-                console.warn("[Warning]", "Authentication Validation", Response);
+        const Response = async () => {
+            const $ = await Authentication.Token(Handler);
 
-                Authorization[1](false);
-            }
-        });
+            console.debug("Authentication Response", $);
+
+            ($.Status.Code === 200) ? Authorization[1](true)
+                : Authorization[1](false);
+        }
+            //.then((Response) => {
+            //if (Response && Response?.Data && Response?.Status?.Code === 200) {
+            //    console.debug("[Debug]", "Authentication Validation", Response);
+            //    Authorization[1](true);
+            //} else {
+            //    Authorization[1](false);
+            //}
+        // });
+
+        Response().finally();
     }, [Authorization]);
 
     const Component = () => (
         <Theme theme={ theme.theme }>
-            <Menu Target={location.pathname}/>
+            <Menu Target={location.pathname} Authorizer={Authorization}/>
             <Content children={(
                 <Grid>
                     <Breadcrumbs Title={location.pathname}/>

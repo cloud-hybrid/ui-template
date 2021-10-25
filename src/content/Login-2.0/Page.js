@@ -1,11 +1,11 @@
 import React, { lazy as Import, Suspense } from "react";
 
-const Page = ({Target, Authorizer}) => {
+const Page = ({Authorizer}) => {
     const Awaitable = Import(() => import("./Awaitable.js").then((Module) => Module));
 
     return (
         <Suspense fallback={<></>}>
-            <Awaitable Target={Target} Authorizer={Authorizer}/>
+            <Awaitable Authorizer={Authorizer}/>
         </Suspense>
     );
 };

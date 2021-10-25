@@ -2,7 +2,7 @@
 
 import "./SCSS/Index.scss";
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 
 import {
     Header,
@@ -63,7 +63,7 @@ const Icons = {
     }
 };
 
-const Component = ({Target}) => {
+const Component = ({Target, Authorizer}) => {
     const [applicationsIsOpen, setApplicationsIsOpen] = useState(false);
 
     const Active = (_ = "") => {
@@ -126,86 +126,170 @@ const Component = ({Target}) => {
                             <hr width="1px" size="auto" style={{borderStyle: "solid", color: "var(--cds-border-subtle)", marginLeft: "0.5rem", marginRight: "0.5rem"}}/>
                         </HeaderNavigation>
                         <Mode/>
-                        <SideNav
-                            aria-label="Side Navigation"
-                            expanded={ isSideNavExpanded }
-                            isPersistent={ false }
-                            children={ (
-                                <SideNavItems>
-                                    <SideNavLink
-                                        renderIcon={ Icons.Development } href="/#/gitlab"
-                                        onClick={
-                                            () => {
-                                                onClickSideNavExpand();
-                                            }
-                                        }
-                                        async={ true }
-                                    >
-                                        GitLab
-                                    </SideNavLink>
-                                    <SideNavLink
-                                        renderIcon={ Icons.Dashboard } href="/#/github"
-                                        onClick={
-                                            () => {
-                                                onClickSideNavExpand();
-                                            }
-                                        }
-                                        async={ true }
-                                    >
-                                        GitHub
-                                    </SideNavLink>
-                                    <SideNavLink
-                                        renderIcon={ Icons.Code } href="/#/pipelines"
-                                        onClick={
-                                            () => {
-                                                onClickSideNavExpand();
-                                            }
-                                        }
-                                        async={ true }
-                                    >
-                                        GitLab
-                                    </SideNavLink>
-                                    <SideNavMenu
-                                        renderIcon={ Icons.Debug }
-                                        title="Development"
-                                    >
-                                        <SideNavMenuItem
-                                            href="/#/servers" resource={ "servers" }
+                        {
+                            (Authorizer[0] === true) ? (
+                                <SideNav
+                                    aria-label="Side Navigation"
+                                    expanded={isSideNavExpanded}
+                                    isPersistent={false}
+                                >
+                                    <SideNavItems>
+                                        <SideNavLink
+                                            renderIcon={Icons.Development} href="/#/gitlab"
                                             onClick={
                                                 () => {
                                                     onClickSideNavExpand();
                                                 }
                                             }
-                                            async={ true }
+                                            async={true}
                                         >
-                                            Item-1
-                                        </SideNavMenuItem>
-                                        <SideNavMenuItem
-                                            href="/#/servers" resource={ "servers" }
+                                            GitLab
+                                        </SideNavLink>
+                                        <SideNavLink
+                                            renderIcon={Icons.Dashboard} href="/#/github"
                                             onClick={
                                                 () => {
                                                     onClickSideNavExpand();
                                                 }
                                             }
-                                            async={ true }
+                                            async={true}
                                         >
-                                            Item-2
-                                        </SideNavMenuItem>
-                                        <SideNavMenuItem
-                                            href="/#/servers" resource={ "servers" }
+                                            GitHub
+                                        </SideNavLink>
+                                        <SideNavLink
+                                            renderIcon={Icons.Code} href="/#/pipelines"
                                             onClick={
                                                 () => {
                                                     onClickSideNavExpand();
                                                 }
                                             }
-                                            async={ true }
+                                            async={true}
                                         >
-                                            Item-3
-                                        </SideNavMenuItem>
-                                    </SideNavMenu>
-                                </SideNavItems>
-                            ) }
-                        />
+                                            GitLab
+                                        </SideNavLink>
+                                        <SideNavMenu
+                                            renderIcon={Icons.Debug}
+                                            title="Development"
+                                        >
+                                            <SideNavMenuItem
+                                                href="/#/servers" resource={"servers"}
+                                                onClick={
+                                                    () => {
+                                                        onClickSideNavExpand();
+                                                    }
+                                                }
+                                                async={true}
+                                            >
+                                                Item-1
+                                            </SideNavMenuItem>
+                                            <SideNavMenuItem
+                                                href="/#/servers" resource={"servers"}
+                                                onClick={
+                                                    () => {
+                                                        onClickSideNavExpand();
+                                                    }
+                                                }
+                                                async={true}
+                                            >
+                                                Item-2
+                                            </SideNavMenuItem>
+                                            <SideNavMenuItem
+                                                href="/#/servers" resource={"servers"}
+                                                onClick={
+                                                    () => {
+                                                        onClickSideNavExpand();
+                                                    }
+                                                }
+                                                async={true}
+                                            >
+                                                Item-3
+                                            </SideNavMenuItem>
+                                        </SideNavMenu>
+                                    </SideNavItems>
+                                </SideNav>
+                            ) : (
+                                <></>
+                            )
+                        }
+                        {/*<SideNav*/}
+                        {/*    aria-label="Side Navigation"*/}
+                        {/*    expanded={ isSideNavExpanded }*/}
+                        {/*    isPersistent={ false }*/}
+                        {/*>*/}
+                        {/*    <SideNavItems>*/}
+                        {/*        <SideNavLink*/}
+                        {/*            renderIcon={ Icons.Development } href="/#/gitlab"*/}
+                        {/*            onClick={*/}
+                        {/*                () => {*/}
+                        {/*                    onClickSideNavExpand();*/}
+                        {/*                }*/}
+                        {/*            }*/}
+                        {/*            async={ true }*/}
+                        {/*        >*/}
+                        {/*            GitLab*/}
+                        {/*        </SideNavLink>*/}
+                        {/*        <SideNavLink*/}
+                        {/*            renderIcon={ Icons.Dashboard } href="/#/github"*/}
+                        {/*            onClick={*/}
+                        {/*                () => {*/}
+                        {/*                    onClickSideNavExpand();*/}
+                        {/*                }*/}
+                        {/*            }*/}
+                        {/*            async={ true }*/}
+                        {/*        >*/}
+                        {/*            GitHub*/}
+                        {/*        </SideNavLink>*/}
+                        {/*        <SideNavLink*/}
+                        {/*            renderIcon={ Icons.Code } href="/#/pipelines"*/}
+                        {/*            onClick={*/}
+                        {/*                () => {*/}
+                        {/*                    onClickSideNavExpand();*/}
+                        {/*                }*/}
+                        {/*            }*/}
+                        {/*            async={ true }*/}
+                        {/*        >*/}
+                        {/*            GitLab*/}
+                        {/*        </SideNavLink>*/}
+                        {/*        <SideNavMenu*/}
+                        {/*            renderIcon={ Icons.Debug }*/}
+                        {/*            title="Development"*/}
+                        {/*        >*/}
+                        {/*            <SideNavMenuItem*/}
+                        {/*                href="/#/servers" resource={ "servers" }*/}
+                        {/*                onClick={*/}
+                        {/*                    () => {*/}
+                        {/*                        onClickSideNavExpand();*/}
+                        {/*                    }*/}
+                        {/*                }*/}
+                        {/*                async={ true }*/}
+                        {/*            >*/}
+                        {/*                Item-1*/}
+                        {/*            </SideNavMenuItem>*/}
+                        {/*            <SideNavMenuItem*/}
+                        {/*                href="/#/servers" resource={ "servers" }*/}
+                        {/*                onClick={*/}
+                        {/*                    () => {*/}
+                        {/*                        onClickSideNavExpand();*/}
+                        {/*                    }*/}
+                        {/*                }*/}
+                        {/*                async={ true }*/}
+                        {/*            >*/}
+                        {/*                Item-2*/}
+                        {/*            </SideNavMenuItem>*/}
+                        {/*            <SideNavMenuItem*/}
+                        {/*                href="/#/servers" resource={ "servers" }*/}
+                        {/*                onClick={*/}
+                        {/*                    () => {*/}
+                        {/*                        onClickSideNavExpand();*/}
+                        {/*                    }*/}
+                        {/*                }*/}
+                        {/*                async={ true }*/}
+                        {/*            >*/}
+                        {/*                Item-3*/}
+                        {/*            </SideNavMenuItem>*/}
+                        {/*        </SideNavMenu>*/}
+                        {/*    </SideNavItems>*/}
+                        {/*</SideNav>*/}
                         <HeaderGlobalBar>
                             <HeaderGlobalAction
                                 aria-label="Notifications"

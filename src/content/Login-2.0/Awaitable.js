@@ -2,27 +2,15 @@ import * as Styles from "./SCSS/Index.module.scss";
 
 import React, {useEffect, useState} from "react";
 
-import {Button, Form, FormGroup, TextInput} from "@carbon/react";
+import {useHistory} from "react-router-dom";
 
-import {Toast} from "./../../components/Notifications/Authentication/Informational";
+import {Button, Form, FormGroup, InlineLoading, TextInput} from "@carbon/react";
 
 import {default as Types} from "./../../components/Types";
 
 import * as API from "./Login";
 
-const Container = ({children}) => {
-    const $ = children;
-
-    return (
-        <div className={Styles.container}>
-            {
-                $
-            }
-        </div>
-    );
-}
-
-const Component = ({Target, Authorizer}) => {
+const Component = ({Authorizer}) => {
     const [awaiting, setAwaiting] = useState(false);
 
     const [validUsername, setValidUsername] = useState(true);
@@ -57,41 +45,60 @@ const Component = ({Target, Authorizer}) => {
 
     useEffect(() => {
         const addEventListeners = () => {
-            document.getElementById("username-field")?.addEventListener(("keypress"), (event) => {
+            const Username = document.getElementById("username-field");
+            const Password = document.getElementById("password-field");
+            const Form = document.getElementById("login-form");
+
+            Username.autofocus = true;
+
+            Username.focus();
+            Username.select();
+            Username.click();
+
+            document.getElementById("username-field")?.addEventListener("keydown", (event) => {
                 if (event.key === "Enter") {
+                    Username.toggleAttribute("readonly", true);
+                    Password.toggleAttribute("readonly", true);
+
+                    Username.contentEditable = "false";
+                    Password.contentEditable = "false";
+
                     console.debug("[Debug]", "Username", "Return Key Event");
-                    document.getElementById("login-form")?.submit();
-                    document.getElementById("username-field").focus();
-                }
 
-                document.getElementById("username-field").focus();
+                    Username.focus();
+                    Username.select();
+                    Username.click();
+
+                    Form.submit();
+                }
             });
 
-            document.getElementById("password-field")?.addEventListener(("keypress"), (event) => {
+            document.getElementById("password-field")?.addEventListener("keydown", (event) => {
                 if (event.key === "Enter") {
+                    Username.toggleAttribute("readonly", true);
+                    Password.toggleAttribute("readonly", true);
+
+                    Username.contentEditable = "false";
+                    Password.contentEditable = "false";;
+
                     console.debug("[Debug]", "Password", "Return Key Event");
-                    document.getElementById("login-form")?.submit();
-                    document.getElementById("password-field").focus();
+
+                    Username.focus();
+                    Username.select();
+                    Username.click();
+
+                    Form.submit();
                 }
 
-                document.getElementById("password-field").focus();
             });
 
-            console.debug("[Debug]", "Return", "Successfully Added Key-Press Listeners");
+            console.debug("[Debug]", "Event Listeners", "Successfully Loaded Page Listeners");
         }
 
-
         addEventListeners();
-
-        document.getElementById("username-field").focus();
-        document.getElementById("username-field").select();
-        document.getElementById("username-field").click();
-
     }, []);
 
     const handleChanges = (event, Data, Input) => {
-        event.preventDefault();
-
         const $ = validation;
 
         const Field = document.getElementById(Input).value;
@@ -115,8 +122,6 @@ const Component = ({Target, Authorizer}) => {
             Submit.setAttribute("disabled", "true");
             Submit.classList.toggle("cds--btn--disabled", true);
         }
-
-
     };
 
     const Awaitable = () => {
@@ -124,11 +129,8 @@ const Component = ({Target, Authorizer}) => {
             <Form
                 id={"login-form"}
                 className={ Styles.form }
-                onChange={(event) => handleFormChanges(event)}
                 onSubmit={
                     (event) => {
-                        event.preventDefault();
-
                         /// Disable Ability to Modify Field(s) & Style Components
                         const Username = document.getElementById("username-field");
                         const Password = document.getElementById("password-field");
@@ -144,6 +146,8 @@ const Component = ({Target, Authorizer}) => {
                         const User = Username.value;
 
                         const Handler = async () => {
+                            setAwaiting(true)
+
                             const Transmission = API.Cancellation();
 
                             return await API.Authenticate(
@@ -155,21 +159,35 @@ const Component = ({Target, Authorizer}) => {
                         }
 
                         Handler().then((Response) => {
-                            console.debug("[Debug] Validating Authentication Attempt ...");
+                            console.debug("[Debug] Validating Authentication Attempt ...", Response);
 
                             if (Response.Status.Code === -1) {
+                                console.warn(Response);
+
                                 console.warn("@Task: Implement Race-Condition Notification");
+                                /// Authorizer[1](false);
+                                throw new Error(Response?.Error);
                             }
                             else if (Response.Status.Code === 200) {
                                 // console.log("@Task: Implement Successful Notification");
-                                setTimeout(() => Authorizer[1](true), 1250);
+                                Authorizer[1](true);
                             } else if (Response.Status.Code >= 300 && Response.Status.Code < 500) {
                                 // console.error("@Task: Implement Error Notification");
+                                /// Authorizer[1](false);
+                                console.warn(Response);
                                 throw new Error(Response?.Error);
                             } else if (Response.Status.Code >= 500) {
+                                console.warn(Response);
+
                                 console.warn("@Task: Implement Internal Server Error Notification");
+                                /// Authorizer[1](false);
+                                throw new Error(Response?.Error);
                             } else {
+                                console.warn(Response);
+
                                 console.warn("@Task: Implement Unknown Notification");
+                                /// Authorizer[1](false);
+                                throw new Error(Response?.Error);
                             }
                         }).catch((error) => {
                             console.warn("[Warning]", error);
@@ -180,16 +198,21 @@ const Component = ({Target, Authorizer}) => {
                             Username.contentEditable = "true";
                             Password.contentEditable = "true";
 
-                            setValidUsername(false);
-                        }).finally(() => {
-                            document.getElementById("username-field").focus();
-                            document.getElementById("username-field").select();
-                            document.getElementById("username-field").click();
+                            Username.focus();
+                            Username.select();
+                            Username.click();
 
-                            document.getElementById("username-field").value = User;
+                            Username.value = User;
+
+                            setAwaiting(false);
+
+                            setValidUsername(false);
+
+                            /// Authorizer[1](false);
                         });
                     }
                 }
+                onChange={(event) => handleFormChanges(event)}
             >
                 <FormGroup legendText={""} className={Styles.fields}>
                     <TextInput
@@ -230,23 +253,23 @@ const Component = ({Target, Authorizer}) => {
                         tooltipAlignment={ "center" }
                         tooltipPosition={ "right" }
                         onClick={(event) => {
-                            event.preventDefault();
-
                             console.debug("[Debug]", "Submit Button Event", "Submitting ...");
 
                             const Form = document.getElementById("login-form");
 
                             Form.submit();
 
-                            const Username = document.getElementById("username-field");
-
-                            Username.focus();
+                            setAwaiting(true);
                         }}
-                        children={(
-                            <>
-                                Submit
-                            </>
-                        )}
+                        children={
+                            (awaiting === true) ? (
+                                <InlineLoading description="Loading..."/>
+                            ) : (
+                                <>
+                                    Submit
+                                </>
+                            )
+                        }
                     />
                 </FormGroup>
             </Form>
@@ -254,12 +277,6 @@ const Component = ({Target, Authorizer}) => {
     };
 
     return (<Awaitable/>);
-
-    // function modifierStateGetter(keyArg) { var syntheticEvent = this; var nativeEvent = syntheticEvent.nativeEvent; if (nativeEvent.getModifierState) { return nativeEvent.getModifierState(keyArg); } var keyProp = modifierKeyToProp[keyArg]; return keyProp ? !!nativeEvent[keyProp] : false; }
-
-//    return (Handler.Waiter && Handler.Waiter !== false || awaiting === true)
-//        ? (<SkeletonPlaceholder/>) : (<Awaitable/>);
-
 };
 
 export default Component;
