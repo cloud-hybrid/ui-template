@@ -77,6 +77,11 @@ const Direct = ({Target}) => {
 };
 
 const Path = (Location) => {
+    console.debug("[Debug]", "Path Target", {
+        Target: Location?.state?.pathname,
+        Fallback: "/"
+    });
+
     return (Location?.state?.pathname) ? Location?.state?.pathname : "/";
 };
 
@@ -91,13 +96,21 @@ const Application = () => {
     const location = useLocation();
 
     const Authorization = useState(null);
-    const Handler = Authentication.Cancellation.source();
 
     useEffect(() => {
-        Authentication.Token(Handler).then((Validation) => {
-            (Validation && Validation.Content) ? Authorization[1](true) : Authorization[1](false);
+        const Handler = Authentication.Cancellation.source();
+
+        Authentication.Token(Handler).then((Response) => {
+            if (Response && Response?.Data && Response?.Status?.Code === 200) {
+                console.debug("[Debug]", "Authentication Validation", Response);
+                Authorization[1](true);
+            } else {
+                console.warn("[Warning]", "Authentication Validation", Response);
+
+                Authorization[1](false);
+            }
         });
-    }, [Authorization, Handler]);
+    }, [Authorization]);
 
     const Component = () => (
         <Theme theme={ theme.theme }>
@@ -119,7 +132,7 @@ const Application = () => {
                                         (Authorization[0] === null)
                                             ? (<Skeleton Loader={false}/>)
                                             : (Authorization[0] === false)
-                                                ? (<Login Target={location} Authorizer={Authorization} description={"Registering Authoritative Session ..."}/>)
+                                                ? (<Login Target={location} Authorizer={Authorization} description={"Registering Secure Context ..."}/>)
                                                 : (<Redirect to={Path(location)}/>)
                                     }
                                 </Route>
@@ -141,7 +154,7 @@ const Application = () => {
                                         (Authorization[0] === null)
                                             ? (<Skeleton Loader={false}/>)
                                             : (Authorization[0] === true)
-                                                ? (<GitLab Authorizer={Authorization}/>)
+                                                ? (<GitLab description={"Loading GitLab Project(s) ..."}/>)
                                                 : (<Direct Target={"/gitlab"}/>)
                                     }
                                 </Route>
@@ -150,7 +163,7 @@ const Application = () => {
                                         (Authorization[0] === null)
                                             ? (<Skeleton Loader={false}/>)
                                             : (Authorization[0] === true)
-                                                ? (<GitHub Authorizer={Authorization}/>)
+                                                ? (<GitHub description={"Loading GitHub Organization ..."}/>)
                                                 : (<Direct Target={"/github"}/>)
                                     }
                                 </Route>
@@ -160,7 +173,7 @@ const Application = () => {
                                         (Authorization[0] === null)
                                             ? (<Skeleton Loader={false}/>)
                                             : (Authorization[0] === true)
-                                                ? (<Pipelines description={"Loading Available Pipelines ..."}/>)
+                                                ? (<Pipelines description={"Loading Available Pipeline(s) ..."}/>)
                                                 : (<Direct Target={"/pipelines"}/>)
                                     }
                                 </Route>

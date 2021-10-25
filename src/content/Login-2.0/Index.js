@@ -3,7 +3,7 @@ import {
 } from "@carbon/react";
 
 import React, {
-    lazy as Import, Suspense, useEffect, useState
+    lazy as Import, Suspense
 } from "react";
 
 import { default as Waiter } from "./../../components/Loader/Index";

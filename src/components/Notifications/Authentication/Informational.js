@@ -6,7 +6,7 @@ const Properties = {
     Inline: {
         Default: {
             kind: "info",
-            lowContrast: false,
+            lowContrast: true,
             role: "alert",
             title: "[Title Title]",
             subtitle: "[Subtitle Content]",
@@ -42,7 +42,7 @@ const Properties = {
     Toast: {
         Default: {
             kind: "info",
-            lowContrast: false,
+            lowContrast: true,
             role: "alert",
             title: "[Title Title]",
             subtitle: "[Subtitle Content]",
@@ -84,7 +84,7 @@ const Properties = {
     Actionable: {
         Default: {
             kind: "info",
-            lowContrast: false,
+            lowContrast: true,
             role: "alert",
             title: "[Title Title]",
             subtitle: "[Subtitle Content]",
@@ -268,7 +268,9 @@ export const Toast = (
         /// onCloseButtonClick = Properties.Toast.Default.onCloseButtonClick,
 
         /* Extended */
-        timeout = Properties.Toast.Default.timeout
+        timeout = Properties.Toast.Default.timeout,
+
+        ... props
     }) => {
 
     const Values = {
@@ -285,13 +287,13 @@ export const Toast = (
         /// onCloseButtonClick,
 
         /* Extended */
-        timeout
+        timeout,
     };
 
     const Delimiter = () => (<>{" "}</>);
 
     return (
-        <ToastNotification {... Values}>
+        <ToastNotification { ... props } {... Values}>
                 <strong>
                     {title}
                 </strong>
