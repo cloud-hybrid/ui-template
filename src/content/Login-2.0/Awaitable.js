@@ -47,6 +47,7 @@ const Component = ({Authorizer}) => {
         const addEventListeners = () => {
             const Username = document.getElementById("username-field");
             const Password = document.getElementById("password-field");
+            const Submit = document.getElementById("submit-button");
             const Form = document.getElementById("login-form");
 
             Username.autofocus = true;
@@ -54,6 +55,15 @@ const Component = ({Authorizer}) => {
             Username.focus();
             Username.select();
             Username.click();
+
+            document.getElementById("login-form")?.addEventListener("submit", (event) => {
+                console.debug("[Event]", "Trusted Event", event.isTrusted);
+                console.debug("[Event]", "Phase #", event.eventPhase);
+                console.debug("[Event]", "Composed Event Path(s)", event.composedPath());
+                console.debug("[Event]", "Event Time-Stamp", event.timeStamp);
+
+                event.preventDefault();
+            });
 
             document.getElementById("username-field")?.addEventListener("keydown", (event) => {
                 if (event.key === "Enter") {
@@ -69,7 +79,9 @@ const Component = ({Authorizer}) => {
                     Username.select();
                     Username.click();
 
-                    Form.submit();
+                    /// Form.submit();
+
+                    Submit.click();
                 }
             });
 
@@ -87,7 +99,9 @@ const Component = ({Authorizer}) => {
                     Username.select();
                     Username.click();
 
-                    Form.submit();
+                    /// Form.submit();
+
+                    Submit.click();
                 }
 
             });
@@ -99,6 +113,8 @@ const Component = ({Authorizer}) => {
     }, []);
 
     const handleChanges = (event, Data, Input) => {
+        event.preventDefault();
+
         const $ = validation;
 
         const Field = document.getElementById(Input).value;
@@ -110,6 +126,8 @@ const Component = ({Authorizer}) => {
     }
 
     const handleFormChanges = (event) => {
+        event.preventDefault();
+
         const Submit = document.getElementById("submit-button");
 
         handleChanges(event, "User", "username-field");
@@ -131,6 +149,8 @@ const Component = ({Authorizer}) => {
                 className={ Styles.form }
                 onSubmit={
                     (event) => {
+                        event.preventDefault();
+
                         /// Disable Ability to Modify Field(s) & Style Components
                         const Username = document.getElementById("username-field");
                         const Password = document.getElementById("password-field");
@@ -146,19 +166,17 @@ const Component = ({Authorizer}) => {
                         const User = Username.value;
 
                         const Handler = async () => {
-                            setAwaiting(true)
+                            setAwaiting(true);
 
                             const Transmission = API.Cancellation();
 
-                            return await API.Authenticate(
+                            const Response = await API.Authenticate(
                                 {
                                     Username: User,
                                     Password: Password.value
                                 }, Transmission
                             );
-                        }
 
-                        Handler().then((Response) => {
                             console.debug("[Debug] Validating Authentication Attempt ...", Response);
 
                             if (Response.Status.Code === -1) {
@@ -166,29 +184,50 @@ const Component = ({Authorizer}) => {
 
                                 console.warn("@Task: Implement Race-Condition Notification");
                                 /// Authorizer[1](false);
-                                throw new Error(Response?.Error);
-                            }
-                            else if (Response.Status.Code === 200) {
-                                // console.log("@Task: Implement Successful Notification");
-                                Authorizer[1](true);
+                                // throw new Error(Response?.Error);
+
+                                return false;
+                            } else if (Response.Status.Code === 200) {
+                                console.log("@Task: Implement Successful Notification");
+                                // Authorizer[1](true);
+                                return true
                             } else if (Response.Status.Code >= 300 && Response.Status.Code < 500) {
                                 // console.error("@Task: Implement Error Notification");
                                 /// Authorizer[1](false);
                                 console.warn(Response);
-                                throw new Error(Response?.Error);
+                                // throw new Error(Response?.Error);
+                                return false
                             } else if (Response.Status.Code >= 500) {
                                 console.warn(Response);
 
                                 console.warn("@Task: Implement Internal Server Error Notification");
                                 /// Authorizer[1](false);
-                                throw new Error(Response?.Error);
+                                // throw new Error(Response?.Error);
+                                return false
+
                             } else {
                                 console.warn(Response);
 
                                 console.warn("@Task: Implement Unknown Notification");
                                 /// Authorizer[1](false);
-                                throw new Error(Response?.Error);
+                                // throw new Error(Response?.Error);
+                                return false
                             }
+                        }
+
+                        Handler().then((Response) => {
+                            console.debug("[Debug]", "Validation Outcome", Response);
+
+                            if (Response === true) {
+                                // setAwaiting(false); IMPLEMENT?
+
+                                setTimeout(() => Authorizer[1](true), 1000);
+                            } else {
+                                const e = JSON.stringify(Response, null, 4);
+                                console.error("[Error]", e);
+                                throw new Error(JSON.stringify(Response, null, 4));
+                            }
+
                         }).catch((error) => {
                             console.warn("[Warning]", error);
 
@@ -249,9 +288,10 @@ const Component = ({Authorizer}) => {
                         kind={Types.Button.Kind.tertiary}
                         tabIndex={ 0 }
                         disabled={true}
-                        type={Types.Input.submit }
+                        type={Types.Input.submit}
                         tooltipAlignment={ "center" }
                         tooltipPosition={ "right" }
+                        name={"submit"}
                         onClick={(event) => {
                             console.debug("[Debug]", "Submit Button Event", "Submitting ...");
 

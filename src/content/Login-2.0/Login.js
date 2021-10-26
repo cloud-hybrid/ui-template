@@ -17,7 +17,7 @@ const URL = process.env.REACT_APP_API_ENDPOINT;
  *
 */
 
-const Deserialize = URL + "/API/Authentication/Deserializedtest";
+const Deserialize = URL + "/API/Authentication/Deserialized";
 
 /***
  * API Basic Authentication Endpoint + JWT Generator
@@ -68,8 +68,8 @@ export const Store = Forage.createInstance({
 const Cache = Adapter.setupCache({
     debug: (process.env.NODE_ENV !== "production"),
     clearOnStale: true,
-    ignoreCache: false,
-    limit: false,
+    ignoreCache: true,
+    limit: 0,
     clearOnError: true,
     readHeaders: true,
     readOnError: true,
@@ -109,7 +109,7 @@ export const Validate = async (Token, Handler) => {
     const Validation = {
         Content: null,
         Loading: false,
-        Error: false,
+        Error: null,
         Status: {
             Code: -1,
             Message: ""
@@ -206,10 +206,10 @@ export const Validate = async (Token, Handler) => {
 */
 
 export const Authenticate = async (Payload, Handler) => {
-    let $ = false;
-    const Response = {
+    // let $ = false;
+    const Return = {
         Data: null,
-        Loading: false,
+        Loading: true,
         Error: false,
         Status: {
             Code: -1,
@@ -217,85 +217,83 @@ export const Authenticate = async (Payload, Handler) => {
         }
     };
 
-    if (Payload.Username === null || Payload.Password === null) {
-        console.warn("[Warning] Authentication Payload Username || Password :== null");
+          (Debug) ? console.log("[Trace] Submitting Authentication Payload", Payload)
+            : console.debug("[Trace] Submitting Authentication Payload ...");
 
-        return null;
-    }
+        const $ = async () => await Request.post(Authorizer, {
+            Grant: "Password",
+            Username: Payload.Username,
+            Password: Payload.Password
+        }, {
+            cancelToken: Handler.token
+        }).then((Data) => {
+            // $ = true;
 
-    try {
-        Response.Loading = true;
+            console.debug("[Debug] Response Data", Data);
+            console.debug("[Debug] JWT Authorization Data", Data.data);
+            console.debug("[Debug] JWT Authorization Return Headers", Data.headers);
 
-        (Debug) ? console.log("[Trace]", Payload) : console.debug("[Trace] Submitting Authentication Payload ...");
+            // Return.Loading = false;
 
-        if ($ === false)
-            await API.post(Authorizer, {
-                Grant: "Password",
-                Username: Payload.Username,
-                Password: Payload.Password
-            }, {
-                cancelToken: Handler.token,
-                responseType: "json"
-            }).then(async (Data) => {
-                $ = true;
-
-                console.debug("[Debug] JWT Authorization Data", Data.data);
-                console.debug("[Debug] JWT Authorization Response Headers", Data.headers);
-
-                Response.Loading = false;
-                Response.Error = false;
-                Response.Data = {
-                    Payload: Data.data,
-                    Headers: Data.headers,
-                    Status: {
-                        Code: Data.status,
-                        Message: Data.statusText
-                    }
-                };
-
-                Response.Status.Code = Data.status;
-                Response.Status.Message = Data.statusText;
-
-                try {
-                    console.trace("[Trace] Authentication Object", Response);
-                    await Store.setItem(STORE, Response.Data.Payload.JWT);
-                    console.info("[Informational] Successfully Established JWT Token", Response.Data.Payload.JWT);
-                } catch(error) {
-                    await Store.clear();
-                    console.debug("[Warning] Unsuccessfully Established JWT Token", error);
-                    Response.Error = error;
-                    Handler.cancel(JSON.stringify({Response, error}, null, 4));
+            Return.Error = false;
+            Return.Data = {
+                Payload: Data.data,
+                Headers: Data.headers,
+                Status: {
+                    Code: Data.status,
+                    Message: Data.statusText
                 }
-            }).catch(async (Error) => {
-                $ = true;
+            };
 
-                Response.Loading = false;
-                Response.Error = Error;
-                Response.Data = null;
+            Return.Status.Code = Data.status;
+            Return.Status.Message = Data.statusText;
 
-                Response.Status.Code = 401;
-                Response.Status.Message = Error;
+            try {
+                console.trace("[Trace] Authentication Object", Return);
+                console.debug("[Debug]", "JWT Token (Pre-Storage Setter)", Return.Data.Payload["JWT"]);
 
-                console.warn("[Warning] Cleared JWT Token after Unsuccessful Login Establishment");
+                return Store.setItem(STORE, Return.Data.Payload["JWT"], (e, value) => {
+                    if (e) console.error("[Fatal Error] Unknown Exception", e);
+                    console.debug("[Debug]", "Established JWT Token in Storage", value);
+                });
+            } catch (error) {
+                console.debug("[Warning] Unsuccessfully Established JWT Token", error);
+                Return.Error = error;
+                // Handler.cancel(JSON.stringify({Return, error}, null, 4));
 
-                await Store.clear();
+                return Store.clear();
+            }
+            // });
+            // }).catch(async (Error) => {
+            //     $ = true;
+            //
+            //     Return.Loading = false;
+            //     Return.Error = Error;
+            //     Return.Data = null;
+            //
+            //     Return.Status.Code = 401;
+            //     Return.Status.Message = Error;
+            //
+            //     console.warn("[Warning] Cleared JWT Token after Unsuccessful Login Establishment");
+            //
+            //     await Store.clear();
+            //
+            //     Handler.cancel(JSON.stringify(Error, null, 4));
+            // }).finally(() => Return.Loading = false);
+            // else {
+            //     $ = true
+            //
+            //     Return.Loading = false;
+            // }
+        }).finally(() => Return.Loading = false);
 
-                Handler.cancel(JSON.stringify(Error, null, 4));
-            }).finally(() => Response.Loading = false);
-        else {
-            $ = true
+    console.debug("[Debug]", "Initializing Authorization Awaitable ...");
 
-            Response.Loading = false;
-        }
-    } catch (Error) {
-        $ = true;
+    await $();
 
-        console.debug("[Warning] JWT Validation", Error);
+    console.debug("[Debug]", "Awaitable Complete", "Session Storage Awaitable(s) ?:= Complete")
 
-        Handler.cancel(JSON.stringify({Response, Error}, null, 4));
-    }
-
-    return Response;
+    return Return;
 };
 
 /***

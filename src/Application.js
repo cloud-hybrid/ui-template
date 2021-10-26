@@ -1,52 +1,34 @@
 import "./Application.scss";
 
-import React, {
-    useEffect,
-    useState,
-    Suspense,
-    lazy as Import
-} from "react";
+import React, {lazy as Import, Suspense, useEffect, useState} from "react";
 
-import {
-    Content,
-    Column,
-    Grid,
-    Theme
-} from "@carbon/react";
+import {Column, Content, Grid, Theme} from "@carbon/react";
 
-import {
-    Redirect,
-    Route,
-    Switch,
-    useLocation
-} from "react-router-dom";
+import {Redirect, Route, Switch, useLocation} from "react-router-dom";
 
-import { default as Menu } from "./components/Menu/Index";
+import {default as Menu} from "./components/Menu/Index";
 
-import { default as BTT } from "./components/Back-To-Top/Index";
+import {default as BTT} from "./components/Back-To-Top/Index";
 
-import { default as Breadcrumbs } from "./components/Breadcrumb/Index";
+import {default as Breadcrumbs} from "./components/Breadcrumb/Index";
 
 // import { default as Home        }   from "./content/Home/Index";
 // import { default as GitHub      }   from "./content/GitHub/Index";
 // import { default as GitLab      }   from  "./content/GitLab/Index";
 // import { default as Pipelines   }   from "./content/Pipelines/Index";
 // import { default as Template    }   from "./content/Template/Index";
+import {default as Login} from "./content/Login-2.0/Index";
 
-import { default as Login } from "./content/Login-2.0/Index";
-
-import { default as Notifications    } from "./content/Development/Notifications/Index";
+import {default as Notifications} from "./content/Development/Notifications/Index";
 
 /***
  * Page Loader & Awaiter
  */
-
-import { default as Skeleton } from "./Page-Loader";
+import {default as Skeleton} from "./Page-Loader";
 
 /***
  * Authentication Hook
-*/
-
+ */
 import * as Authentication from "./components/Authenticate";
 
 /***
@@ -63,6 +45,20 @@ export const useTheme = (theme = "g100") => {
     return Theme;
 };
 
+const Redirection = ({Target}) => {
+    return (
+        <Redirect to={{
+            pathname: "/login",
+            state: {
+                to: Target,
+                from: Target,
+                pathname: Target
+            }
+        }}/>
+    );
+};
+
+// @Deprecated
 const Direct = ({Target}) => {
     return (
         <Redirect to={{
@@ -76,6 +72,16 @@ const Direct = ({Target}) => {
     );
 };
 
+const Target = (Location) => {
+    console.debug("[Debug]", "Path Target", {
+        Target: Location?.state?.pathname,
+        Fallback: "/"
+    });
+
+    return (Location?.state?.pathname) ? Location?.state?.pathname : "/";
+};
+
+/// @Deprecated
 const Path = (Location) => {
     console.debug("[Debug]", "Path Target", {
         Target: Location?.state?.pathname,
@@ -91,6 +97,35 @@ const GitLab = Import(() => import("./content/GitLab/Index").then((Module) => Mo
 const Pipelines = Import(() => import("./content/Pipelines/Index").then((Module) => Module));
 const Template = Import(() => import("./content/Template/Index").then((Module) => Module));
 
+const Authoritative = ({Page, $, path, transition}) => {
+    useEffect(() => {
+        const Handler = Authentication.Cancellation.source();
+        const Response = async () => {
+            const Session = await Authentication.Token(Handler);
+
+            console.debug("Authentication Response", Session);
+
+            (Session === null) ? $[1](false)
+                : (Session?.Status?.Code === 200)
+                    ? $[1](true) : $[1](false);
+        }
+
+        Response().finally();
+    }, []);
+
+    return (
+        <Route path={path} sensitive={false}>
+            {
+                ($[0] === null)
+                    ? (<Skeleton Loader={false}/>)
+                    : ($[0] === true)
+                        ? (<Page description={transition}/>)
+                        : (<Redirection Target={path}/>)
+            }
+        </Route>
+    );
+}
+
 const Application = () => {
     const theme = useTheme();
     const location = useLocation();
@@ -98,27 +133,38 @@ const Application = () => {
     const Authorization = useState(null);
 
     useEffect(() => {
-        const Handler = Authentication.Cancellation.source();
+        const Token = async () => {
+            const $ = await Authentication.JWT();
 
-        const Response = async () => {
-            const $ = await Authentication.Token(Handler);
+            return ($ !== null);
+        };
 
-            console.debug("Authentication Response", $);
+        const Validate = async () => {
+            const Handler = Authentication.Cancellation.source();
 
-            ($.Status.Code === 200) ? Authorization[1](true)
-                : Authorization[1](false);
+            const Response = async () => {
+                try {
+                    const $ = await Authentication.Token(Handler);
+
+                    console.debug("Authentication Response", $);
+
+                    ($.Status.Code === 200) ? Authorization[1](true)
+                        : Authorization[1](false);
+
+                    return true;
+                } catch (e) {
+                    console.warn("[Warning]", "Unhandled Error");
+
+                    return false
+                }
+            }
+            return await Response();
         }
-            //.then((Response) => {
-            //if (Response && Response?.Data && Response?.Status?.Code === 200) {
-            //    console.debug("[Debug]", "Authentication Validation", Response);
-            //    Authorization[1](true);
-            //} else {
-            //    Authorization[1](false);
-            //}
-        // });
 
-        Response().finally();
-    }, [Authorization]);
+        Token().then(($) => {
+            ($ === true) ? Validate() : Authorization[1](false);
+        });
+    }, []);
 
     const Component = () => (
         <Theme theme={ theme.theme }>
@@ -137,11 +183,14 @@ const Application = () => {
 
                                 <Route path={"/login"} sensitive={false}>
                                     {
-                                        (Authorization[0] === null)
-                                            ? (<Skeleton Loader={false}/>)
-                                            : (Authorization[0] === false)
-                                                ? (<Login Target={location} Authorizer={Authorization} description={"Registering Secure Context ..."}/>)
-                                                : (<Redirect to={Path(location)}/>)
+                                        (Authorization[0] === true)
+                                            ? (<Redirect to={Path(location)}/>)
+                                            : (Authorization[0] === null)
+                                                ? (<Skeleton Loader={false}/>)
+                                                : (<Login Authorizer={Authorization} description={"Registering Secure Context ..."}/>)
+                                            // (Authorization[0] === false)
+                                            //     ? (<Login Authorizer={Authorization} description={"Registering Secure Context ..."}/>)
+                                            //     : (<Redirect to={Path(location)}/>)
                                     }
                                 </Route>
 
@@ -157,15 +206,25 @@ const Application = () => {
 
                                 {/* Authorization-Only Endpoint(s) */}
 
-                                <Route path={"/gitlab"} sensitive={false}>
-                                    {
-                                        (Authorization[0] === null)
-                                            ? (<Skeleton Loader={false}/>)
-                                            : (Authorization[0] === true)
-                                                ? (<GitLab description={"Loading GitLab Project(s) ..."}/>)
-                                                : (<Direct Target={"/gitlab"}/>)
-                                    }
-                                </Route>
+                                <Authoritative $={Authorization} Page={GitLab} path={"/gitlab"} transition={"Loading VCS Project(s) ..."}/>
+                                {/*<Route path={"/gitlab"} sensitive={false}>*/}
+                                {/*    {*/}
+                                {/*        (Authorization[0] === null)*/}
+                                {/*            ? (<Skeleton Loader={false}/>)*/}
+                                {/*            : (Authorization[0] === true)*/}
+                                {/*                ? (<GitLab description={"Loading VCS Project(s) ..."}/>)*/}
+                                {/*                : (<Redirection Target={"/github"}/>)*/}
+                                {/*    }*/}
+                                {/*</Route>*/}
+                                {/*<Route path={"/gitlab"} sensitive={false}>*/}
+                                {/*    {*/}
+                                {/*        (Authorization[0] === null)*/}
+                                {/*            ? (<Skeleton Loader={false}/>)*/}
+                                {/*            : (Authorization[0] === true)*/}
+                                {/*                ? (<GitLab description={"Loading GitLab Project(s) ..."}/>)*/}
+                                {/*                : (<Direct Target={"/gitlab"}/>)*/}
+                                {/*    }*/}
+                                {/*</Route>*/}
                                 <Route path={"/github"} sensitive={false}>
                                     {
                                         (Authorization[0] === null)
