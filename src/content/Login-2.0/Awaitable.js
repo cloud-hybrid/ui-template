@@ -2,8 +2,6 @@ import * as Styles from "./SCSS/Index.module.scss";
 
 import React, {useEffect, useState} from "react";
 
-import {useHistory} from "react-router-dom";
-
 import {Button, Form, FormGroup, InlineLoading, TextInput} from "@carbon/react";
 
 import {default as Types} from "./../../components/Types";
@@ -79,8 +77,6 @@ const Component = ({Authorizer}) => {
                     Username.select();
                     Username.click();
 
-                    /// Form.submit();
-
                     Submit.click();
                 }
             });
@@ -91,15 +87,13 @@ const Component = ({Authorizer}) => {
                     Password.toggleAttribute("readonly", true);
 
                     Username.contentEditable = "false";
-                    Password.contentEditable = "false";;
+                    Password.contentEditable = "false";
 
                     console.debug("[Debug]", "Password", "Return Key Event");
 
                     Username.focus();
                     Username.select();
                     Username.click();
-
-                    /// Form.submit();
 
                     Submit.click();
                 }
@@ -180,37 +174,23 @@ const Component = ({Authorizer}) => {
                             console.debug("[Debug] Validating Authentication Attempt ...", Response);
 
                             if (Response.Status.Code === -1) {
-                                console.warn(Response);
-
                                 console.warn("@Task: Implement Race-Condition Notification");
-                                /// Authorizer[1](false);
-                                // throw new Error(Response?.Error);
-
+                                console.warn(Response);
                                 return false;
                             } else if (Response.Status.Code === 200) {
                                 console.log("@Task: Implement Successful Notification");
-                                // Authorizer[1](true);
                                 return true
                             } else if (Response.Status.Code >= 300 && Response.Status.Code < 500) {
-                                // console.error("@Task: Implement Error Notification");
-                                /// Authorizer[1](false);
+                                console.error("@Task: Implement Error Notification");
                                 console.warn(Response);
-                                // throw new Error(Response?.Error);
                                 return false
                             } else if (Response.Status.Code >= 500) {
-                                console.warn(Response);
-
                                 console.warn("@Task: Implement Internal Server Error Notification");
-                                /// Authorizer[1](false);
-                                // throw new Error(Response?.Error);
-                                return false
-
-                            } else {
                                 console.warn(Response);
-
-                                console.warn("@Task: Implement Unknown Notification");
-                                /// Authorizer[1](false);
-                                // throw new Error(Response?.Error);
+                                return false
+                            } else {
+                                console.error("@Task: !!! Handle Unknown Error");
+                                console.error(Response);
                                 return false
                             }
                         }
@@ -219,15 +199,13 @@ const Component = ({Authorizer}) => {
                             console.debug("[Debug]", "Validation Outcome", Response);
 
                             if (Response === true) {
-                                // setAwaiting(false); IMPLEMENT?
-
-                                setTimeout(() => Authorizer[1](true), 1000);
+                                setAwaiting(false);
+                                Authorizer[1](true);
                             } else {
                                 const e = JSON.stringify(Response, null, 4);
                                 console.error("[Error]", e);
                                 throw new Error(JSON.stringify(Response, null, 4));
                             }
-
                         }).catch((error) => {
                             console.warn("[Warning]", error);
 
@@ -246,8 +224,6 @@ const Component = ({Authorizer}) => {
                             setAwaiting(false);
 
                             setValidUsername(false);
-
-                            /// Authorizer[1](false);
                         });
                     }
                 }

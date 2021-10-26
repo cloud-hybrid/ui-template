@@ -1,6 +1,6 @@
-// import "./SCSS/Side-Panel.scss";
-
 import "./SCSS/Index.scss";
+
+import * as Panel from "./SCSS/Side-Panel.module.scss";
 
 import React, {useEffect, useState} from "react";
 
@@ -81,6 +81,8 @@ const Component = ({Target, Authorizer}) => {
                     <Header aria-label="UI Template">
                         <SkipToContent/>
                         <HeaderMenuButton
+                            id={"io-side-navigation-menu-toggle"}
+                            className={Panel.toggle}
                             aria-label="Menu"
                             onClick={
                                 () => {
@@ -132,6 +134,7 @@ const Component = ({Target, Authorizer}) => {
                                     aria-label="Side Navigation"
                                     expanded={isSideNavExpanded}
                                     isPersistent={false}
+                                    className={Panel.side}
                                 >
                                     <SideNavItems>
                                         <SideNavLink
