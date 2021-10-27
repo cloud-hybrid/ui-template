@@ -7,8 +7,8 @@ import React, {
     lazy, Suspense, useEffect, useState
 } from "react";
 
-import { default as Waiter } from "./../../components/Loader/Index";
-import Loader from "./../../components/Loader/Index";
+import { default as Waiter } from "./../../components/Loader";
+import Loader from "./../../components/Loader";
 
 const Component = ({description}) => {
     const timeout = 1500;
