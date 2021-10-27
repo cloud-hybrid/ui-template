@@ -1,21 +1,17 @@
-import React from "react";
+import PropTypes from "prop-types";
 
-import * as styles from "./SCSS/Index.module.scss";
-import * as placeholder from "./SCSS/Skeleton.module.scss";
+import React, {useEffect, useRef, useState} from "react";
 
-import Style from "./../../utilities/Styles";
+import * as Styles from "./SCSS/Index.module.scss";
+import * as Placeholder from "./SCSS/Skeleton.module.scss";
 
 import { default as Capitalize } from "./../../utilities/Capitalize";
-
-import PropTypes from "prop-types";
 
 import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbSkeleton
 } from "@carbon/react";
-
-const Name = Style(styles).Name.Unique;
 
 const Compose = () => {
     Capitalize();
@@ -53,7 +49,7 @@ const Deconstruct = (Title = null) => {
 
             Data.push(
                 (
-                    <BreadcrumbItem { ... Properties }>
+                    <BreadcrumbItem { ... Properties } className={Styles.crumb}>
                         { Properties["data-value"] }
                     </BreadcrumbItem>
                 )
@@ -67,19 +63,27 @@ const Deconstruct = (Title = null) => {
 const Component = () => {
     const Data = Deconstruct(null);
     return (
-        <Breadcrumb aria-label={ "Parent Navigation" } noTrailingSlash={ true } className={ Name }>
+        <Breadcrumb aria-label={ "Parent Navigation" } noTrailingSlash={ true } className={ Styles.crumb }>
             {
                 Data.map((Component) => Component)
             }
         </Breadcrumb>
     );
+};
+
+Component.propTypes = {
+    /***
+     * @param Title {String} - [...]
+     */
+
+    Title: PropTypes.string
 };
 
 export const Strict = ({Title}) => {
     const Data = Deconstruct(["Nexus", Title]);
 
     return (
-        <Breadcrumb aria-label={"Parent Navigation"} noTrailingSlash={true} className={Name}>
+        <Breadcrumb aria-label={"Parent Navigation"} noTrailingSlash={true} className={Styles.breadcrumb}>
             {
                 Data.map((Component) => Component)
             }
@@ -87,12 +91,12 @@ export const Strict = ({Title}) => {
     );
 };
 
-Component.propTypes = {};
+Strict.propTypes = {
+    /***
+     * @param Title {String} - [...]
+     */
 
-export const Skeleton = () => {
-    return (
-        <BreadcrumbSkeleton className={ Style(placeholder).Name.Unique }/>
-    );
+    Title: PropTypes.string.isRequired
 };
 
-export default Component;
+export default Strict;

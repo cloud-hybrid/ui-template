@@ -1,6 +1,8 @@
-import "./SCSS/Index.scss";
+import * as Styles from "./SCSS/Index.module.scss";
 
 import * as Panel from "./SCSS/Side-Panel.module.scss";
+
+import { Store, STORE } from "./../Authenticate";
 
 import React, {useEffect, useState} from "react";
 
@@ -28,7 +30,7 @@ import {
 import {
     Notification,
     Search,
-    AppSwitcher,
+    Switcher as Switch,
     DataBackup,
     UserAvatar,
     Debug,
@@ -49,9 +51,9 @@ const Icons = {
     Code: () => (<Code/>),
     Development: () => (<Development/>),
     Switcher: {
-        Primary: () => (<AppSwitcher/>),
+        Primary: () => (<Switcher/>),
         Auxiliary: () => (
-            <AppSwitcher/>)
+            <Switch/>)
     },
     Search: {
         Primary: () => (<Search/>),
@@ -63,34 +65,50 @@ const Icons = {
     }
 };
 
-const Component = ({Target, Authorizer}) => {
-    const [applicationsIsOpen, setApplicationsIsOpen] = useState(false);
+/***
+ *
+ * @param Target {String} -
+ * @param Authorizer
+ *
+ * @returns {JSX.Element}
+ *
+ * @constructor
+ *
+ */
+
+const Component = ({Location, Authorizer}) => {
+    const Opener = useState(false);
 
     const Active = (_ = "") => {
         const $ = "/" + _;
-        const Path = ($ === Target);
+        const Path = ($ === Location);
         const Hash = ($ === "#" + Path);
 
         return (Path || Hash);
-    }
+    };
 
     return (
-        <>
+        <nav className={Styles.menu}>
             <HeaderContainer
                 render={ ({ isSideNavExpanded, onClickSideNavExpand }) => (
                     <Header aria-label="UI Template">
                         <SkipToContent/>
-                        <HeaderMenuButton
-                            id={"io-side-navigation-menu-toggle"}
-                            className={Panel.toggle}
-                            aria-label="Menu"
-                            onClick={
-                                () => {
-                                    onClickSideNavExpand();
-                                }
-                            }
-                            isActive={ isSideNavExpanded }
-                        />
+                        {
+                            (Authorizer[0] === true) ?
+                                (
+                                    <HeaderMenuButton
+                                        id={"io-side-navigation-menu-toggle"}
+                                        className={Panel.toggle}
+                                        aria-label="Menu"
+                                        onClick={
+                                            () => {
+                                                onClickSideNavExpand();
+                                            }
+                                        }
+                                        isActive={isSideNavExpanded}
+                                    />
+                                ) : (<></>)
+                        }
                         <HeaderName
                             to="/"
                             element={ Link }
@@ -168,7 +186,7 @@ const Component = ({Target, Authorizer}) => {
                                             }
                                             async={true}
                                         >
-                                            GitLab
+                                            Pipelines
                                         </SideNavLink>
                                         <SideNavMenu
                                             renderIcon={Icons.Debug}
@@ -210,96 +228,15 @@ const Component = ({Target, Authorizer}) => {
                                         </SideNavMenu>
                                     </SideNavItems>
                                 </SideNav>
-                            ) : (
-                                <></>
-                            )
+                            ) : (<></>)
                         }
-                        {/*<SideNav*/}
-                        {/*    aria-label="Side Navigation"*/}
-                        {/*    expanded={ isSideNavExpanded }*/}
-                        {/*    isPersistent={ false }*/}
-                        {/*>*/}
-                        {/*    <SideNavItems>*/}
-                        {/*        <SideNavLink*/}
-                        {/*            renderIcon={ Icons.Development } href="/#/gitlab"*/}
-                        {/*            onClick={*/}
-                        {/*                () => {*/}
-                        {/*                    onClickSideNavExpand();*/}
-                        {/*                }*/}
-                        {/*            }*/}
-                        {/*            async={ true }*/}
-                        {/*        >*/}
-                        {/*            GitLab*/}
-                        {/*        </SideNavLink>*/}
-                        {/*        <SideNavLink*/}
-                        {/*            renderIcon={ Icons.Dashboard } href="/#/github"*/}
-                        {/*            onClick={*/}
-                        {/*                () => {*/}
-                        {/*                    onClickSideNavExpand();*/}
-                        {/*                }*/}
-                        {/*            }*/}
-                        {/*            async={ true }*/}
-                        {/*        >*/}
-                        {/*            GitHub*/}
-                        {/*        </SideNavLink>*/}
-                        {/*        <SideNavLink*/}
-                        {/*            renderIcon={ Icons.Code } href="/#/pipelines"*/}
-                        {/*            onClick={*/}
-                        {/*                () => {*/}
-                        {/*                    onClickSideNavExpand();*/}
-                        {/*                }*/}
-                        {/*            }*/}
-                        {/*            async={ true }*/}
-                        {/*        >*/}
-                        {/*            GitLab*/}
-                        {/*        </SideNavLink>*/}
-                        {/*        <SideNavMenu*/}
-                        {/*            renderIcon={ Icons.Debug }*/}
-                        {/*            title="Development"*/}
-                        {/*        >*/}
-                        {/*            <SideNavMenuItem*/}
-                        {/*                href="/#/servers" resource={ "servers" }*/}
-                        {/*                onClick={*/}
-                        {/*                    () => {*/}
-                        {/*                        onClickSideNavExpand();*/}
-                        {/*                    }*/}
-                        {/*                }*/}
-                        {/*                async={ true }*/}
-                        {/*            >*/}
-                        {/*                Item-1*/}
-                        {/*            </SideNavMenuItem>*/}
-                        {/*            <SideNavMenuItem*/}
-                        {/*                href="/#/servers" resource={ "servers" }*/}
-                        {/*                onClick={*/}
-                        {/*                    () => {*/}
-                        {/*                        onClickSideNavExpand();*/}
-                        {/*                    }*/}
-                        {/*                }*/}
-                        {/*                async={ true }*/}
-                        {/*            >*/}
-                        {/*                Item-2*/}
-                        {/*            </SideNavMenuItem>*/}
-                        {/*            <SideNavMenuItem*/}
-                        {/*                href="/#/servers" resource={ "servers" }*/}
-                        {/*                onClick={*/}
-                        {/*                    () => {*/}
-                        {/*                        onClickSideNavExpand();*/}
-                        {/*                    }*/}
-                        {/*                }*/}
-                        {/*                async={ true }*/}
-                        {/*            >*/}
-                        {/*                Item-3*/}
-                        {/*            </SideNavMenuItem>*/}
-                        {/*        </SideNavMenu>*/}
-                        {/*    </SideNavItems>*/}
-                        {/*</SideNav>*/}
                         <HeaderGlobalBar>
                             <HeaderGlobalAction
                                 aria-label="Notifications"
                                 tooltipAlignment="start"
-                                children={ (
+                                children={(
                                     <Notification/>
-                                ) }
+                                )}
                                 onClick={
                                     () => {
                                         console.debug("...");
@@ -308,9 +245,9 @@ const Component = ({Target, Authorizer}) => {
                             />
                             <HeaderGlobalAction
                                 aria-label="User Avatar"
-                                children={ (
+                                children={(
                                     <UserAvatar/>
-                                ) }
+                                )}
                                 onClick={
                                     () => {
                                         console.debug("...");
@@ -319,16 +256,16 @@ const Component = ({Target, Authorizer}) => {
                             />
                             <HeaderGlobalAction
                                 aria-label="Switcher"
-                                isActive={ applicationsIsOpen }
-                                tooltipPosition={ "left" }
-                                tooltipAlignment={ "end" }
+                                isActive={Opener[0]}
+                                tooltipPosition={"left"}
+                                tooltipAlignment={"end"}
                                 onClick={
                                     () => {
-                                        setApplicationsIsOpen(!applicationsIsOpen);
+                                        Opener[1](!Opener[0]);
                                     }
                                 }
                             >
-                                <Icons.Switcher.Primary/>
+                                <Switch/>
                             </HeaderGlobalAction>
                         </HeaderGlobalBar>
                     </Header>
@@ -337,50 +274,96 @@ const Component = ({Target, Authorizer}) => {
             </HeaderContainer>
             <HeaderPanel
                 aria-label="Header Panel"
-                expanded={ applicationsIsOpen }
+                expanded={ Opener[0] }
                 style={
                     { backgroundColor: "var(--cds-background)" }
                 }
             >
-                <Switcher aria-label={ "Switcher Container" }>
-                    <SwitcherItem aria-label="Sign-Out" onClick={
-                        async () => {
-                            console.debug("Logout Under Refactor & Development");
+                {
+                    (Authorizer[0] === true) ? (
+                        <Switcher aria-label={"Switcher Container"}>
+                            <SwitcherItem aria-label="Sign-Out" onClick={
+                                async () => {
+                                    try {
+                                        console.debug("[Debug]", "Authorization Store Key (0)", STORE);
 
-                            setApplicationsIsOpen(false);
-                        }
-                    } async={ true }>
-                        Sign-Out
-                    </SwitcherItem>
-                    <SwitcherDivider/>
-                    <SwitcherItem target={ "_blank" } href="#" aria-label="Content Management System">
-                        CMS
-                    </SwitcherItem>
-                    <SwitcherItem target={ "_blank" } href="#" aria-label="Calendar">
-                        Calendar
-                    </SwitcherItem>
-                    <SwitcherItem target={ "_blank" } href="#" aria-label="Vusion">
-                        Vusion
-                    </SwitcherItem>
-                    <SwitcherDivider/>
-                    <SwitcherItem
-                        target={ "_blank" } href="https://983281742669.signin.aws.amazon.com/console/"
-                        aria-label="Amazon Web Service(s)"
-                    >
-                        AWS
-                    </SwitcherItem>
-                    <SwitcherItem
-                        target={ "_blank" } href="https://api.cloud-technology.io:3000/Documentation"
-                        aria-label="Nexus API"
-                    >
-                        Nexus API
-                    </SwitcherItem>
-                    <SwitcherItem target={ "_blank" } href="https://gitlab.cloud-technology.io" aria-label="Gitlab VCS">
-                        Version Control
-                    </SwitcherItem>
-                </Switcher>
+                                        const Value = await Store.getItem(STORE);
+
+                                        console.debug("[Debug]", "Authorization Store Value (1)", Value);
+
+                                        await Store.setItem(STORE, null, (e, value) => {
+                                            if (e) console.error("[Fatal JWT Nullification Error]", e);
+
+                                            console.debug("[Debug]", "JWT Nullification Result (2)", value);
+                                        });
+                                    } catch(e) {
+                                        console.error("[Fatal Unknown Authorized JWT := NULL Error]", e);
+                                        throw new Error("JWT !:= NULL During an Authorized State");
+                                    } finally {
+                                        Authorizer[1](false);
+                                    }
+                                }
+                            } async={true}>
+                                Sign-Out
+                            </SwitcherItem>
+                            <SwitcherDivider/>
+                            <SwitcherItem
+                                target={"_blank"}
+                                href="#"
+                                aria-label="Content Management System"
+                            >
+                                CMS
+                            </SwitcherItem>
+                            <SwitcherItem
+                                target={"_blank"}
+                                href="#"
+                                aria-label="Calendar"
+                            >
+                                Calendar
+                            </SwitcherItem>
+                            <SwitcherItem
+                                target={"_blank"}
+                                href="#"
+                                aria-label="Vusion"
+                            >
+                                Vusion
+                            </SwitcherItem>
+                            <SwitcherDivider/>
+                            <SwitcherItem
+                                target={"_blank"}
+                                href="https://983281742669.signin.aws.amazon.com/console/"
+                                aria-label="Amazon Web Service(s)"
+                            >
+                                AWS
+                            </SwitcherItem>
+                            <SwitcherItem
+                                target={"_blank"}
+                                aria-label="Nexus API"
+                                href="https://api.cloud-technology.io:3000/Documentation"
+                            >
+                                Nexus API
+                            </SwitcherItem>
+                            <SwitcherItem
+                                target={"_blank"}
+                                aria-label="Gitlab VCS"
+                                href="https://gitlab.cloud-technology.io">
+                                Version Control
+                            </SwitcherItem>
+                        </Switcher>
+                    ) : (
+                        <Switcher aria-label={"Switcher Container"}>
+                            <SwitcherItem
+                                target={"_parent"}
+                                aria-label="Login"
+                                href="/#/login"
+                            >
+                                Login
+                            </SwitcherItem>
+                        </Switcher>
+                    )
+                }
             </HeaderPanel>
-        </>
+        </nav>
     );
 }
 

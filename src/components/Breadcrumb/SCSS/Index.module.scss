@@ -1,7 +1,9 @@
+@use "./../../../Application" as *;
+
 @use "@carbon/react/scss/spacing" as Spacing;
 
 .breadcrumb {
-    display: inline-flex;
+    display: flex;
     flex-wrap: initial;
     width: max-content;
 
@@ -11,4 +13,10 @@
     margin-bottom: Spacing.$spacing-05;
 
     position: relative;
+
+    @include disable-selection();
+
+    & .crumb {
+        display: inline;
+    }
 }

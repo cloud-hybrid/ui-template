@@ -30,7 +30,7 @@ const Component = ({duration = 1500}) => {
         ));
 
         Waiter().finally();
-    }, [awaiting]);
+    }, []);
 
     return (awaiting === false) ? (
         <Breadcrumb/>

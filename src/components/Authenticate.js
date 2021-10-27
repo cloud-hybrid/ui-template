@@ -2,9 +2,9 @@ const Request = require("axios");
 const Adapter = require("axios-cache-adapter");
 const Forage = require("localforage");
 
-const STORE = "JWT";
 const NAME = "Nexus-UI";
 const DESCRIPTION = "Nexus Dashboard Login State";
+export const STORE = "JWT";
 
 const URL = process.env.REACT_APP_API_ENDPOINT;
 const Deserialize = URL + "/API/Authentication/Deserialized";
@@ -32,7 +32,7 @@ const Cache = Adapter.setupCache({
     store: Store
 });
 
-const API = Request.create({
+export const API = Request.create({
     adapter: Cache.adapter,
     cache: Cache
 });

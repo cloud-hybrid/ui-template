@@ -10,21 +10,9 @@ import {default as Menu} from "./components/Menu/Index";
 
 import {default as BTT} from "./components/Back-To-Top/Index";
 
-import {default as Breadcrumbs} from "./components/Breadcrumb/Index";
+import {default as Breadcrumbs} from "./components/Breadcrumb";
 
-// import { default as Home        }   from "./content/Home/Index";
-// import { default as GitHub      }   from "./content/GitHub/Index";
-// import { default as GitLab      }   from  "./content/GitLab/Index";
-// import { default as Pipelines   }   from "./content/Pipelines/Index";
-// import { default as Template    }   from "./content/Template/Index";
-import {default as Login} from "./content/Login-2.0/Index";
-
-import {default as Notifications} from "./content/Development/Notifications/Index";
-
-/***
- * Page Loader & Awaiter
- */
-import {default as Skeleton} from "./Page-Loader";
+import { default as Pages } from "./pages";
 
 /***
  * Authentication Hook
@@ -58,20 +46,6 @@ const Redirection = ({Target}) => {
     );
 };
 
-// @Deprecated
-const Direct = ({Target}) => {
-    return (
-        <Redirect to={{
-            pathname: "/login",
-            state: {
-                to: Target,
-                from: Target,
-                pathname: Target
-            }
-        }}/>
-    );
-};
-
 const Target = (Location) => {
     console.debug("[Debug]", "Path Target", {
         Target: Location?.state?.pathname,
@@ -81,21 +55,11 @@ const Target = (Location) => {
     return (Location?.state?.pathname) ? Location?.state?.pathname : "/";
 };
 
-/// @Deprecated
-const Path = (Location) => {
-    console.debug("[Debug]", "Path Target", {
-        Target: Location?.state?.pathname,
-        Fallback: "/"
-    });
-
-    return (Location?.state?.pathname) ? Location?.state?.pathname : "/";
-};
-
-const Home = Import(() => import("./content/Home/Index").then((Module) => Module));
-const GitHub = Import(() => import("./content/GitHub/Index").then((Module) => Module));
-const GitLab = Import(() => import("./content/GitLab/Index").then((Module) => Module));
-const Pipelines = Import(() => import("./content/Pipelines/Index").then((Module) => Module));
-const Template = Import(() => import("./content/Template/Index").then((Module) => Module));
+const Home = Import(() => import("./pages/Home").then((Module) => Module));
+const GitHub = Import(() => import("./pages/GitHub").then((Module) => Module));
+const GitLab = Import(() => import("./pages/GitLab").then((Module) => Module));
+const Pipelines = Import(() => import("./pages/Pipelines").then((Module) => Module));
+const Template = Import(() => import("./pages/Template").then((Module) => Module));
 
 const Authoritative = ({Page, $, path, transition}) => {
     useEffect(() => {
@@ -117,20 +81,27 @@ const Authoritative = ({Page, $, path, transition}) => {
         <Route path={path} sensitive={false}>
             {
                 ($[0] === null)
-                    ? (<Skeleton Loader={false}/>)
+                    ? (<></>)
                     : ($[0] === true)
                         ? (<Page description={transition}/>)
                         : (<Redirection Target={path}/>)
             }
         </Route>
     );
-}
+};
 
 const Application = () => {
-    const theme = useTheme();
+    const theme = useTheme("g100");
+
     const location = useLocation();
 
     const Authorization = useState(null);
+
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
+        const Preference = event.matches ? "dark" : "light";
+
+        theme.theme = (Preference === "dark") ? "g100" : "light";
+    });
 
     useEffect(() => {
         const Token = async () => {
@@ -168,12 +139,12 @@ const Application = () => {
 
     const Component = () => (
         <Theme theme={ theme.theme }>
-            <Menu Target={location.pathname} Authorizer={Authorization}/>
+            <Menu Location={location.pathname} Authorizer={Authorization}/>
             <Content children={(
                 <Grid>
-                    <Breadcrumbs Title={location.pathname}/>
                     <Column lg={ 16 } md={ 8 } sm={ 4 }>
-                        <Suspense fallback={<Skeleton Loader={false}/>}>
+                        <Suspense fallback={(<></>)}>
+                            <Breadcrumbs Title={location.pathname} duration={1250}/>
                             <Switch>
                                 {/* Base Endpoint(s) */}
 
@@ -184,66 +155,26 @@ const Application = () => {
                                 <Route path={"/login"} sensitive={false}>
                                     {
                                         (Authorization[0] === true)
-                                            ? (<Redirect to={Path(location)}/>)
+                                            ? (<Redirect to={Target(location)}/>)
                                             : (Authorization[0] === null)
-                                                ? (<Skeleton Loader={false}/>)
-                                                : (<Login Authorizer={Authorization} description={"Registering Secure Context ..."}/>)
-                                            // (Authorization[0] === false)
-                                            //     ? (<Login Authorizer={Authorization} description={"Registering Secure Context ..."}/>)
-                                            //     : (<Redirect to={Path(location)}/>)
+                                                ? null
+                                                : (
+                                                    <Pages.Login
+                                                        Authorizer={Authorization}
+                                                        description={"Registering Secure Context ..."}
+                                                    />
+                                                )
                                     }
-                                </Route>
-
-                                {/* Development Endpoint(s) */}
-
-                                <Route path="/template" sensitive={false}>
-                                    <Template/>
-                                </Route>
-
-                                <Route path="/notifications" sensitive={false}>
-                                    <Notifications/>
                                 </Route>
 
                                 {/* Authorization-Only Endpoint(s) */}
 
                                 <Authoritative $={Authorization} Page={GitLab} path={"/gitlab"} transition={"Loading VCS Project(s) ..."}/>
-                                {/*<Route path={"/gitlab"} sensitive={false}>*/}
-                                {/*    {*/}
-                                {/*        (Authorization[0] === null)*/}
-                                {/*            ? (<Skeleton Loader={false}/>)*/}
-                                {/*            : (Authorization[0] === true)*/}
-                                {/*                ? (<GitLab description={"Loading VCS Project(s) ..."}/>)*/}
-                                {/*                : (<Redirection Target={"/github"}/>)*/}
-                                {/*    }*/}
-                                {/*</Route>*/}
-                                {/*<Route path={"/gitlab"} sensitive={false}>*/}
-                                {/*    {*/}
-                                {/*        (Authorization[0] === null)*/}
-                                {/*            ? (<Skeleton Loader={false}/>)*/}
-                                {/*            : (Authorization[0] === true)*/}
-                                {/*                ? (<GitLab description={"Loading GitLab Project(s) ..."}/>)*/}
-                                {/*                : (<Direct Target={"/gitlab"}/>)*/}
-                                {/*    }*/}
-                                {/*</Route>*/}
-                                <Route path={"/github"} sensitive={false}>
-                                    {
-                                        (Authorization[0] === null)
-                                            ? (<Skeleton Loader={false}/>)
-                                            : (Authorization[0] === true)
-                                                ? (<GitHub description={"Loading GitHub Organization ..."}/>)
-                                                : (<Direct Target={"/github"}/>)
-                                    }
-                                </Route>
+                                <Authoritative $={Authorization} Page={GitHub} path={"/github"} transition={"Loading Organization ..."}/>
+                                <Authoritative $={Authorization} Page={Pipelines} path={"/pipelines"} transition={"Loading CI-CD Pipelines ..."}/>
 
-                                <Route path={"/pipelines"} sensitive={false}>
-                                    {
-                                        (Authorization[0] === null)
-                                            ? (<Skeleton Loader={false}/>)
-                                            : (Authorization[0] === true)
-                                                ? (<Pipelines description={"Loading Available Pipeline(s) ..."}/>)
-                                                : (<Direct Target={"/pipelines"}/>)
-                                    }
-                                </Route>
+                                <Authoritative $={Authorization} Page={Template} path={"/template"} transition={"Loading Page Template ..."}/>
+                                {/*<Authoritative $={Authorization} Page={Notifications} path={"/pipelines"} transition={"Loading Notification Component (Under Development) ..."}/>*/}
 
                                 <Redirect from={"*"} to={"/"}/>
                             </Switch>
