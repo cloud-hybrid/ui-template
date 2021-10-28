@@ -1,8 +1,6 @@
 import React from "react";
 
-import styles from "./SCSS/Table.module.scss";
-
-import { default as Style } from "./../../utilities/Styles";
+import * as Styles from "./SCSS/Table.module.scss";
 
 import {
     DataTable,
@@ -45,8 +43,7 @@ const Tabular = ({ rows, headers }) => {
                 getSelectionProps
             }) => (
                 <TableContainer title="Carbon Repositories"
-                    description="A collection of public Carbon repositories."
-                                className={ Style(styles).Name.Unique }
+                    description="A collection of public Carbon repositories." className={ Styles.repoPageGithubDataTableContainer }
                 >
                     <Table { ... getTableProps() }>
                         <TableHead>
@@ -54,11 +51,17 @@ const Tabular = ({ rows, headers }) => {
                                 <TableExpandHeader enableToggle={true} { ... getExpandHeaderProps() } />
                                 <TableSelectAll { ... getSelectionProps() } />
                                 <TableExpandHeader { ... getExpandHeaderProps() } />
-                                { headers.map(header => (
-                                    <TableHeader { ... getHeaderProps({ header }) }>
-                                        { header.header }
-                                    </TableHeader>
-                                )) }
+                                {
+                                    headers.map(
+                                        (header) => (
+                                            <TableHeader { ... getHeaderProps({ header }) }>
+                                                {
+                                                    header.header
+                                                }
+                                            </TableHeader>
+                                        )
+                                    )
+                                }
                             </TableRow>
                         </TableHead>
                         <TableBody>

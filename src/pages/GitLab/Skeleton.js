@@ -1,14 +1,13 @@
 import PropTypes from "prop-types";
 
 import {
-    DataTable,
     DataTableSkeleton,
     TableContainer
 } from "@carbon/react";
 
 import { Skeleton } from "./Paginator";
 
-const Table = ({ Rows = 20, Headers = 5 }) => (
+const Table = ({ Rows = 20, Headers = 3 }) => (
     <TableContainer>
         <DataTableSkeleton
             compact={ false }

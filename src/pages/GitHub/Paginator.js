@@ -1,38 +1,52 @@
 import React from "react";
 
-import styles from "./SCSS/Paginator.module.scss";
+import * as Styles from "./SCSS/Paginator.module.scss";
 
 import {
     Pagination,
     PaginationSkeleton
 } from "@carbon/react";
 
-import { default as Style } from "./../../utilities/Styles";
-
-const Name = Style(styles).Name.Unique;
-
 export const Skeleton = () => {
     return (
-        <PaginationSkeleton className={ Name }/>
+        <PaginationSkeleton className={[Styles.skeleton, "cds--pagination--inline--skeleton"].join(" ")}/>
     );
 };
+
+// const Component = ({Pages}) => {
+//     return (
+//         <Pagination
+//             className={Styles.paginator}
+//             backwardText="Previous"
+//             forwardText="Next"
+//             itemsPerPageText="Total Paged Items"
+//             pageNumberText="Page Number"
+//             pageSize={Pages.Size}
+//             /// pageSizes={ [5, 10, 15, 25, 50, 100, 1000] }
+//             pageSizes={[20]}
+//             totalItems={Pages.Total}
+//             page={Pages.Index.Data}
+//             onChange={(Data) => Pages.Index.Setter(Data.page)}
+//         />);
+// };
 
 const Component = ({Data, currentPageSize, setCurrentPageSize, setFirstRowIndex}) => {
     return (
         <Pagination
-            className={ Name }
-            totalItems={ Data.length }
-            backwardText="Previous Page"
-            forwardText="Next Page"
-            pageSize={ currentPageSize }
-            pageSizes={ [5, 10, 15, 25, 50, 100, 1000] }
-            itemsPerPageText="Total Page Item(s)"
-            onChange={ ({ page, pageSize }) => {
+            className={Styles.paginator}
+            backwardText={"Previous"}
+            forwardText={"Next"}
+            itemsPerPageText={"Total Paged Item(s)"}
+            pageSize={currentPageSize}
+            pageNumberText={"Page Number"}
+            pageSizes={[5, 10, 15, 25, 50, 100, 1000]}
+            totalItems={Data.length}
+            onChange={({page, pageSize}) => {
                 if (pageSize !== currentPageSize) {
                     setCurrentPageSize(pageSize);
                 }
                 setFirstRowIndex(pageSize * (page - 1));
-            } }
+            }}
         />
     )
 };

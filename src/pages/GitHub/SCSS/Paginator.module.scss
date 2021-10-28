@@ -1,3 +1,21 @@
-.repo-page-github-paginator {
+.paginator {
     width: calc(100%);
+
+    border-top: 1px solid var(--cds-border-subtle);
+}
+
+.skeleton {
+    width: calc(100%);
+
+    border-top: 1px solid var(--cds-border-subtle);
+}
+
+@media (max-width: 42rem) {
+    .paginator {
+        overflow: visible;
+    }
+
+    .skeleton {
+        overflow: visible;
+    }
 }

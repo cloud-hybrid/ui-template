@@ -56,16 +56,45 @@ tr.cds--parent-row.cds--data-table--selected.cds--expandable-row + tr[data-child
     width: 100%;
 }
 
+// Data Table Pagination Separator
+.cds--data-table-container + .cds--pagination {
+    border-top: 1px solid var(--cds-border-subtle);
+}
+
+// Data Table Header Background
+.cds--data-table thead {
+    background-color: var(--cds-layer-accent);
+}
+
+// Data Table Title + Header Separator
+.cds--data-table-header {
+    border-bottom: 1px solid var(--cds-border-inverse) inset;
+}
+
+// Data Table Row & Expandable Optimizations
+tr.cds--parent-row:not(.cds--expandable-row) + tr[data-child-row] {
+    opacity: 0;
+}
+
+tr.cds--parent-row {
+    will-change: background !important
+}
+
+tr.cds--child-row {
+    will-change: height !important
+}
+
+tr[data-parent-row] {
+    will-change: background !important;
+}
+
+tr[data-child-row] {
+    will-change: height !important;
+}
+
 /* ---------------
 Media Queries
 */// -------------
-
-//@media (max-width: 42rem) {
-//    .cds--content {
-//        margin-botton: 0.0rem
-//    }
-//}
-
 @media (max-width: 42rem) {
     .cds--content .cds--css-grid {
         padding-left: 1.0rem;

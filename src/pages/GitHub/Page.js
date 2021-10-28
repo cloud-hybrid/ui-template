@@ -1,7 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
 
-import "./SCSS/Cell.scss";
-
 import { default as Table } from "./Table";
 
 import {

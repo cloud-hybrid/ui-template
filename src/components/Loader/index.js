@@ -52,7 +52,7 @@ Component.propTypes = {
      * Target render component that replaces the loading component upon timout
      */
 
-    children: PropTypes.element.isRequired,
+    children: PropTypes.element,
 
     /***
      * String describing the waiting event; description is displayed as text

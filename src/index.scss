@@ -51,22 +51,23 @@ Document & Root Styling
 */// -----------------------
 
 :root {
-    font-feature-settings: normal;
-    font-kerning: auto;
-    font-optical-sizing: auto;
-
-    text-rendering: geometricPrecision;
+    font-kerning: auto !important;
+    font-optical-sizing: auto !important;
+    text-rendering: geometricPrecision !important;
 
     @include theme($g100);
-}
 
-@function merge($map, $maps...) {
-    $result: $map;
-
-    @each $map in $maps {
-        $result: map.merge($result, $map);
+    :focus:not(:focus-visible) {
+        outline: 0 none;
     }
-
-    @return $result;
 }
 
+/* -------------------------
+Table User Agent Styles
+*/// -----------------------
+
+th, tr, td {
+    box-shadow: none !important;
+    vertical-align: middle !important;
+    outline: none !important;
+}

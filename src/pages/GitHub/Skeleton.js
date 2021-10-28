@@ -7,7 +7,7 @@ import {
 
 import { Skeleton } from "./Paginator";
 
-const Table = ({Rows = 20, Headers = 5}) => (
+const Table = ({Rows = 20, Headers = 4}) => (
     <TableContainer>
         <DataTableSkeleton
             compact={false}

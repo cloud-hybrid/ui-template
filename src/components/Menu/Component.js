@@ -4,7 +4,9 @@ import * as Panel from "./SCSS/Side-Panel.module.scss";
 
 import { Store, STORE } from "./../Authenticate";
 
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
+
+import { Route } from "react-router-dom";
 
 import {
     Header,
@@ -90,7 +92,7 @@ const Component = ({Location, Authorizer}) => {
     return (
         <nav className={Styles.menu}>
             <HeaderContainer
-                render={ ({ isSideNavExpanded, onClickSideNavExpand }) => (
+                render={ ({ isSideNavExpanded, onClickSideNavExpand}) => (
                     <Header aria-label="UI Template">
                         <SkipToContent/>
                         {
@@ -153,38 +155,41 @@ const Component = ({Location, Authorizer}) => {
                                     expanded={isSideNavExpanded}
                                     isPersistent={false}
                                     className={Panel.side}
+                                    onOverlayClick={(event) => {
+                                        onClickSideNavExpand();
+                                    }}
                                 >
                                     <SideNavItems>
                                         <SideNavLink
-                                            renderIcon={Icons.Development} href="/#/gitlab"
-                                            onClick={
-                                                () => {
-                                                    onClickSideNavExpand();
-                                                }
-                                            }
-                                            async={true}
+                                            async
+                                            href={"/#/gitlab"}
+                                            renderIcon={Icons.Development}
+                                            /// ref={useRef(isSideNavExpanded)}
+                                            onClick={(event) => {
+                                                onClickSideNavExpand();
+                                            }}
                                         >
                                             GitLab
                                         </SideNavLink>
                                         <SideNavLink
-                                            renderIcon={Icons.Dashboard} href="/#/github"
-                                            onClick={
-                                                () => {
-                                                    onClickSideNavExpand();
-                                                }
-                                            }
-                                            async={true}
+                                            async
+                                            href={"/#/github"}
+                                            renderIcon={Icons.Dashboard}
+                                            /// ref={useRef(isSideNavExpanded)}
+                                            onClick={(event) => {
+                                                onClickSideNavExpand();
+                                            }}
                                         >
                                             GitHub
                                         </SideNavLink>
                                         <SideNavLink
-                                            renderIcon={Icons.Code} href="/#/pipelines"
-                                            onClick={
-                                                () => {
-                                                    onClickSideNavExpand();
-                                                }
-                                            }
-                                            async={true}
+                                            async
+                                            href={"/#/pipelines"}
+                                            renderIcon={Icons.Code}
+                                            /// ref={useRef(isSideNavExpanded)}
+                                            onClick={(event) => {
+                                                onClickSideNavExpand();
+                                            }}
                                         >
                                             Pipelines
                                         </SideNavLink>

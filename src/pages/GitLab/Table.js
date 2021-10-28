@@ -1,4 +1,8 @@
+import "./SCSS/Search.scss";
+
 import React, { Fragment } from "react";
+
+import * as Search from "./SCSS/Search.module.scss";
 
 import {
     Button,
@@ -39,6 +43,10 @@ import { Store, STORE } from "./Query";
 import {default as Pagination} from "./Paginator";
 
 import {Tag as Visibility} from "carbon-components-react";
+import stickyHeader from "carbon-components-react/lib/components/DataTable/DataTable";
+import translateWithId from "carbon-components-react/lib/components/DataTable/DataTable";
+import sortRow from "carbon-components-react/lib/components/DataTable/DataTable";
+import useStaticWidth from "carbon-components-react/lib/components/DataTable/DataTable";
 
 const URL = ({url, home}) => {
     return (
@@ -78,6 +86,26 @@ async function Refresh(setter) {
         setter(true);
     });
 }
+
+const rowsFilter = (_ref) => {
+    const rowIds = _ref.rowIds,
+        headers = _ref.headers,
+        cellsById = _ref.cellsById,
+        inputValue = _ref.inputValue,
+        getCellId = _ref.getCellId;
+    return rowIds.filter(function (rowId) {
+        return headers.some(function (_ref2) {
+            var key = _ref2.key;
+            var id = getCellId(rowId, key);
+
+            if (typeof cellsById[id].value === 'boolean') {
+                return false;
+            }
+
+            return ('' + cellsById[id].value).toLowerCase().includes(inputValue.toLowerCase());
+        });
+    });
+};
 
 /***
  *
@@ -123,6 +151,13 @@ const Component = ({Data, Headers, State, Pages}) => {
             headers={Headers}
             isSortable={false}
             size={"normal"}
+            stickyHeader={false}
+            sortRow={(event) => {
+                console.debug(event);
+            }}
+            useStaticWidth={false}
+            /// shouldShowBorder={true}
+            /// translateWithId={(event, id) => console.debug("[Debug]", "Translate Event", event)}
             render={
                 ({
                      rows,
@@ -137,7 +172,7 @@ const Component = ({Data, Headers, State, Pages}) => {
                      getBatchActionProps
                  }) => (
                     <TableContainer title={"Cloud-Technology"} description="Cloud-Technology's GitHub Repositories" {...getTableContainerProps()}>
-                        <TableToolbar {...getToolbarProps()}>
+                        <TableToolbar {...getToolbarProps()} className={"io-table-toolbar"}>
                             <TableBatchActions {...getBatchActionProps()}>
                                 <TableBatchAction
                                     id="Development-Table-JSON-Trigger-Button"
@@ -166,11 +201,41 @@ const Component = ({Data, Headers, State, Pages}) => {
                             </TableBatchActions>
                             <TableToolbarContent>
                                 <TableToolbarSearch
-                                    persistent={false}
+                                    persistent={true}
+                                    defaultExpanded={true}
+                                    searchContainerClass={Search.search}
+                                    onChange={
+                                        (event) => {
+                                            console.debug("[Debug]", "Search Change Event", event);
+                                        }
+                                    }
+                                    placeholder={" "}
+                                    onExpand={
+                                        (event) => {
+                                            const Element = document.getElementsByClassName(Search.search).item(0);
+                                            const Input = document.getElementsByClassName("cds--search-input").item(0);
+
+                                            (event.type === "blur") ? console.debug("[Debug]", "Search Collapse Event")
+                                                : console.debug("[Debug]", "Search Expand Event");
+
+                                            if (event.type === "focus") {
+                                                Input.style.outline = "0";
+                                                Input.style.paddingLeft = "3.0rem";
+                                                Input.style.paddingRight = "3.0rem";
+
+                                                Element.setAttribute("expanded", "true");
+                                            } else {
+                                                Input.style.outline = "0";
+                                                Input.style.paddingLeft = "0.0rem";
+                                                Input.style.paddingRight = "0.0rem";
+
+                                                Element.removeAttribute("expanded");
+                                            }
+                                        }
+                                    }
+                                    expanded={false}
                                     labelText={"Test-Label-Text"}
-                                    placeholder={"Test-Place-Holder-Text"}
                                     tabIndex={getBatchActionProps().shouldShowBatchActions ? -1 : 0}
-                                    //                                 onChange={ (event) => console.debug(event) }
                                 />
                                 <Button
                                     kind="ghost"
@@ -206,15 +271,13 @@ const Component = ({Data, Headers, State, Pages}) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {Projects.map((Row, Index) => {
-                                    Row = {...Row, ...rows[Index]};
-
+                                {
+                                    Projects.map(
+                                        (Row, Index) => {
+                                            Row = {...Row, ...rows[Index]};
                                     return (
                                         <Fragment key={String(Index)}>
-                                            <TableExpandRow
-                                                expandIconDescription={"Select to Expand Repository's Description"} {
-                                                ...getRowProps({row: Row})
-                                            } >
+                                            <TableExpandRow expandIconDescription={"Select to Expand Repository's Description"} {...getRowProps({row: Row})}>
                                                 <TableSelectRow {...getSelectionProps({row: Row})} />
                                                 <TableCell
                                                     key={String(Index) + "-" + "ID" + "-" + Row.UID} name={String(
