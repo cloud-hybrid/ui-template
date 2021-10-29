@@ -6,12 +6,40 @@ The Cloud Dashboard & User Interface for *Cloud-Technology LLC.*
 
 ## Overview ##
 
-Cloud-Technology's Dashboard is a set of user-friendly utilities that interface RESTful HTTP endpoints & related
-database CRUD actions. The User-Interface is consistent in visibility, styling, but above all else,
+Cloud-Technology's Dashboard is a set of user-friendly utilities that interface RESTful HTTP endpoints & related database CRUD actions. The User-Interface is
+consistent in visibility, styling, but above all else,
 ***functionality***.
 
-As a *Single-Page-Application* (*SPA*), the client-sided front-end can remain functional so long as the API & dependent
-endpoints remain online -- largely a benefit from micro-serviced architecture(s).
+As a *Single-Page-Application* (*SPA*), the client-sided front-end can remain functional so long as the API & dependent endpoints remain online -- largely a
+benefit from micro-serviced architecture(s).
+
+### Code Spliting ###
+
+The following project makes use of [code-splitting](https://reactjs.org/docs/code-splitting.html#route-based-code-splitting).
+
+Combined with `react-dom-router`, project(s) benefit from both code-spliting *and*
+development ease when establishing **page transitions**.
+
+**Example**
+
+```js
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+const Home = lazy(() => import("./routes/Home"));
+const About = lazy(() => import("./routes/About"));
+
+const App = () => (
+    <Router>
+        <Suspense fallback={<div>Loading...</div>}>
+            <Switch>
+                <Route exact path="/" component={Home}/>
+                <Route path="/about" component={About}/>
+        </Switch>
+        </Suspense>
+    </Router>
+);
+```
 
 ## Usage ##
 
@@ -200,8 +228,8 @@ aws cloudformation wait stack-update-complete \
 ## Environment Variables ##
 
 The included `.env.local` file + pre-configured TLS `*.key`, `*.conf`,
-`*.crt`, & `*.pfx` located in [configuration](./configuration) should be enough to begin local development. If the
-default development TLS file(s) need to be changed, the password for `Development.pfx` is `Development`.
+`*.crt`, & `*.pfx` located in [configuration](./configuration) should be enough to begin local development. If the default development TLS file(s) need to be
+changed, the password for `Development.pfx` is `Development`.
 
 Please refer to the following table when creating distributions & deploying assets:
 
@@ -223,13 +251,11 @@ Please refer to the following table when creating distributions & deploying asse
 | `SSL_KEY_FILE`            |  _N/A_                 | [Description] |
 | `ENVIRONMENT`             | **_Production_**       | [Description] |
 
-Anything listed as a value of `...` is a ***soft dependency*** -- meaning that in order to achieve a full working state,
-the value(s) should exist and any associated resource(s)
-created ahead of time. However, the application will continue to resolve requests regardless of such dependents in order
-to avoid *chicken-or-egg* problems.
+Anything listed as a value of `...` is a ***soft dependency*** -- meaning that in order to achieve a full working state, the value(s) should exist and any
+associated resource(s)
+created ahead of time. However, the application will continue to resolve requests regardless of such dependents in order to avoid *chicken-or-egg* problems.
 
-These values for production should be established in a `.env.production` file during the CI-CD build process, and
-finally, in a `.env` during the distribution.
+These values for production should be established in a `.env.production` file during the CI-CD build process, and finally, in a `.env` during the distribution.
 
 ### TLS Development Key(s) ###
 
@@ -338,7 +364,6 @@ openssl pkcs12 -export -out "Development.pfx" -inkey "Development.key" -in "Deve
 ```
 
 </details>
-
 
 ## Type Hinting ##
 

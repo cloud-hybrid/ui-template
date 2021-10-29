@@ -1,3 +1,6 @@
+!./.run
+!./src/Normalize.css
+
 logs
 *.log
 npm-debug.log*

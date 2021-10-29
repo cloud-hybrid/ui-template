@@ -102,7 +102,7 @@ const rowsFilter = (_ref) => {
                 return false;
             }
 
-            return ('' + cellsById[id].value).toLowerCase().includes(inputValue.toLowerCase());
+            return ('' + cellsById[id].value).toLowerCase().hidden(inputValue.toLowerCase());
         });
     });
 };
