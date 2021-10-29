@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import * as Styles from "./SCSS/Index.module.scss";
+import * as Styles from './SCSS/Index.module.scss';
 
 import {
     StructuredListBody,
@@ -9,11 +9,11 @@ import {
     StructuredListInput,
     StructuredListRow,
     StructuredListWrapper
-} from "@carbon/react";
+} from '@carbon/react';
 
-import { CheckmarkFilled } from "@carbon/icons-react/next";
+import { CheckmarkFilled } from '@carbon/icons-react/next';
 
-import { default as Stringify } from "./Strings";
+import { default as Stringify } from './Strings';
 
 /***
  *
@@ -25,36 +25,35 @@ import { default as Stringify } from "./Strings";
  *
  */
 
-const Component = ({rows}) => {
+const Component = ({ rows }) => {
     const Columns = [
-        "Column-1",
-        "Column-2",
-        "Column-3"
+        'Column-1',
+        'Column-2',
+        'Column-3'
     ];
 
     const Generator = (rows) => {
         return Array.apply(null, Array(rows)).map((Row, r) => (
-            <StructuredListRow id={Stringify.rowID(r)} key={Stringify.rowKey(r)} className={Styles.row}>
+            <StructuredListRow id={ Stringify.rowID(r) } key={ Stringify.rowKey(r) } className={ Styles.row }>
                 {
                     Columns.map(
                         (Column, c) => {
                             return (
-                                <StructuredListCell id={Stringify.columnID(r, c)} key={Stringify.columnKey(r, c)}>
-                                    Row {r + 1} ::: Column {c + 1}
+                                <StructuredListCell id={ Stringify.columnID(r, c) } key={ Stringify.columnKey(r, c) }>
+                                    Row { r + 1 } ::: Column { c + 1 }
                                 </StructuredListCell>
-                            )
+                            );
                         }
                     )
                 }
                 <StructuredListInput
-                    title={Stringify.title(r)}
-                    name={Stringify.name(r)}
-                    checked={!r || null}
-                    defaultValue={null}
+                    title={ Stringify.title(r) }
+                    name={ Stringify.name(r) }
+                    checked={ !r || null }
                 />
                 <StructuredListCell>
                     <CheckmarkFilled
-                        className={"cds--structured-list-svg"}
+                        className={ 'cds--structured-list-svg' }
                         aria-label="Select a Row"
                     >
                         <title>Select</title>
@@ -72,7 +71,7 @@ const Component = ({rows}) => {
                         Columns.map(
                             ($, Index) => {
                                 return (
-                                    <StructuredListCell id={Stringify.columnID(Index)} key={Stringify.columnKey(Index)} head>
+                                    <StructuredListCell id={ Stringify.columnID(Index) } key={ Stringify.columnKey(Index) } head>
                                         {
                                             Columns[Index] /// --> $
                                         }
@@ -83,7 +82,7 @@ const Component = ({rows}) => {
                     }
                 </StructuredListRow>
             </StructuredListHead>
-            <StructuredListBody className={Styles.body}>
+            <StructuredListBody className={ Styles.body }>
                 {
                     Generator(rows)
                 }
@@ -98,6 +97,6 @@ Component.propTypes = {
      */
 
     rows: PropTypes.number.isRequired
-}
+};
 
 export default Component;

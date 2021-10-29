@@ -6,9 +6,8 @@ import React, {
 } from "react";
 
 import {
-    default as Breadcrumb,
-    Placeholder
-} from "./Index";
+    default as Breadcrumb
+} from "./Component.js";
 
 /***
  *
@@ -16,9 +15,9 @@ import {
  * @returns {JSX.Element}
  * @constructor
  *
-*/
+ */
 
-const Component = ({duration = 1500}) => {
+const Component = ({ duration = 1500 }) => {
     const Duration = useRef(duration);
 
     const [awaiting, setAwaiting] = useState(true);
@@ -32,11 +31,13 @@ const Component = ({duration = 1500}) => {
         Waiter().finally();
     }, []);
 
-    return (awaiting === false) ? (
-        <Breadcrumb/>
-    ): (
-        <Placeholder/>
-    )
+    return (
+               awaiting === false
+           ) ? (
+               <Breadcrumb/>
+           ): (
+               <Placeholder/>
+           );
 };
 
 export default Component;
