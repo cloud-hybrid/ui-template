@@ -35,12 +35,6 @@
     },
 
     "rules": {
-
-        //
-        //Possible Errors
-        //
-        // The following rules point out areas where you might have made mistakes.
-        //
         "comma-dangle": 2,
         // disallow or enforce trailing commas
         "no-cond-assign": 2,
@@ -450,6 +444,7 @@
         //
         // React specific linting rules for ESLint
         //
+
         "react/display-name": 2,
         // Prevent missing displayName in a React component definition
         "react/jsx-quotes": [
