@@ -82,7 +82,7 @@ async function Refresh(setter) {
         (
             error
         ) ? console.error(
-            "[Error", "Unable to Clear Cache", e
+            "[Error", "Unable to Clear Cache", error
         ) : console.debug(
             "[DEBUG]", "Successfully Removed Session Cache"
         );
