@@ -146,12 +146,12 @@ const Component = ({ Data, Headers, State, Pages }) => {
         <DataTable
             rows={ Projects }
             headers={ Headers }
-            isSortable={ false }
+            isSortable={ true }
             size={ "normal" }
             stickyHeader={ false }
-            sortRow={ (event) => {
-                console.debug(event);
-            } }
+            //            sortRow={ (event) => {
+            //                console.debug(event);
+            //            } }
             useStaticWidth={ false }
             render={
                 ({
@@ -195,45 +195,49 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                 </TableBatchAction>
                             </TableBatchActions>
                             <TableToolbarContent>
-                                <TableToolbarSearch
-                                    persistent={ true }
-                                    defaultExpanded={ true }
-                                    searchContainerClass={ Search.search }
-                                    onChange={
-                                        (event) => {
-                                            console.debug("[Debug]", "Search Change Event", event);
-                                        }
-                                    }
-                                    placeholder={ " " }
-                                    onExpand={
-                                        (event) => {
-                                            const Element = document.getElementsByClassName(Search.search).item(0);
-                                            const Input = document.getElementsByClassName("cds--search-input").item(0);
+                                {
 
-                                            (
-                                                event.type === "blur"
-                                            ) ? console.debug("[Debug]", "Search Collapse Event")
-                                                : console.debug("[Debug]", "Search Expand Event");
+                                    <TableToolbarSearch
+                                        persistent={ true }
+                                        defaultExpanded={ true }
+                                        searchContainerClass={ Search.search }
+                                        // onChange={
+                                        //     (event) => {
+                                        //         console.debug("[Debug]", "Search Change Event", event);
+                                        //     }
+                                        // }
+                                        placeholder={ " " }
+                                        onExpand={
+                                            (event) => {
+                                                const Element = document.getElementsByClassName(Search.search).item(0);
+                                                const Input = document.getElementsByClassName("cds--search-input").item(0);
 
-                                            if ( event.type === "focus" ) {
-                                                Input.style.outline = "0";
-                                                Input.style.paddingLeft = "3.0rem";
-                                                Input.style.paddingRight = "3.0rem";
+                                                (
+                                                    event.type === "blur"
+                                                ) ? console.debug("[Debug]", "Search Collapse Event")
+                                                    : console.debug("[Debug]", "Search Expand Event");
 
-                                                Element.setAttribute("expanded", "true");
-                                            } else {
-                                                Input.style.outline = "0";
-                                                Input.style.paddingLeft = "0.0rem";
-                                                Input.style.paddingRight = "0.0rem";
+                                                if ( event.type === "focus" ) {
+                                                    Input.style.outline = "0";
+                                                    Input.style.paddingLeft = "3.0rem";
+                                                    Input.style.paddingRight = "3.0rem";
 
-                                                Element.removeAttribute("expanded");
+                                                    Element.setAttribute("expanded", "true");
+                                                } else {
+                                                    Input.style.outline = "0";
+                                                    Input.style.paddingLeft = "0.0rem";
+                                                    Input.style.paddingRight = "0.0rem";
+
+                                                    Element.removeAttribute("expanded");
+                                                }
                                             }
                                         }
-                                    }
-                                    expanded={ false }
-                                    labelText={ "Test-Label-Text" }
-                                    tabIndex={ getBatchActionProps().shouldShowBatchActions ? -1 : 0 }
-                                />
+                                        expanded={ false }
+                                        labelText={ "Test-Label-Text" }
+                                        tabIndex={ getBatchActionProps().shouldShowBatchActions ? -1 : 0 }
+                                    />
+
+                                }
                                 <Button
                                     kind="ghost"
                                     size="default"
@@ -275,6 +279,11 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                     Projects.map(
                                         (Row, Index) => {
                                             Row = { ... Row, ... rows[Index] };
+
+                                            const Data = Row.Data;
+
+                                            console.log(Data);
+
                                             return (
                                                 <Fragment key={ String(Index) }>
                                                     <TableExpandRow expandIconDescription={ "Select to Expand Repository's Description" } { ... getRowProps({ row: Row }) }>

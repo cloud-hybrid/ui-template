@@ -39,29 +39,29 @@ const Component = () => {
 
     const Handler = API.Awaitable();
 
-    const Headers = [ // Total = 8
+    const Headers = [
         {
             key: "ID",
             header: "ID",
-            sortable: false,
+            sortable: true,
             value: "ID"
         },
         {
             key: "Name",
             header: "Name",
-            sortable: false,
+            sortable: true,
             value: "Name"
         },
         {
             key: "Activity",
             header: "Activity",
-            sortable: false,
+            sortable: true,
             value: "Activity"
         },
         {
             key: "Visibility",
             header: "Visibility",
-            sortable: false,
+            sortable: true,
             value: "Visibility"
         },
         {
@@ -70,18 +70,19 @@ const Component = () => {
             sortable: false,
             value: "URL"
         },
-        {
-            key: "Description",
-            header: "Description",
-            sortable: false,
-            value: "Description"
-        },
-
+        
         {
             key: "Git-HTTP-URL",
             header: "Git-HTTP-URL",
             sortable: false,
             value: "URL"
+        },
+
+        {
+            key: "CI-CD",
+            header: "CI-CD",
+            sortable: false,
+            value: "CI-CD"
         }
     ];
 
