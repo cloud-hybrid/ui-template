@@ -16,9 +16,9 @@ import {
 import { default as Tabular } from "./Table";
 
 const Component = () => {
-    const [rows, setRows] = useState(20);
-    const [page, setPage] = useState(1);
-    const [awaiting, setAwaiting] = useState(true);
+    const [ rows, setRows ] = useState(20);
+    const [ page, setPage ] = useState(1);
+    const [ awaiting, setAwaiting ] = useState(true);
 
     useEffect(() => {
         async function Await() {
@@ -89,27 +89,41 @@ const Component = () => {
         Rows: {
             Data: rows,
             Setter: (value) => setRows(value)
-        }, Total: (Handler.Total > rows) ? Handler.Total - rows: rows,
+        },
+        Total: (
+            Handler.Total > rows
+        ) ? Handler.Total - rows : rows,
         Index: {
             Data: page,
             Setter: (value) => setPage(value)
-        }, Size: rows,
-        Sizes: [rows]
+        },
+        Size: rows,
+        Sizes: [ rows ]
     };
 
     const Awaitable = () => {
-        if (awaiting === true) {
+        if ( awaiting === true ) {
             return Component();
         }
 
-        const Data = (Handler && Handler.Response && Handler.Response[page] !== null) ? new Array(
+        const Data = (
+            Handler && Handler.Response && Handler.Response[page] !== null
+        ) ? new Array(
                 Handler.Response[page])
             : new Array(0);
 
-        return (<Tabular Headers={ Headers } Data={ Data.pop() } State={ setAwaiting } Pages={ Pages }/>);
+        return (
+            <Tabular Headers={ Headers } Data={ Data.pop() } State={ setAwaiting } Pages={ Pages }/>
+        );
     };
 
-    return (Handler.Waiter === false) ? (<Awaitable/>): (<Skeleton/>);
+    return (
+        Handler.Waiter === false
+    ) ? (
+        <Awaitable/>
+    ) : (
+        <Skeleton/>
+    );
 };
 
 export default Component;

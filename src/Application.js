@@ -1,5 +1,3 @@
-import "./Application.scss";
-
 import React, { lazy as Import, Suspense, useEffect, useState } from "react";
 
 import { Column, Content, Grid, Theme } from "@carbon/react";
@@ -108,6 +106,8 @@ const Authoritative = ({ Page, $, path, transition }) => {
         </Route>
     );
 };
+
+import "./Application.scss";
 
 const Application = () => {
     const theme = useTheme("g100");

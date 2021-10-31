@@ -33,7 +33,11 @@
         "react-scripts": "^4.0.3"
     },
     "devDependencies": {
+        "@testing-library/jest-dom": "^*",
+        "@testing-library/react": "^*",
+        "@testing-library/user-event": "^*",
         "@types/browserify": "^*",
+        "@types/cacheable-request": "^*",
         "@types/carbon__colors": "^*",
         "@types/carbon__elements": "^*",
         "@types/carbon__feature-flags": "^*",
@@ -44,6 +48,7 @@
         "@types/carbon-components-react": "^*",
         "@types/core-js": "^*",
         "@types/debug": "^*",
+        "@types/eslint-scope": "^*",
         "@types/express": "^*",
         "@types/jest": "^*",
         "@types/jsonwebtoken": "^*",
@@ -52,6 +57,7 @@
         "@types/react": "^*",
         "@types/react-dom": "^*",
         "@types/react-router-dom": "^*",
+        "@types/resize-observer-browser": "^*",
         "html-webpack-plugin": "^5.5.0",
         "postcss-normalize": "^10.0.1",
         "prop-types": "^15.7.2",

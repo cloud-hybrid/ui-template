@@ -1,16 +1,17 @@
+import { default as axios } from "axios";
+
 import { useState, useEffect } from "react";
 
-const Request = require("axios");
 const Adapter = require("axios-cache-adapter");
-const Forage =  require("localforage");
+const Forage = require("localforage");
 
 const NAME = "Nexus-UI";
 const DESCRIPTION = "Cache Key-Value Table for VCS";
 export const STORE = "Gitlab-Project-Pages";
 
-const Cancellation = Request.CancelToken.source();
+const Cancellation = axios.CancelToken.source();
 
-Cancellation.Instantiate = () => Request.CancelToken.source();
+Cancellation.Instantiate = () => axios.CancelToken.source();
 
 export const Store = Forage.createInstance({
     name: NAME,
@@ -21,7 +22,9 @@ export const Store = Forage.createInstance({
 
 const Cache = Adapter.setupCache({
     excludeFromCache: false, // --> Debugging
-    debug: (process.env.NODE_ENV !== "production"),
+    debug: (
+        process.env.NODE_ENV !== "production"
+    ),
     clearOnStale: true,
     ignoreCache: true,
     limit: false,
@@ -32,42 +35,33 @@ const Cache = Adapter.setupCache({
     store: Store
 });
 
-const API = Request.create({
+const API = axios.create({
     adapter: Cache.adapter,
     cache: Cache,
     cancelToken: Cancellation.token
 });
 
 export const Methods = [
-    "get",      "GET",
-    "delete",   "DELETE",
-    "head",     "HEAD",
-    "options",  "OPTIONS",
-    "post",     "POST",
-    "put",      "PUT",
-    "patch",    "PATCH",
-    "purge",    "PURGE",
-    "link",     "LINK",
-    "unlink",   "UNLINK"
+    "get", "GET",
+    "delete", "DELETE",
+    "head", "HEAD",
+    "options", "OPTIONS",
+    "post", "POST",
+    "put", "PUT",
+    "patch", "PATCH",
+    "purge", "PURGE",
+    "link", "LINK",
+    "unlink", "UNLINK"
 ];
-
-export const Responses = {
-    Buffer:     "arraybuffer",
-    Binary:     "blob",
-    DOM:        "document",
-    JSON:       "json",
-    Text:       "text",
-    Stream:     "stream"
-};
 
 export class AIO {
     static URL = String(process.env.REACT_APP_API_ENDPOINT) + "/API/Gitlab/Projects";
 
     static Request = () => {
         const Query = () => {
-            const [data, setData] = useState({});
-            const [loading, setLoading] = useState(true);
-            const [error, setError] = useState(null);
+            const [ data, setData ] = useState({});
+            const [ loading, setLoading ] = useState(true);
+            const [ error, setError ] = useState(null);
 
             useEffect(() => {
                 let ignore = false;
@@ -81,14 +75,13 @@ export class AIO {
                         const Awaitable = { Value: null };
 
                         await Store.getItem(STORE).then((Key) => {
-                            if (Key !== null) {
+                            if ( Key !== null ) {
                                 console.debug("[DEBUG]", "Cache Hit");
 
                                 setData(Key);
                                 Awaitable["Value"] = Key;
                                 ignore = true;
-                            }
-                            else {
+                            } else {
                                 console.debug("[DEBUG]", "Cache Miss");
                             }
                         }).catch((error) => console.debug(
@@ -98,14 +91,17 @@ export class AIO {
                         ));
 
                         const Handler = async () => {
-                            if (Awaitable.Value !== null) {
+                            if ( Awaitable.Value !== null ) {
                                 await Store.setItem(STORE, Awaitable.Value);
                             }
-                        }; await Handler().then(async () => {
-                            if (ignore === false) {
+                        };
+                        await Handler().then(async () => {
+                            if ( ignore === false ) {
                                 const response = API.get(AIO.URL, {
                                     timeout: 30000
-                                }).catch((error) => (console.debug("[DEBUG]", "API-Request", "Projects", "Error", error))).finally(
+                                }).catch((error) => (
+                                    console.debug("[DEBUG]", "API-Request", "Projects", "Error", error)
+                                )).finally(
                                     () => {
                                         console.debug("[DEBUG]", "Query Awaitable Complete");
                                     }
@@ -113,28 +109,32 @@ export class AIO {
 
                                 const Result = await response;
 
-                                const Collection = (Result && Result.data) ? Result.data : null;
+                                const Collection = (
+                                    Result && Result.data
+                                ) ? Result.data : null;
 
                                 await Store.setItem(STORE, Collection);
 
-                                if (!ignore) setData(Collection);
+                                if ( !ignore ) setData(Collection);
                             }
                         });
-                    } catch (error) {
+                    } catch ( error ) {
                         console.debug("[DEBUG]", error);
                         await Store.clear();
                         console.debug("[DEBUG]", "Cache", "Projects", "Cleared");
                         ignore = true;
                     }
 
-                    finally { setLoading(false); };
+                    finally { setLoading(false); }
 
                 };
 
-                return (ignore === false) ? fetch()
+                return (
+                    ignore === false
+                ) ? fetch()
                     : () => {
-                        ignore = true
-                };
+                        ignore = true;
+                    };
             }, []);
 
             return { data, loading, error };
@@ -145,15 +145,15 @@ export class AIO {
 
     static Clear = async () => {
         await Store.clear();
-    }
+    };
 
     static Awaitable = () => {
         const { data, loading, error } = AIO.Request();
 
         let total = 0;
-        if (data !== null) {
+        if ( data !== null ) {
             let iterator = 0;
-            for (iterator; iterator < data.length; iterator++) {
+            for ( iterator; iterator < data.length; iterator++ ) {
                 total += data[iterator].length;
             }
         }
@@ -165,7 +165,7 @@ export class AIO {
             Total: total
         };
     };
-};
+}
 
 export default AIO;
 
