@@ -1,0 +1,61 @@
+//
+// Copyright IBM Corp. 2020, 2021
+//
+// This source code is licensed under the Apache-2.0 license found in the
+// LICENSE file in the root directory of this source tree.
+//
+
+// Standard imports.
+@import '../../global/styles/project-settings';
+
+// ExportModal uses the following Carbon components:
+// Button, ComposedModal, ModalHeader, ModalFooter, ModalBody, TextInput,
+// RadioButton, RadioButtonGroup, FormGroup, Loading
+@import 'carbon-components/scss/components/button/button';
+@import 'carbon-components/scss/components/modal/modal';
+@import 'carbon-components/scss/components/text-input/text-input';
+@import 'carbon-components/scss/components/radio-button/radio-button';
+@import 'carbon-components/scss/components/form/form';
+@import 'carbon-components/scss/components/loading/loading';
+
+@mixin export-modal {
+  $block-class: #{$pkg-prefix}--export-modal;
+
+  .#{$block-class} .bx--modal-footer .bx--btn {
+    max-width: none;
+  }
+
+  .#{$block-class}.#{$carbon-prefix}--modal .bx--modal-content {
+    padding-right: $spacing-05;
+  }
+
+  .#{$block-class} .bx--modal-close {
+    display: none;
+  }
+
+  .#{$block-class}__body {
+    padding-right: calc(20% - #{$spacing-05});
+    margin-bottom: $spacing-05;
+  }
+
+  .#{$block-class}__messaging {
+    display: flex;
+    align-items: center;
+  }
+
+  .#{$block-class}__messaging p {
+    margin-left: $spacing-03;
+  }
+
+  .#{$block-class}__checkmark-icon {
+    fill: $interactive-01;
+  }
+
+  .#{$block-class}__error-icon {
+    fill: $danger;
+  }
+}
+
+@include exports('export-modal') {
+  @include export-modal;
+}

@@ -1,0 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "NoTagsEmptyState", {
+  enumerable: true,
+  get: function get() {
+    return _NoTagsEmptyState.NoTagsEmptyState;
+  }
+});
+
+var _NoTagsEmptyState = require("./NoTagsEmptyState");

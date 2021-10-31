@@ -12,9 +12,13 @@ const Default = () => {
     const Page = Import(() => import("./Page").then((Module) => Module));
 
     return (
-        <Grid className={ [Styles["home-page"], Styles.component].join(" ")}>
-            <Column lg={ 16 } md={ 8 } sm={ 4 } className={ Styles["home-page"] }>
-                <Suspense fallback={ (<></>) }>
+        <Grid className={ [ Styles.home, Styles.component ].join(" ") }>
+            <Column lg={ 16 } md={ 8 } sm={ 4 } className={ Styles.home }>
+                <Suspense
+                    fallback={ (
+                        <></>
+                    ) }
+                >
                     <Page/>
                 </Suspense>
             </Column>

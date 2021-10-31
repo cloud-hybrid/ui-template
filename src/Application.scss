@@ -1,41 +1,61 @@
 /* =============================================================================
 Application Style Sheet (SCSS)
-*///// =========================================================================
+*//*========================================================================= */
 
 /* -------------------
 Namespace Imports
-*/// -----------------
+*//*-----------------*/
 
 @use "@carbon/react/scss/breakpoint" as *;
 
 /* -------------------
 Global Overwrites
-*/// -----------------
+*//*-----------------*/
 
 // Primary Content Container
 .cds--content {
     background: var(--cds-background);
     margin-top: 3.0rem;
     min-height: calc(100vh - 3.0rem);
-    padding: 0.0rem;
+    padding:    0.0rem;
 }
 
-// --> Content Container + Grid
+// Content Container + Grid
 .cds--content .cds--css-grid {
     max-width: 100%;
     @include breakpoint(md) {
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left:   20px;
+        padding-right:  20px;
         padding-bottom: 20px;
+    }
+}
+
+// Menu Notifications Label
+.exp--notifications-panel__container {
+    .exp--notifications-panel__time-section-label {
+        z-index:  1;
+        position: absolute;
+        width:    100%;
+        top:      6.5rem;
+    }
+
+    .exp--notifications-panel__notification {
+        .exp--notifications-panel__notifications-link {
+            margin-top: 0.5rem;
+        }
+    }
+
+    .exp--notifications-panel__notification:first-of-type {
+        margin-top: 1.75rem;
     }
 }
 
 // Data Table Borders
 tr.cds--parent-row.cds--data-table--selected:not(.cds--expandable-row):hover td {
-    border-top: 1px solid var(--cds-layer-selected-hover);
+    border-top:    1px solid var(--cds-layer-selected-hover);
     border-bottom: 1px solid var(--cds-border-subtle);
-    background: var(--cds-layer-selected-hover);
-    box-shadow: 0 1px var(--cds-layer-selected-hover);
+    background:    var(--cds-layer-selected-hover);
+    box-shadow:    0 1px var(--cds-layer-selected-hover);
 }
 
 // Data Table Checkboxes
@@ -51,9 +71,9 @@ tr.cds--parent-row.cds--data-table--selected.cds--expandable-row + tr[data-child
 
 // Code Snippets
 .cds--snippet--single .cds--snippet-container:focus {
-    outline: 2px solid var(--cds-focus, #0f62fe);
+    outline:        2px solid var(--cds-focus, #0F62FE);
     outline-offset: -2px;
-    width: 100%;
+    width:          100%;
 }
 
 // Data Table Pagination Separator
@@ -94,26 +114,26 @@ tr[data-child-row] {
 
 /* ---------------
 Media Queries
-*/// -------------
+*//*-----------------*/
 @media (max-width: 42rem) {
     .cds--content .cds--css-grid {
-        padding-left: 1.0rem;
-        padding-right: 1.0rem;
+        padding-left:   1.0rem;
+        padding-right:  1.0rem;
         padding-bottom: 1.0rem;
     }
 }
 
 @media (min-width: 42rem) and (min-width: 42rem) {
     .cds--content .cds--css-grid {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
+        padding-left:   1.5rem;
+        padding-right:  1.5rem;
         padding-bottom: 1.5rem;
     }
 }
 
 /* -------------------
 Functional Mixins
-*/// -----------------
+*//*-----------------*/
 
 // @Unselectable, Highlightable Element(s)
 
@@ -125,16 +145,16 @@ Functional Mixins
     // >>> -webkit-touch-callout: none; /* iOS Safari */
 
     -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
+    -khtml-user-select:  none; /* Konqueror HTML */
+    -moz-user-select:    none; /* Old versions of Firefox */
+    -ms-user-select:     none; /* Internet Explorer/Edge */
 
-    user-select: none;
+    user-select:         none;
 }
 
 /* -------------------
 Utility Selectors
-*/// -----------------
+*//*-----------------*/
 
 .no-select {
     @include disable-selection;

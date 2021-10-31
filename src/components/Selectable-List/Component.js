@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import * as Styles from './SCSS/Index.module.scss';
+import * as Styles from "./SCSS/Index.module.scss";
 
 import {
     StructuredListBody,
@@ -9,11 +9,11 @@ import {
     StructuredListInput,
     StructuredListRow,
     StructuredListWrapper
-} from '@carbon/react';
+} from "@carbon/react";
 
-import { CheckmarkFilled } from '@carbon/icons-react/next';
+import { CheckmarkFilled } from "@carbon/icons-react/next";
 
-import { default as Stringify } from './Strings';
+import { default as Stringify } from "./Strings";
 
 /***
  *
@@ -27,9 +27,9 @@ import { default as Stringify } from './Strings';
 
 const Component = ({ rows }) => {
     const Columns = [
-        'Column-1',
-        'Column-2',
-        'Column-3'
+        "Column-1",
+        "Column-2",
+        "Column-3"
     ];
 
     const Generator = (rows) => {
@@ -50,10 +50,11 @@ const Component = ({ rows }) => {
                     title={ Stringify.title(r) }
                     name={ Stringify.name(r) }
                     checked={ !r || null }
+                    /// value={ !r || "" }
                 />
                 <StructuredListCell>
                     <CheckmarkFilled
-                        className={ 'cds--structured-list-svg' }
+                        className={ "cds--structured-list-svg" }
                         aria-label="Select a Row"
                     >
                         <title>Select</title>

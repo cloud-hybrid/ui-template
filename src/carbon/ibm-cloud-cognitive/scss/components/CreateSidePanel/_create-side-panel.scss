@@ -1,0 +1,99 @@
+//
+// Copyright IBM Corp. 2021, 2021
+//
+// This source code is licensed under the Apache-2.0 license found in the
+// LICENSE file in the root directory of this source tree.
+//
+
+// Standard imports.
+@import '../../global/styles/project-settings';
+@import '../SidePanel/side-panel-variables';
+
+// CreateSidePanel uses the following Carbon components:
+// Form
+@import 'carbon-components/scss/components/form/form';
+
+// CreateSidePanel uses the following Cloud & Cognitive components:
+// SidePanel
+@import '../SidePanel/side-panel';
+
+@mixin create-side-panel {
+  $block-class: #{$pkg-prefix}--create-side-panel;
+  $side-panel-block-class: #{$pkg-prefix}--side-panel;
+
+  .#{$block-class}.#{$side-panel-block-class}__container
+    .#{$block-class}__content-text {
+    padding-right: calc(20% - #{$spacing-05});
+  }
+
+  @each $size, $value in $side-panel-sizes {
+    .#{$block-class}.#{$side-panel-block-class}__container--#{$size}
+      .#{$side-panel-block-class}__title-text {
+      width: calc(#{$value} - #{$spacing-05});
+      // stylelint-disable-next-line carbon/layout-token-use
+      padding-right: calc((#{$value} * 0.2) - #{$spacing-05});
+      margin-bottom: $spacing-02;
+    }
+    .#{$block-class}.#{$side-panel-block-class}__container--#{$size}
+      .#{$side-panel-block-class}__subtitle-text {
+      width: calc(#{$value} - #{$spacing-05});
+      // stylelint-disable-next-line carbon/layout-token-use
+      padding-right: calc((#{$value} * 0.2) - #{$spacing-05});
+      padding-bottom: $spacing-05;
+      border-bottom: 1px solid $ui-03;
+      color: $text-02;
+    }
+  }
+
+  .#{$carbon-prefix}--form.#{$block-class}__form {
+    padding-top: $spacing-05;
+  }
+
+  .#{$block-class}__form.#{$carbon-prefix}--fieldset {
+    padding-top: $spacing-03;
+  }
+
+  .#{$block-class}__form > * {
+    margin-bottom: $spacing-05;
+  }
+
+  .#{$block-class}__form-title-text {
+    @include carbon--type-style('productive-heading-02');
+
+    padding-bottom: $spacing-03;
+  }
+
+  .#{$block-class}__form-description-text {
+    @include carbon--type-style('body-long-01');
+  }
+
+  .#{$block-class}.#{$side-panel-block-class}
+    .bx--btn.#{$side-panel-block-class}__close-button {
+    display: none;
+  }
+
+  .#{$block-class}__title {
+    @include carbon--type-style('productive-heading-03');
+
+    margin-bottom: $spacing-02;
+  }
+
+  .#{$block-class}__subtitle {
+    @include carbon--type-style('body-short-01');
+
+    margin-bottom: $spacing-03;
+    color: $text-02;
+  }
+  .#{$side-panel-block-class} .#{$block-class}__actions-container {
+    position: absolute;
+    z-index: 4;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+@include exports('create-side-panel') {
+  @include create-side-panel;
+}

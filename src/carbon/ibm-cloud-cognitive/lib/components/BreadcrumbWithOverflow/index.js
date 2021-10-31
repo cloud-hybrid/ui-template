@@ -1,0 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "BreadcrumbWithOverflow", {
+  enumerable: true,
+  get: function get() {
+    return _BreadcrumbWithOverflow.BreadcrumbWithOverflow;
+  }
+});
+
+var _BreadcrumbWithOverflow = require("./BreadcrumbWithOverflow");

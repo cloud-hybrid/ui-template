@@ -88,35 +88,33 @@ const Component = (props) => {
                 { [
                     ... new Set(
                         schema.examples.concat(schema.default ? [ schema.default ] : [])
-                    ),
+                    )
                 ].map(example => (
                     <option key={ example } value={ example }/>
                 )) }
             </datalist>
-        ) : null,
+        ) : null
     ];
-}
+};
 
-BaseInput.defaultProps = {
+Component.defaultProps = {
     required: false,
     disabled: false,
     readonly: false,
-    autofocus: false,
+    autofocus: false
 };
 
-if ( process.env.NODE_ENV !== "production" ) {
-    BaseInput.propTypes = {
-        id: PropTypes.string.isRequired,
-        placeholder: PropTypes.string,
-        value: PropTypes.any,
-        required: PropTypes.bool,
-        disabled: PropTypes.bool,
-        readonly: PropTypes.bool,
-        autofocus: PropTypes.bool,
-        onChange: PropTypes.func,
-        onBlur: PropTypes.func,
-        onFocus: PropTypes.func,
-    };
-}
+Component.propTypes = {
+    id: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
+    value: PropTypes.any,
+    required: PropTypes.bool,
+    disabled: PropTypes.bool,
+    readonly: PropTypes.bool,
+    autofocus: PropTypes.bool,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func
+};
 
-export default BaseInput;
+export default Component;

@@ -1,172 +1,18 @@
 import PropTypes from "prop-types";
 
-import {InlineNotification, ToastNotification, ActionableNotification} from "carbon-components-react";
+import { InlineNotification, ToastNotification, ActionableNotification } from "carbon-components-react";
+import { default as Difference } from "./../../../utilities/Difference.js";
 
-const Properties = {
-    Inline: {
-        Default: {
-            kind: "info",
-            lowContrast: true,
-            role: "alert",
-            title: "[Title Title]",
-            subtitle: "[Subtitle Content]",
-            iconDescription: "[Icon Descriptive Content]",
-            statusIconDescription: "[Status Icon Descriptive Content]",
-            hideCloseButton: false,
-            closeOnEscape: true,
-            /// onClose: null,
-            /// onCloseButtonClick: null,
-        },
-        Description: {
-            kind: "The notification Type",
-            lowContrast: "Use low contrast variant",
-            role: "ARIA role",
-            title: "Notification Title Text",
-            subtitle: "Notification Subtitle Context",
-            iconDescription: "Icon Hover-Over Content",
-            statusIconDescription: "Status Icon Hover-Over Content",
-            hideCloseButton: "Disable Close Button",
-            closeOnEscape: "Keyboard Escape Shortcut for Closing Notification Dialogue",
-            /// onClose: "Close Event Action(s)",
-            /// onCloseButtonClick: "Close Button Click Event Action(s)"
-        },
-        Types: {
-            "Error": "error",
-            "Info": "info",
-            "Info-Square": "info-square",
-            "Success": "success",
-            "Warning": "warning",
-            "Warning-Alternative": "warning-alt",
+const Delimiter = () => (
+    <>
+        {
+            " "
         }
-    },
-    Toast: {
-        Default: {
-            kind: "info",
-            lowContrast: true,
-            role: "alert",
-            title: "[Title Title]",
-            subtitle: "[Subtitle Content]",
-            iconDescription: "[Icon Descriptive Content]",
-            statusIconDescription: "[Status Icon Descriptive Content]",
-            hideCloseButton: false,
-            closeOnEscape: true,
-            /// onClose: null,
-            /// onCloseButtonClick: null,
+    </>
+);
 
-            /* Extended */
-            timeout: 1000
-        },
-        Description: {
-            kind: "The notification Type",
-            lowContrast: "Use low contrast variant",
-            role: "ARIA role",
-            title: "Notification Title Text",
-            subtitle: "Notification Subtitle Context",
-            iconDescription: "Icon Hover-Over Content",
-            statusIconDescription: "Status Icon Hover-Over Content",
-            hideCloseButton: "Disable Close Button",
-            closeOnEscape: "Keyboard Escape Shortcut for Closing Notification Dialogue",
-            /// onClose: "Close Event Action(s)",
-            /// onCloseButtonClick: "Close Button Click Event Action(s)"
-
-            /* Extended */
-            timeout: "Total Visible Time (ms) Until Un-Render"
-        },
-        Types: {
-            "Error": "error",
-            "Info": "info",
-            "Info-Square": "info-square",
-            "Success": "success",
-            "Warning": "warning",
-            "Warning-Alternative": "warning-alt",
-        },
-    },
-    Actionable: {
-        Default: {
-            kind: "info",
-            lowContrast: true,
-            role: "alert",
-            title: "[Title Title]",
-            subtitle: "[Subtitle Content]",
-            iconDescription: "[Icon Descriptive Content]",
-            statusIconDescription: "[Status Icon Descriptive Content]",
-            hideCloseButton: false,
-            closeOnEscape: true,
-            /// onClose: null,
-            /// onCloseButtonClick: null,
-
-            /* Extended */
-            inline: true,
-            hasFocus: true,
-            actionButtonLabel: "[Button-Label]",
-            onActionButtonClick: (event) => console.trace("[Trace]", "Actionable Button Click Event", event)
-        },
-        Description: {
-            kind: "The notification Type",
-            lowContrast: "Use low contrast variant",
-            role: "ARIA role",
-            title: "Notification Title Text",
-            subtitle: "Notification Subtitle Context",
-            iconDescription: "Icon Hover-Over Content",
-            statusIconDescription: "Status Icon Hover-Over Content",
-            hideCloseButton: "Disable Close Button",
-            closeOnEscape: "Keyboard Escape Shortcut for Closing Notification Dialogue",
-            /// onClose: "Close Event Action(s)",
-            /// onCloseButtonClick: "Close Button Click Event Action(s)"
-
-            /* Extended */
-            inline: "Set Boolean to Assign Visual Inline Element",
-            hasFocus: "Focus Element upon Visibility",
-            actionButtonLabel: "Button Label",
-            onActionButtonClick: "Button Action(s) to Perform upon Click Event(s)"
-        },
-        Types: {
-            "Error": "error",
-            "Info": "info",
-            "Info-Square": "info-square",
-            "Success": "success",
-            "Warning": "warning",
-            "Warning-Alternative": "warning-alt",
-        }
-    }
-};
-
-/***
- *
- * @param kind
- * @param lowContrast
- * @param role
- * @param title
- * @param subtitle
- * @param iconDescription
- * @param statusIconDescription
- * @param hideCloseButton
- * @param closeOnEscape
- * @param onClose
- * @param onCloseButtonClick
- *
- * @returns {JSX.Element}
- *
- * @constructor
- *
- */
-
-export const Inline = (
-    {
-        kind = Properties.Inline.Default.kind,
-        lowContrast = Properties.Inline.Default.lowContrast,
-        role = Properties.Inline.Default.role,
-        title = Properties.Inline.Default.title,
-        subtitle = Properties.Inline.Default.subtitle,
-        iconDescription = Properties.Inline.Default.iconDescription,
-        statusIconDescription = Properties.Inline.Default.statusIconDescription,
-        hideCloseButton = Properties.Inline.Default.hideCloseButton,
-        closeOnEscape = Properties.Inline.Default.closeOnEscape,
-        /// onClose = Properties.Inline.Default.onClose,
-        /// onCloseButtonClick = Properties.Inline.Default.onCloseButtonClick,
-    }) => {
-
-    const Values = {
+export const Inline = (props) => {
+    const {
         kind,
         lowContrast,
         role,
@@ -176,14 +22,36 @@ export const Inline = (
         statusIconDescription,
         hideCloseButton,
         closeOnEscape,
-        /// onClose,
-        /// onCloseButtonClick
-    };
+        ... properties
+    } = props;
 
-    const Delimiter = () => (<>{" "}</>);
+    console.debug("Properties (Inline-Notification)", Difference(props, properties));
+
+    console.debug("Attributes (Inline-Notification)", properties);
 
     return (
-        <InlineNotification {... Values}>
+        <InlineNotification
+            kind={ kind }
+            lowContrast={ lowContrast }
+            role={ role }
+            title={ title }
+            subtitle={ subtitle }
+            iconDescription={ iconDescription }
+            statusIconDescription={ statusIconDescription }
+            hideCloseButton={ hideCloseButton }
+            closeOnEscape={ closeOnEscape }
+
+            {
+                ... properties
+            }
+
+            data-properties={
+                String(JSON.stringify({
+                    Properties: JSON.stringify(Difference(props, properties), null, 4),
+                    Attributes: JSON.stringify(properties, null, 4)
+                }, null, 4).valueOf())
+            }
+        >
             <span>
                 <strong>
                     { title }
@@ -192,7 +60,20 @@ export const Inline = (
                 { subtitle }
             </span>
         </InlineNotification>
-    )
+    );
+};
+
+Inline.defaultProps = {
+    kind: "info",
+    lowContrast: true,
+    role: "alert",
+    title: "[Title Title]",
+    subtitle: "[Subtitle Content]",
+    iconDescription: "[Icon Descriptive Content]",
+    statusIconDescription: "[Status Icon Descriptive Content]",
+    hideCloseButton: false,
+    closeOnEscape: true,
+    properties: null
 };
 
 Inline.propTypes = {
@@ -224,7 +105,7 @@ Inline.propTypes = {
     /**
      * Specify what state the notification represents
      */
-    kind: PropTypes.oneOf(["error", "info", "info-square", "success", "warning", "warning-alt"]),
+    kind: PropTypes.oneOf([ "error", "info", "info-square", "success", "warning", "warning-alt" ]),
 
     /**
      * Specify whether you are using the low contrast variant of the ToastNotification.
@@ -245,35 +126,21 @@ Inline.propTypes = {
      * By default, this value is "alert". You can also provide an alternate
      * role if it makes sense from the accessibility-side
      */
-    role: PropTypes.oneOf(["alert", "log", "status"]),
+    role: PropTypes.oneOf([ "alert", "log", "status" ]),
 
     /**
      * Provide a description for "status" icon that can be read by screen readers
      */
-    statusIconDescription: PropTypes.string
+    statusIconDescription: PropTypes.string,
+
+    /**
+     * Additional Properties
+     */
+    properties: PropTypes.any
 };
 
-export const Toast = (
-    {
-        kind = Properties.Toast.Default.kind,
-        lowContrast = Properties.Toast.Default.lowContrast,
-        role = Properties.Toast.Default.role,
-        title = Properties.Toast.Default.title,
-        subtitle = Properties.Toast.Default.subtitle,
-        iconDescription = Properties.Toast.Default.iconDescription,
-        statusIconDescription = Properties.Toast.Default.statusIconDescription,
-        hideCloseButton = Properties.Toast.Default.hideCloseButton,
-        closeOnEscape = Properties.Toast.Default.closeOnEscape,
-        /// onClose = Properties.Toast.Default.onClose,
-        /// onCloseButtonClick = Properties.Toast.Default.onCloseButtonClick,
-
-        /* Extended */
-        timeout = Properties.Toast.Default.timeout,
-
-        ... props
-    }) => {
-
-    const Values = {
+export const Toast = (props) => {
+    const {
         kind,
         lowContrast,
         role,
@@ -283,24 +150,46 @@ export const Toast = (
         statusIconDescription,
         hideCloseButton,
         closeOnEscape,
-        /// onClose,
-        /// onCloseButtonClick,
-
-        /* Extended */
         timeout,
-    };
 
-    const Delimiter = () => (<>{" "}</>);
+        ... properties
+    } = props;
+
+    console.debug("Properties (Toast-Notification)", Difference(props, properties));
+
+    console.debug("Attributes (Toast-Notification)", properties);
 
     return (
-        <ToastNotification { ... props } {... Values}>
-                <strong>
-                    {title}
-                </strong>
-                <Delimiter/>
-                {subtitle}
+        <ToastNotification
+            kind={ kind }
+            lowContrast={ lowContrast }
+            role={ role }
+            title={ title }
+            subtitle={ subtitle }
+            iconDescription={ iconDescription }
+            statusIconDescription={ statusIconDescription }
+            hideCloseButton={ hideCloseButton }
+            closeOnEscape={ closeOnEscape }
+            timeout={ timeout }
+
+            {
+                ... properties
+            }
+
+            data-properties={
+                String(JSON.stringify({
+                    Properties: JSON.stringify(Difference(props, properties), null, 4),
+                    Attributes: JSON.stringify(properties, null, 4)
+                }, null, 4).valueOf())
+            }
+        >
+            <strong>
+                { title }
+            </strong>
+            <Delimiter/>
+            { subtitle }
         </ToastNotification>
-    )
+    );
 };
 
 Toast.propTypes = {
@@ -332,7 +221,7 @@ Toast.propTypes = {
     /**
      * Specify what state the notification represents
      */
-    kind: PropTypes.oneOf(["error", "info", "info-square", "success", "warning", "warning-alt"]),
+    kind: PropTypes.oneOf([ "error", "info", "info-square", "success", "warning", "warning-alt" ]),
 
     /**
      * Specify whether you are using the low contrast variant of the ToastNotification.
@@ -353,7 +242,7 @@ Toast.propTypes = {
      * By default, this value is "alert". You can also provide an alternate
      * role if it makes sense from the accessibility-side
      */
-    role: PropTypes.oneOf(["alert", "log", "status"]),
+    role: PropTypes.oneOf([ "alert", "log", "status" ]),
 
     /**
      * Provide a description for "status" icon that can be read by screen readers
@@ -363,31 +252,30 @@ Toast.propTypes = {
     /**
      * Specify an optional duration the notification should be closed in
      */
-    timeout: PropTypes.number
+    timeout: PropTypes.number,
+
+    /**
+     * Additional Properties
+     */
+    properties: PropTypes.any
 };
 
-export const Actionable = (
-    {
-        kind = Properties.Actionable.Default.kind,
-        lowContrast = Properties.Actionable.Default.lowContrast,
-        role = Properties.Actionable.Default.role,
-        title = Properties.Actionable.Default.title,
-        subtitle = Properties.Actionable.Default.subtitle,
-        iconDescription = Properties.Actionable.Default.iconDescription,
-        statusIconDescription = Properties.Actionable.Default.statusIconDescription,
-        hideCloseButton = Properties.Actionable.Default.hideCloseButton,
-        closeOnEscape = Properties.Actionable.Default.closeOnEscape,
-        /// onClose = Properties.Actionable.Default.onClose,
-        /// onCloseButtonClick = Properties.Actionable.Default.onCloseButtonClick,
+Toast.defaultProps = {
+    kind: "info",
+    lowContrast: true,
+    role: "alert",
+    title: "[Title Title]",
+    subtitle: "[Subtitle Content]",
+    iconDescription: "[Icon Descriptive Content]",
+    statusIconDescription: "[Status Icon Descriptive Content]",
+    hideCloseButton: false,
+    closeOnEscape: true,
+    timeout: 1000,
+    properties: null
+};
 
-        /* Extended */
-        inline = Properties.Actionable.Default.inline,
-        hasFocus = Properties.Actionable.Default.hasFocus,
-        actionButtonLabel = Properties.Actionable.Default.actionButtonLabel,
-        onActionButtonClick = Properties.Actionable.Default.onActionButtonClick
-    }) => {
-
-    const Values = {
+export const Actionable = (props) => {
+    const {
         kind,
         lowContrast,
         role,
@@ -397,27 +285,51 @@ export const Actionable = (
         statusIconDescription,
         hideCloseButton,
         closeOnEscape,
-        /// onClose,
-        /// onCloseButtonClick,
-
-        /* Extended */
         inline,
         hasFocus,
         actionButtonLabel,
-        onActionButtonClick
-    };
+        onActionButtonClick,
+        ... properties
+    } = props;
 
-    const Delimiter = () => (<>{" "}</>);
+    console.debug("Properties (Actionable-Notification)", Difference(props, properties));
+
+    console.debug("Attributes (Actionable-Notification)", properties);
 
     return (
-        <ActionableNotification {...Values}>
+        <ActionableNotification
+            kind={ kind }
+            lowContrast={ lowContrast }
+            role={ role }
+            title={ title }
+            subtitle={ subtitle }
+            iconDescription={ iconDescription }
+            statusIconDescription={ statusIconDescription }
+            hideCloseButton={ hideCloseButton }
+            closeOnEscape={ closeOnEscape }
+            inline={ inline }
+            hasFocus={ hasFocus }
+            actionButtonLabel={ actionButtonLabel }
+            onActionButtonClick={ onActionButtonClick }
+
+            {
+                ... properties
+            }
+
+            data-properties={
+                String(JSON.stringify({
+                    Properties: JSON.stringify(Difference(props, properties), null, 4),
+                    Attributes: JSON.stringify(properties, null, 4)
+                }, null, 4).valueOf())
+            }
+        >
             <strong>
-                {title}
+                { title }
             </strong>
             <Delimiter/>
-            {subtitle}
+            { subtitle }
         </ActionableNotification>
-    )
+    );
 };
 
 Actionable.propTypes = {
@@ -464,7 +376,7 @@ Actionable.propTypes = {
     /**
      * Specify what state the notification represents
      */
-    kind: PropTypes.oneOf(["error", "info", "info-square", "success", "warning", "warning-alt"]),
+    kind: PropTypes.oneOf([ "error", "info", "info-square", "success", "warning", "warning-alt" ]),
 
     /**
      * Specify whether you are using the low contrast variant of the ActionableNotification.
@@ -495,11 +407,26 @@ Actionable.propTypes = {
     /**
      * Provide a description for "status" icon that can be read by screen readers
      */
-    statusIconDescription: PropTypes.string
+    statusIconDescription: PropTypes.string,
+
+    /**
+     * Additional Properties
+     */
+    properties: PropTypes.any
 };
 
-const Exports = {
-    Inline, Toast, Actionable
+Actionable.defaultProps = {
+    kind: "info",
+    lowContrast: true,
+    role: "alert",
+    title: "[Title Title]",
+    subtitle: "[Subtitle Content]",
+    iconDescription: "[Icon Descriptive Content]",
+    statusIconDescription: "[Status Icon Descriptive Content]",
+    hideCloseButton: false,
+    closeOnEscape: true,
+    inline: true,
+    hasFocus: true,
+    actionButtonLabel: "[Button-Label]",
+    onActionButtonClick: (event) => console.trace("[Trace]", "Actionable Button Click Event", event)
 };
-
-export default Exports;

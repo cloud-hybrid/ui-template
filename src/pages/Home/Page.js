@@ -16,20 +16,22 @@ import {
 
 import { default as Selectable } from "./../../components/Tile-Mutli-Select/Index";
 
-import { default as Editor } from "./../../utilities/Markdown-Editor";
-
 import { default as List } from "./../../components/Selectable-List";
+
+import { default as Testing } from "./../../components/Test";
+
+import { Inline } from "./../../components/Notifications/Authentication/Informational.js";
 
 function createArrayFromPhrase(phrase) {
     const splitPhrase = phrase.split(" ");
     const thirdWord = splitPhrase.pop();
-    return [splitPhrase.join(" "), thirdWord];
+    return [ splitPhrase.join(" "), thirdWord ];
 }
 
 const Sectional = (props) => (
     <Grid>
         <Column md={ 8 } lg={ 4 } xlg={ 3 }>
-            <h3 className={ Styles["home-page-info-section-heading"] }>
+            <h3 className={ Styles["home-info-section-heading"] }>
                 { props.heading }
             </h3>
         </Column>
@@ -41,8 +43,8 @@ const Card = ({ heading, body, icon }) => {
     const splitHeading = createArrayFromPhrase(heading);
 
     return (
-        <Column sm={ 4 } md={ 8 } lg={ 4 } className={ Styles["home-page-info-card"] }>
-            <h4 className={ Styles["home-page-info-heading"] }>
+        <Column sm={ 4 } md={ 8 } lg={ 4 } className={ Styles["home-info-card"] }>
+            <h4 className={ Styles["home-info-heading"] }>
                 { splitHeading[0] + " " }
                 <strong>
                     {
@@ -50,7 +52,7 @@ const Card = ({ heading, body, icon }) => {
                     }
                 </strong>
             </h4>
-            <p className={ Styles["home-page-info-card-body"] }>
+            <p className={ Styles["home-info-card-body"] }>
                 { body }
             </p>
             { icon }
@@ -61,25 +63,25 @@ const Card = ({ heading, body, icon }) => {
 const Component = () => {
     return (
         <>
-            <Column lg={ 16 } md={ 8 } sm={ 4 } className={ Styles["home-page-banner"]}>
-                <h1 className={ Styles["home-page-heading"] }>
+            <Column lg={ 16 } md={ 8 } sm={ 4 } className={ Styles["home-banner"] }>
+                <h1 className={ Styles["home-heading"] }>
                     Design &amp; build with Carbon
                 </h1>
             </Column>
-            <Column className={ Styles["home-page-row-2"] }>
+            <Column className={ Styles["home-row-2"] }>
                 <Tabs
                     aria-label="Tab Navigation"
-                    className={ Styles["home-page-tabs-group"] }
+                    className={ Styles["home-tabs-group"] }
                 >
-                    <Tab label="About" className={ Styles["home-page-label"] }>
+                    <Tab label="About" className={ Styles["home-label"] }>
                         <Grid>
                             <Column
                                 md={ 4 }
                                 lg={ 7 }
                                 sm={ 4 }
                             >
-                                <h2 className={ Styles["home-page-subheading"] }>Overview</h2>
-                                <p className={ Styles["home-page-paragraph"] }>
+                                <h2 className={ Styles["home-subheading"] }>Overview</h2>
+                                <p className={ Styles["home-paragraph"] }>
                                     Carbon is IBM’s open-source design system for digital products
                                     and experiences. With the IBM Design Language as its
                                     foundation, the system consists of working code, design tools
@@ -94,22 +96,22 @@ const Component = () => {
                                 sm={ 4 }
                             >
                                 <img
-                                    className={ Styles["home-page-primary-image"] }
+                                    className={ Styles["home-primary-image"] }
                                     src={ `${ process.env.PUBLIC_URL }/illustration.png` }
                                     alt="Carbon illustration"
                                 />
                             </Column>
                         </Grid>
                     </Tab>
-                    <Tab label="Design" className={ Styles["home-page-label"] }>
+                    <Tab label="Design" className={ Styles["home-label"] }>
                         <Grid>
                             <Column
                                 md={ 4 }
                                 lg={ 7 }
                                 sm={ 4 }
                             >
-                                <h2 className={ Styles["home-page-subheading"] }>Designing with Carbon</h2>
-                                <p className={ Styles["home-page-paragraph"] }>
+                                <h2 className={ Styles["home-subheading"] }>Designing with Carbon</h2>
+                                <p className={ Styles["home-paragraph"] }>
                                     Rapidly build beautiful and accessible experiences. The Carbon
                                     kit contains all resources you need to get started.
                                 </p>
@@ -121,22 +123,22 @@ const Component = () => {
                                 sm={ 4 }
                             >
                                 <img
-                                    className={ Styles["home-page-primary-image"] }
+                                    className={ Styles["home-primary-image"] }
                                     src={ `${ process.env.PUBLIC_URL }/illustration.png` }
                                     alt="Carbon illustration"
                                 />
                             </Column>
                         </Grid>
                     </Tab>
-                    <Tab label="Develop" className={ Styles["home-page-label"] }>
+                    <Tab label="Develop" className={ Styles["home-label"] }>
                         <Grid>
                             <Column
                                 md={ 4 }
                                 lg={ 7 }
                                 sm={ 4 }
                             >
-                                <h2 className={ Styles["home-page-subheading"] }>Development</h2>
-                                <p className={ Styles["home-page-paragraph"] }>
+                                <h2 className={ Styles["home-subheading"] }>Development</h2>
+                                <p className={ Styles["home-paragraph"] }>
                                     Carbon provides Styles and components in Vanilla, React,
                                     Angular, and Vue for anyone building on the web.
                                 </p>
@@ -148,7 +150,7 @@ const Component = () => {
                                 sm={ 4 }
                             >
                                 <img
-                                    className={ Styles["home-page-primary-image"] }
+                                    className={ Styles["home-primary-image"] }
                                     src={ `${ process.env.PUBLIC_URL }/illustration.png` }
                                     alt="Carbon illustration"
                                 />
@@ -157,8 +159,8 @@ const Component = () => {
                     </Tab>
                 </Tabs>
             </Column>
-            <Column lg={ 16 } md={ 8 } sm={ 4 } className={ Styles["home-page-row-3"]}>
-                <Sectional heading="The Principles" className={ Styles["home-page-row-3"] }>
+            <Column lg={ 16 } md={ 8 } sm={ 4 } className={ Styles["home-row-3"] }>
+                <Sectional heading="The Principles" className={ Styles["home-row-3"] }>
                     <Card
                         heading="Carbon is Open"
                         body="It's a distributed effort, guided by the principles of the open-source movement. Carbon's users are also it's makers, and everyone is encouraged to contribute."
@@ -176,10 +178,10 @@ const Component = () => {
                     />
                 </Sectional>
             </Column>
+            <hr/>
             <Selectable/>
-            <List rows={15}/>
-            {/*<br style={{ marginBottom: "1.0rem"}} />*/}
-            <Editor/>
+            <hr/>
+            <List rows={ 15 }/>
         </>
     );
 };

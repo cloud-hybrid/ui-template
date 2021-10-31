@@ -1,12 +1,10 @@
-import * as Styles from './SCSS/Index.module.scss';
+import * as Styles from "./SCSS/Index.module.scss";
 
-import * as Panel from './SCSS/Side-Panel.module.scss';
+import * as Panel from "./SCSS/Side-Panel.module.scss";
 
-import { Store, STORE } from './../Authenticate';
+import { Store, STORE } from "./../Authenticate";
 
-import React, { useEffect, useRef, useState } from 'react';
-
-import { Route } from 'react-router-dom';
+import React, { useState } from "react";
 
 import {
     Header,
@@ -27,7 +25,7 @@ import {
     SwitcherDivider,
     SwitcherItem,
     HeaderPanel, HeaderMenu
-} from '@carbon/react';
+} from "@carbon/react";
 
 import {
     Notification,
@@ -40,46 +38,46 @@ import {
     Dashboard,
     Code,
     UserData
-} from '@carbon/icons-react/next';
+} from "@carbon/icons-react/next";
 
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink } from "react-router-dom";
 
-import { default as Mode } from './Mode-Tagger';
+import { default as Mode } from "./Mode-Tagger";
 
 const Icons = {
-    Home:        () => (
+    Home: () => (
         <DataBackup/>
     ),
-    Debug:       () => (
+    Debug: () => (
         <Debug/>
     ),
-    Dashboard:   () => (
+    Dashboard: () => (
         <Dashboard/>
     ),
-    Code:        () => (
+    Code: () => (
         <Code/>
     ),
     Development: () => (
         <Development/>
     ),
-    Switcher:    {
-        Primary:   () => (
+    Switcher: {
+        Primary: () => (
             <Switcher/>
         ),
         Auxiliary: () => (
             <Switch/>
         )
     },
-    Search:      {
-        Primary:   () => (
+    Search: {
+        Primary: () => (
             <Search/>
         ),
         Auxiliary: () => (
             <Search/>
         )
     },
-    Login:       {
-        Primary:   () => (
+    Login: {
+        Primary: () => (
             <UserData/>
         ),
         Auxiliary: () => (
@@ -87,6 +85,10 @@ const Icons = {
         )
     }
 };
+
+//import { Component as MenuNotification } from "./../../components/Notifications/Menu.js";
+
+import { default as Notifications } from "./Notifications.js";
 
 /***
  *
@@ -101,14 +103,15 @@ const Icons = {
 
 const Component = ({ Location, Authorizer }) => {
     const Opener = useState(false);
+    const Notifies = useState(false);
 
-    const Active = (_ = '') => {
-        const $    = '/' + _;
+    const Active = (_ = "") => {
+        const $ = "/" + _;
         const Path = (
             $ === Location
         );
         const Hash = (
-            $ === '#' + Path
+            $ === "#" + Path
         );
 
         return (
@@ -128,7 +131,7 @@ const Component = ({ Location, Authorizer }) => {
                             ) ?
                                 (
                                     <HeaderMenuButton
-                                        id={ 'io-side-navigation-menu-toggle' }
+                                        id={ "io-side-navigation-menu-toggle" }
                                         className={ Panel.toggle }
                                         aria-label="Menu"
                                         onClick={
@@ -138,7 +141,7 @@ const Component = ({ Location, Authorizer }) => {
                                         }
                                         isActive={ isSideNavExpanded }
                                     />
-                                ): (
+                                ) : (
                                     <></>
                                 )
                         }
@@ -148,7 +151,7 @@ const Component = ({ Location, Authorizer }) => {
                             prefix="Cloud"
                             onClick={
                                 () => {
-                                    if (isSideNavExpanded) {
+                                    if ( isSideNavExpanded ) {
                                         onClickSideNavExpand();
                                     }
                                 }
@@ -158,26 +161,30 @@ const Component = ({ Location, Authorizer }) => {
                         </HeaderName>
                         <HeaderNavigation aria-label="Nexus">
                             {/* ... Current-Page State --> isCurrentPage={location.hash === "#/github"} onClick={() => handleCurrentPage("/github")} */ }
-                            <HeaderMenuItem element={ Link } to={ '/github' } isCurrentPage={ Active('github') }>
+                            <HeaderMenuItem element={ Link } to={ "/github" } isCurrentPage={ Active("github") }>
                                 GitHub
                             </HeaderMenuItem>
                             {/* ... Current-Page State --> isCurrentPage={location.hash === "#/gitlab"} onClick={() => handleCurrentPage("/gitlab")} */ }
-                            <HeaderMenuItem element={ Link } to="/gitlab" isCurrentPage={ Active('gitlab') }>
+                            <HeaderMenuItem element={ Link } to="/gitlab" isCurrentPage={ Active("gitlab") }>
                                 GitLab
                             </HeaderMenuItem>
                             {/* ... Current-Page State --> isCurrentPage={location.hash === "#/pipelines"} onClick={() => handleCurrentPage("/pipelines")} */ }
-                            <HeaderMenuItem element={ Link } to="/pipelines" isCurrentPage={ Active('pipelines') }>
+                            <HeaderMenuItem element={ Link } to="/pipelines" isCurrentPage={ Active("pipelines") }>
                                 Pipelines
                             </HeaderMenuItem>
                             <hr
-                                width="1px" size="auto" style={ {
-                                borderStyle: 'solid',
-                                color:       'var(--cds-border-subtle)',
-                                marginLeft:  '0.5rem',
-                                marginRight: '0.5rem'
-                            } }
+                                width="1px"
+                                size="auto"
+                                style={
+                                    {
+                                        borderStyle: "solid",
+                                        color: "var(--cds-border-subtle)",
+                                        marginLeft: "0.5rem",
+                                        marginRight: "0.5rem"
+                                    }
+                                }
                             />
-                            <HeaderMenu aria-label={ 'Label' } menuLinkName={ 'Development' }>
+                            <HeaderMenu aria-label={ "Label" } menuLinkName={ "Development" }>
                                 <HeaderMenuItem element={ Link } to="/template">
                                     <strong>Template</strong>
                                 </HeaderMenuItem>
@@ -186,12 +193,16 @@ const Component = ({ Location, Authorizer }) => {
                                 </HeaderMenuItem>
                             </HeaderMenu>
                             <hr
-                                width="1px" size="auto" style={ {
-                                borderStyle: 'solid',
-                                color:       'var(--cds-border-subtle)',
-                                marginLeft:  '0.5rem',
-                                marginRight: '0.5rem'
-                            } }
+                                width="1px"
+                                size="auto"
+                                style={
+                                    {
+                                        borderStyle: "solid",
+                                        color: "var(--cds-border-subtle)",
+                                        marginLeft: "0.5rem",
+                                        marginRight: "0.5rem"
+                                    }
+                                }
                             />
                         </HeaderNavigation>
                         <Mode/>
@@ -211,7 +222,7 @@ const Component = ({ Location, Authorizer }) => {
                                     <SideNavItems>
                                         <SideNavLink
                                             async
-                                            href={ '/gitlab' }
+                                            href={ "/gitlab" }
                                             renderIcon={ Icons.Development }
                                             /// ref={useRef(isSideNavExpanded)}
                                             onClick={ (event) => {
@@ -222,7 +233,7 @@ const Component = ({ Location, Authorizer }) => {
                                         </SideNavLink>
                                         <SideNavLink
                                             async
-                                            href={ '/github' }
+                                            href={ "/github" }
                                             renderIcon={ Icons.Dashboard }
                                             /// ref={useRef(isSideNavExpanded)}
                                             onClick={ (event) => {
@@ -233,7 +244,7 @@ const Component = ({ Location, Authorizer }) => {
                                         </SideNavLink>
                                         <SideNavLink
                                             async
-                                            href={ '/pipelines' }
+                                            href={ "/pipelines" }
                                             renderIcon={ Icons.Code }
                                             /// ref={useRef(isSideNavExpanded)}
                                             onClick={ (event) => {
@@ -247,7 +258,7 @@ const Component = ({ Location, Authorizer }) => {
                                             title="Development"
                                         >
                                             <SideNavMenuItem
-                                                href="/servers" resource={ 'servers' }
+                                                href="/servers" resource={ "servers" }
                                                 onClick={
                                                     () => {
                                                         onClickSideNavExpand();
@@ -258,7 +269,7 @@ const Component = ({ Location, Authorizer }) => {
                                                 Item-1
                                             </SideNavMenuItem>
                                             <SideNavMenuItem
-                                                href="/servers" resource={ 'servers' }
+                                                href="/servers" resource={ "servers" }
                                                 onClick={
                                                     () => {
                                                         onClickSideNavExpand();
@@ -269,7 +280,7 @@ const Component = ({ Location, Authorizer }) => {
                                                 Item-2
                                             </SideNavMenuItem>
                                             <SideNavMenuItem
-                                                href="/servers" resource={ 'servers' }
+                                                href="/servers" resource={ "servers" }
                                                 onClick={
                                                     () => {
                                                         onClickSideNavExpand();
@@ -282,7 +293,7 @@ const Component = ({ Location, Authorizer }) => {
                                         </SideNavMenu>
                                     </SideNavItems>
                                 </SideNav>
-                            ): (
+                            ) : (
                                 <></>
                             )
                         }
@@ -290,39 +301,49 @@ const Component = ({ Location, Authorizer }) => {
                             <HeaderGlobalAction
                                 aria-label="Notifications"
                                 tooltipAlignment="start"
+                                renderIcon={ Notification }
                                 children={ (
-                                    <Notification/>
+                                    <></>
                                 ) }
+                                id={ "global-menu-notifications" }
+                                onClickCapture={ (event) => {
+                                    console.debug(event);
+                                } }
                                 onClick={
-                                    () => {
-                                        console.debug('...');
+                                    (event) => {
+                                        event.preventDefault();
+
+                                        Notifies[1](!Notifies[0]);
                                     }
                                 }
                             />
                             <HeaderGlobalAction
                                 aria-label="User Avatar"
                                 children={ (
-                                    <UserAvatar/>
+                                    <></>
                                 ) }
+                                renderIcon={ UserAvatar }
                                 onClick={
                                     () => {
-                                        console.debug('...');
+                                        console.debug("...");
                                     }
                                 }
                             />
                             <HeaderGlobalAction
                                 aria-label="Switcher"
                                 isActive={ Opener[0] }
-                                tooltipPosition={ 'left' }
-                                tooltipAlignment={ 'end' }
+                                children={ (
+                                    <></>
+                                ) }
+                                renderIcon={ Switch }
+                                tooltipPosition={ "left" }
+                                tooltipAlignment={ "end" }
                                 onClick={
                                     () => {
-                                        Opener[1]( !Opener[0]);
+                                        Opener[1](!Opener[0]);
                                     }
                                 }
-                            >
-                                <Switch/>
-                            </HeaderGlobalAction>
+                            />
                         </HeaderGlobalBar>
                     </Header>
                 ) }
@@ -332,34 +353,34 @@ const Component = ({ Location, Authorizer }) => {
                 aria-label="Header Panel"
                 expanded={ Opener[0] }
                 style={
-                    { backgroundColor: 'var(--cds-background)' }
+                    { backgroundColor: "var(--cds-background)" }
                 }
             >
                 {
                     (
                         Authorizer[0] === true
                     ) ? (
-                        <Switcher aria-label={ 'Switcher Container' }>
+                        <Switcher aria-label={ "Switcher Container" }>
                             <SwitcherItem
                                 aria-label="Sign-Out" onClick={
                                 async () => {
                                     try {
-                                        console.debug('[Debug]', 'Authorization Store Key (0)', STORE);
+                                        console.debug("[Debug]", "Authorization Store Key (0)", STORE);
 
                                         const Value = await Store.getItem(STORE);
 
-                                        console.debug('[Debug]', 'Authorization Store Value (1)', Value);
+                                        console.debug("[Debug]", "Authorization Store Value (1)", Value);
 
                                         await Store.setItem(STORE, null, (e, value) => {
-                                            if (e) {
-                                                console.error('[Fatal JWT Nullification Error]', e);
+                                            if ( e ) {
+                                                console.error("[Fatal JWT Nullification Error]", e);
                                             }
 
-                                            console.debug('[Debug]', 'JWT Nullification Result (2)', value);
+                                            console.debug("[Debug]", "JWT Nullification Result (2)", value);
                                         });
-                                    } catch (e) {
-                                        console.error('[Fatal Unknown Authorized JWT := NULL Error]', e);
-                                        throw new Error('JWT !:= NULL During an Authorized State');
+                                    } catch ( e ) {
+                                        console.error("[Fatal Unknown Authorized JWT := NULL Error]", e);
+                                        throw new Error("JWT !:= NULL During an Authorized State");
                                     }
                                     finally {
                                         Authorizer[1](false);
@@ -371,21 +392,21 @@ const Component = ({ Location, Authorizer }) => {
                             </SwitcherItem>
                             <SwitcherDivider/>
                             <SwitcherItem
-                                target={ '_blank' }
+                                target={ "_blank" }
                                 href="#"
                                 aria-label="Content Management System"
                             >
                                 CMS
                             </SwitcherItem>
                             <SwitcherItem
-                                target={ '_blank' }
+                                target={ "_blank" }
                                 href="#"
                                 aria-label="Calendar"
                             >
                                 Calendar
                             </SwitcherItem>
                             <SwitcherItem
-                                target={ '_blank' }
+                                target={ "_blank" }
                                 href="#"
                                 aria-label="Vusion"
                             >
@@ -393,31 +414,31 @@ const Component = ({ Location, Authorizer }) => {
                             </SwitcherItem>
                             <SwitcherDivider/>
                             <SwitcherItem
-                                target={ '_blank' }
+                                target={ "_blank" }
                                 href="https://983281742669.signin.aws.amazon.com/console/"
                                 aria-label="Amazon Web Service(s)"
                             >
                                 AWS
                             </SwitcherItem>
                             <SwitcherItem
-                                target={ '_blank' }
+                                target={ "_blank" }
                                 aria-label="Nexus API"
                                 href="https://api.cloud-technology.io:3000/Documentation"
                             >
                                 Nexus API
                             </SwitcherItem>
                             <SwitcherItem
-                                target={ '_blank' }
+                                target={ "_blank" }
                                 aria-label="Gitlab VCS"
                                 href="https://gitlab.cloud-technology.io"
                             >
                                 Version Control
                             </SwitcherItem>
                         </Switcher>
-                    ): (
-                        <Switcher aria-label={ 'Switcher Container' }>
+                    ) : (
+                        <Switcher aria-label={ "Switcher Container" }>
                             <SwitcherItem
-                                target={ '_parent' }
+                                target={ "_parent" }
                                 aria-label="Login"
                                 href="/login"
                             >
@@ -427,8 +448,9 @@ const Component = ({ Location, Authorizer }) => {
                     )
                 }
             </HeaderPanel>
+            <Notifications State={ Notifies }/>
         </nav>
     );
-}
+};
 
 export default Component;

@@ -1,0 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "PageHeader", {
+  enumerable: true,
+  get: function get() {
+    return _PageHeader.PageHeader;
+  }
+});
+
+var _PageHeader = require("./PageHeader");

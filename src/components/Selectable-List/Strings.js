@@ -15,8 +15,8 @@ State.base = "structured-list-input";
 State.identifier = (index) => {
     const quantifier = "identifier";
 
-    const value = [State.base, quantifier, String(index + 1)].join("-");
-    console.debug("[Debug]", "Attributor Assignment", value);
+    const value = [ State.base, quantifier, String(index + 1) ].join("-");
+
     return value;
 }
 
@@ -33,8 +33,8 @@ State.identifier = (index) => {
 State.value = (index) => {
     const quantifier = "";
 
-    const value = [State.base, quantifier, String(index + 1)].join("-");
-    console.debug("[Debug]", "Attributor Assignment", value);
+    const value = [ State.base, quantifier, String(index + 1) ].join("-");
+
     return value;
 }
 
@@ -51,8 +51,8 @@ State.value = (index) => {
 State.title = (index) => {
     const quantifier = "title";
 
-    const value = [State.base, quantifier, String(index + 1)].join("-");
-    console.debug("[Debug]", "Attributor Assignment", value);
+    const value = [ State.base, quantifier, String(index + 1) ].join("-");
+
     return value;
 }
 
@@ -69,8 +69,8 @@ State.title = (index) => {
 State.name = (index) => {
     const quantifier = "name";
 
-    const value = [State.base, quantifier, String(index + 1)].join("-");
-    console.debug("[Debug]", "Attributor Assignment", value);
+    const value = [ State.base, quantifier, String(index + 1) ].join("-");
+
     return value;
 }
 
@@ -87,8 +87,8 @@ State.name = (index) => {
 State.checked = (index) => {
     const quantifier = "value";
 
-    const value = [State.base, quantifier, String(index + 1)].join("-");
-    console.debug("[Debug]", "Attributor Assignment", value);
+    const value = [ State.base, quantifier, String(index + 1) ].join("-");
+
     return value;
 }
 
@@ -105,7 +105,7 @@ State.checked = (index) => {
  */
 
 State.columnID = (row, index) => {
-    return ["structured-list", "row", String(row + 1), "column", String(index + 1)].join("-");
+    return [ "structured-list", "row", String(row + 1), "column", String(index + 1) ].join("-");
 }
 
 /***
@@ -121,7 +121,7 @@ State.columnID = (row, index) => {
  */
 
 State.columnKey = (row, index) => {
-    return ["structured-list-key", "row", String(row + 1), "column", String(index + 1)].join("-");
+    return [ "structured-list-key", "row", String(row + 1), "column", String(index + 1) ].join("-");
 }
 
 /***

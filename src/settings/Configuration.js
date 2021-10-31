@@ -1,5 +1,9 @@
 import { settings } from "carbon-components";
 import * as Features from "@carbon/feature-flags";
+import { pkg } from "@carbon/ibm-cloud-cognitive";
+
+pkg.setAllComponents(true);
+pkg.setAllFeatures(true);
 
 settings.prefix = "cds";
 
@@ -14,4 +18,4 @@ export default settings;
 
 export const Flags = Features.FeatureFlags;
 
-if (process.env.NODE_ENV !== "production") console.debug({ Flags: Features.FeatureFlags });
+if ( process.env.NODE_ENV !== "production" ) console.debug({ Flags: Features.FeatureFlags });
