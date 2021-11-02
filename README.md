@@ -7,8 +7,8 @@ The Cloud Dashboard & User Interface for *Cloud-Technology LLC.*
 ## Overview ##
 
 - [ ] Update to `react-dom-router` Beta
-- [ ] Implement POC for [`defaultProps` JSX](https://reactjs.org/docs/typechecking-with-proptypes.html)
-    - Update Documentation to Reflect Understanding
+- [x] Implement POC for [`defaultProps` JSX](https://reactjs.org/docs/typechecking-with-proptypes.html)
+    - ~~Update Documentation to Reflect Understanding~~
 - [ ] Install & Document [`react-devtools-core`](https://github.com/facebook/react/tree/main/packages/react-devtools)
     - https://www.npmjs.com/package/react-devtools-core
 - [ ] Review & Document an Applicable use-case for a Merged, Shallow `useState` (Probably Login)
