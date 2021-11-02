@@ -20,6 +20,12 @@ Global Overwrites
     padding:    0.0rem;
 }
 
+// Spinner
+.cds--inline-loading {
+    height: 1.25rem;
+    min-height: 1.25rem;
+}
+
 // Content Container + Grid
 .cds--content .cds--css-grid {
     max-width: 100%;

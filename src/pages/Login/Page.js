@@ -1,12 +1,10 @@
-import React, { lazy as Import, Suspense } from "react";
+import { default as Form } from "./Form";
 
 const Page = ({Authorizer}) => {
-    const Awaitable = Import(() => import("./Form").then((Module) => Module));
+    /// const Awaitable = Import(() => import("./Form").then((Module) => Module));
 
     return (
-        <Suspense fallback={<></>}>
-            <Awaitable Authorizer={Authorizer}/>
-        </Suspense>
+        <Form Authorizer={Authorizer}/>
     );
 };
 

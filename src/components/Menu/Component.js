@@ -40,7 +40,7 @@ import {
     UserData
 } from "@carbon/icons-react/next";
 
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import { default as Mode } from "./Mode-Tagger";
 
@@ -102,6 +102,8 @@ import { default as Notifications } from "./Notifications.js";
  */
 
 const Component = ({ Location, Authorizer }) => {
+    const navigation = useNavigate();
+
     const Opener = useState(false);
     const Notifies = useState(false);
 
@@ -386,10 +388,7 @@ const Component = ({ Location, Authorizer }) => {
                                         Authorizer[1](false);
                                     }
                                 }
-                            } async={ true }
-                            >
-                                Sign-Out
-                            </SwitcherItem>
+                            } children={"Sign-Out"}/>
                             <SwitcherDivider/>
                             <SwitcherItem
                                 target={ "_blank" }

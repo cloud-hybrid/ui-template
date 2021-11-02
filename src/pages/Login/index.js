@@ -1,30 +1,32 @@
+import PropTypes from "prop-types";
+
 import {
     Grid, Column
 } from "@carbon/react";
 
-import React, {
-    lazy as Import, Suspense
-} from "react";
+import { default as Page } from "./Page";
 
-import { default as Waiter } from "./../../components/Loader";
-import Loader from "./../../components/Loader";
+const Component = (props) => {
+    const {
+        Authorizer,
+        ... Properties
+    } = props;
 
-const Component = ({description, Authorizer}) => {
-    const timeout = 1500;
-
-    const Page = Import(() => import("./Page").then((Module) => Module));
+    console.debug("[Debug] Unassigned Properties", Properties);
 
     return (
         <Grid>
             <Column lg={16} md={8} sm={4}>
-                <Suspense fallback={(<Loader description={description} timeout={timeout}/>)}>
-                    <Waiter description={description} timeout={timeout}>
-                        <Page Authorizer={Authorizer}/>
-                    </Waiter>
-                </Suspense>
+                <Page Authorizer={Authorizer}/>
             </Column>
         </Grid>
     );
+};
+
+Component.defaultProps = {};
+
+Component.propTypes = {
+    Authorizer: PropTypes.array.isRequired
 };
 
 export default Component;

@@ -1,5 +1,7 @@
 import * as Styles from "./SCSS/Index.module.scss";
 
+import PropTypes from "prop-types";
+
 import {
     Grid, Column
 } from "@carbon/react";
@@ -8,26 +10,48 @@ import React, {
     Suspense, lazy as Import
 } from "react";
 
-import {default as Waiter} from "./../../components/Loader";
+import { default as Loader } from "./../../components/Loader";
 
-import Loader from "./../../components/Loader";
+const Component = (props) => {
+    const {
+        timeout,
+        description,
+        ... Properties
+    } = props;
 
-const Component = ({description}) => {
-    const timeout = 1500;
+    console.debug("[Debug] Unassigned Properties", Properties);
 
-    const Page = Import(() => import("./Page").then((Module) => Module));
+    const Page = Import(() => import("./Page"));
 
     return (
         <Grid className={Styles.component}>
             <Column lg={16} md={8} sm={4}>
                 <Suspense fallback={(<Loader description={description} timeout={timeout}/>)}>
-                    <Waiter description={description} timeout={timeout}>
+                    <Loader description={description} timeout={timeout}>
                         <Page/>
-                    </Waiter>
+                    </Loader>
                 </Suspense>
             </Column>
         </Grid>
     );
+};
+
+Component.defaultProps = {
+    timeout: 1250
+};
+
+Component.propTypes = {
+    /**
+     * Forced Delay during Transition
+     */
+
+    timeout: PropTypes.number.isRequired,
+
+    /***
+     * Loading Screen Context
+     */
+
+    description: PropTypes.string.isRequired
 };
 
 export default Component;

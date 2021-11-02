@@ -4,11 +4,15 @@ import React, {useEffect, useState} from "react";
 
 import {Button, Form, FormGroup, InlineLoading, TextInput} from "@carbon/react";
 
+import { useNavigate, useLocation } from "react-router-dom";
+
 import {default as Types} from "./../../components/Types";
 
 import * as API from "./Authentication";
 
 const Component = ({Authorizer}) => {
+    const navigate = useNavigate();
+
     const [awaiting, setAwaiting] = useState(false);
 
     const [validUsername, setValidUsername] = useState(true);
@@ -200,7 +204,10 @@ const Component = ({Authorizer}) => {
 
                             if (Response === true) {
                                 setAwaiting(false);
+
                                 Authorizer[1](true);
+
+                                navigate(-1);
                             } else {
                                 const e = JSON.stringify(Response, null, 4);
                                 console.error("[Error]", e);

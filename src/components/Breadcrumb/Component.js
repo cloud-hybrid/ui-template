@@ -41,7 +41,7 @@ const Deconstruct = (Title = null) => {
             }: {
                 "data-value": String(Element).charAt(0).toUpperCase()
                     + String(Element).slice(1),
-                href: ["/#", Element.toLowerCase()].join("/"),
+                href: ["", Element.toLowerCase()].join("/"),
                 value: -1,
                 key: ["Breadcrumb-Item", String(Index)].join("-"),
                 isCurrentPage: (Index === Collection.length - 1)
@@ -79,13 +79,18 @@ Component.propTypes = {
     Title: PropTypes.string
 };
 
-export const Strict = ({Title}) => {
+export const Strict = ({Title, children}) => {
+    const $ = () => children;
+
     const Data = Deconstruct(["Nexus", Title]);
 
     return (
         <Breadcrumb aria-label={"Parent Navigation"} noTrailingSlash={true} className={Styles.breadcrumb}>
             {
                 Data.map((Component) => Component)
+            }
+            {
+                (children) ? <li><$/></li> : null
             }
         </Breadcrumb>
     );

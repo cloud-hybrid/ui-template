@@ -1,8 +1,8 @@
-import React, { lazy as Import, Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Column, Content, Grid, Theme } from "@carbon/react";
 
-import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, Navigate, useNavigate } from "react-router-dom";
 
 /// import { Routes, Route, Outlet, Link, Redirect } from "react-router-dom";
 
@@ -12,11 +12,14 @@ import { default as BTT } from "./components/Back-To-Top/Index";
 
 import { default as Breadcrumbs } from "./components/Breadcrumb";
 
-import { default as Pages } from "./pages";
+import { default as Spinner } from "./components/Loader";
+
+// import { default as Pages } from "./pages";
 
 /***
  * Authentication Hook
  */
+
 import * as Authentication from "./components/Authenticate";
 
 /***
@@ -24,6 +27,7 @@ import * as Authentication from "./components/Authenticate";
  * @param theme: {String("g100" | "g90" | "g10" | "white")}
  *
  */
+
 export const useTheme = (theme = "g100") => {
     const Theme = React.createContext(theme);
 
@@ -32,87 +36,25 @@ export const useTheme = (theme = "g100") => {
     return Theme;
 };
 
-const Redirection = ({ Target }) => {
-    return (
-        <Redirect
-            to={ {
-                pathname: "/login",
-                state: {
-                    to: Target,
-                    from: Target,
-                    pathname: Target
-                }
-            } }
-        />
-    );
-};
+// const Login = Import(() => import("./pages/Login"));
+// const Home = Import(() => import("./pages/Home"));
+// const GitHub = Import(() => import("./pages/GitHub"));
+// const GitLab = Import(() => import("./pages/GitLab"));
+// const Pipelines = Import(() => import("./pages/Pipelines"));
+// const Template = Import(() => import("./pages/Template"));
 
-const Target = (Location) => {
-    console.debug("[Debug]", "Path Target", {
-        Target: Location?.state?.pathname,
-        Fallback: "/"
-    });
-
-    return (
-        Location?.state?.pathname
-    ) ? Location?.state?.pathname : "/";
-};
-
-const Home = Import(() => import("./pages/Home").then((Module) => Module));
-const GitHub = Import(() => import("./pages/GitHub").then((Module) => Module));
-const GitLab = Import(() => import("./pages/GitLab").then((Module) => Module));
-const Pipelines = Import(() => import("./pages/Pipelines").then((Module) => Module));
-const Template = Import(() => import("./pages/Template").then((Module) => Module));
-
-const Authoritative = ({ Page, $, path, transition }) => {
-    useEffect(() => {
-        const Handler = Authentication.Cancellation.source();
-        const Response = async () => {
-            const Session = await Authentication.Token(Handler);
-
-            console.debug("Authentication Response", Session);
-
-            (
-                Session === null
-            ) ? $[1](false)
-                : (
-                    Session?.Status?.Code === 200
-                )
-                    ? $[1](true) : $[1](false);
-        };
-
-        Response().finally();
-    }, []);
-
-    return (
-        <Route path={ path } sensitive={ false }>
-            {
-                (
-                    $[0] === null
-                )
-                    ? (
-                        <></>
-                    )
-                    : (
-                        $[0] === true
-                    )
-                        ? (
-                            <Page description={ transition }/>
-                        )
-                        : (
-                            <Redirection Target={ path }/>
-                        )
-            }
-        </Route>
-    );
-};
+import { default as Home } from "./pages/Home";
+import { default as Login } from "./pages/Login";
+import { default as GitHub } from "./pages/GitHub";
+import { default as GitLab } from "./pages/GitLab";
+import { default as Pipelines } from "./pages/Pipelines";
+import { default as Template } from "./pages/Template";
 
 import "./Application.scss";
-
 const Application = () => {
     const theme = useTheme("g100");
-
     const location = useLocation();
+    const navigate = useNavigate();
 
     const Authorization = useState(null);
 
@@ -125,109 +67,89 @@ const Application = () => {
     });
 
     useEffect(() => {
-        const Token = async () => {
-            const $ = await Authentication.JWT();
-
-            return (
-                $ !== null
-            );
-        };
-
-        const Validate = async () => {
+        const Token = async (Authorization) => {
             const Handler = Authentication.Cancellation.source();
 
-            const Response = async () => {
-                try {
-                    const $ = await Authentication.Token(Handler);
+            const $ = await Authentication.JWT();
 
-                    console.debug("Authentication Response", $);
+            const Validation = ($ !== null) ? await Authentication.Validate($, Handler) : null;
 
-                    (
-                        $.Status.Code === 200
-                    ) ? Authorization[1](true)
-                        : Authorization[1](false);
-
-                    return true;
-                } catch ( e ) {
-                    console.warn("[Warning]", "Unhandled Error");
-
-                    return false;
-                }
-            };
-            return await Response();
+            Authorization[1](Validation?.Status?.Code === 200);
         };
 
-        Token().then(($) => {
-            (
-                $ === true
-            ) ? Validate() : Authorization[1](false);
-        });
+        Token(Authorization);
     }, []);
 
-    const Component = () => (
+    return (
         <Theme theme={ theme.theme }>
             <Menu Location={ location.pathname } Authorizer={ Authorization }/>
+            <Content>
+                <Grid>
+                    <Column lg={ 16 } md={ 8 } sm={ 4 }>
+                        <Breadcrumbs Title={ location.pathname }/>
+                        <Routes location={location} basename={"/"}>
+                            {/* Base Endpoint(s) */}
 
-            <Content
-                children={ (
-                    <Grid>
-                        <Column lg={ 16 } md={ 8 } sm={ 4 }>
-                            <Suspense
-                                fallback={ (
-                                    <></>
-                                ) }
-                            >
-                                <Breadcrumbs Title={ location.pathname } duration={ 1250 }/>
-                                <Switch
-                                    children={ null } location={ location }
-                                >
-                                    {/* Base Endpoint(s) */ }
+                            <Route path={"/"} element={(<Home/>)}/>
 
-                                    <Route exact path={ "/" }>
-                                        <Home/>
-                                    </Route>
+                            <Route path={"/login"} element={
+                                // (Authorization[0] !== true)
+                                <Spinner timeout={1250} description={"Establishing Secure Context ..."}>
+                                    <Login Authorizer={Authorization}/>
+                                </Spinner>
+                            }/>
 
-                                    <Route path={ "/login" } sensitive={ false }>
-                                        {
-                                            (
-                                                Authorization[0] === true
-                                            ) ? (
-                                                    <Redirect to={ Target(location) }/>
-                                                )
-                                                : (
-                                                    Authorization[0] === null
-                                                ) ? null : (
-                                                    <Pages.Login
-                                                        Authorizer={ Authorization }
-                                                        description={ "Registering Secure Context ..." }
-                                                    />
-                                                )
-                                        }
-                                    </Route>
+                            {/* Authorized Endpoint(s) */}
 
-                                    {/* Authorization-Only Endpoint(s) */ }
+                            <Route path={"/gitlab"} element={(
+                                <Spinner timeout={1000} description={"Validating Authorized Session ..."}>
+                                    {
+                                        (Authorization[0] === true)
+                                            ? (<GitLab description={"Loading VCS Project(s) ..."}/>)
+                                            : (<Navigate to={ "/login" }/>)
+                                    }
+                                </Spinner>
+                            )}/>
 
-                                    <Authoritative $={ Authorization } Page={ GitLab } path={ "/gitlab" } transition={ "Loading VCS Project(s) ..." }/>
-                                    <Authoritative $={ Authorization } Page={ GitHub } path={ "/github" } transition={ "Loading Organization ..." }/>
-                                    <Authoritative $={ Authorization } Page={ Pipelines } path={ "/pipelines" } transition={ "Loading CI-CD Pipelines ..." }/>
+                            <Route path={"/github"} element={(
+                                <Spinner timeout={1000} description={"Validating Authorized Session ..."}>
+                                    {
+                                        (Authorization[0] === true)
+                                            ? (<GitHub description={"Loading Organization ..."}/>)
+                                            : (<Navigate to={ "/login" }/>)
+                                    }
+                                </Spinner>
+                            )}/>
 
-                                    <Authoritative $={ Authorization } Page={ Template } path={ "/template" } transition={ "Loading Page Template ..." }/>
-                                    {/*<Authoritative $={Authorization} Page={Notifications} path={"/pipelines"} transition={"Loading Notification Component (Under Development) ..."}/>*/ }
+                            <Route path={"/pipelines"} element={(
+                                <Spinner timeout={1000} description={"Validating Authorized Session ..."}>
+                                    {
+                                        (Authorization[0] === true)
+                                            ? (<Pipelines description={"Loading CI-CD Pipeline(s) ..."}/>)
+                                            : (<Navigate to={ "/login" }/>)
+                                    }
+                                </Spinner>
+                            )}/>
 
-                                    <Redirect from={ "*" } to={ "/" }/>
-                                </Switch>
-                            </Suspense>
-                        </Column>
-                    </Grid>
-                ) }
-            />
+                            <Route path={"/template"} element={(
+                                <Spinner timeout={1000} description={"Loading Template ..."}>
+                                    {
+                                        (Authorization[0] === true)
+                                            ? (<Template description={"Loading Template ..."}/>)
+                                            : (<Navigate to={ "/login" }/>)
+                                    }
+                                </Spinner>
+                            )}/>
+                            <Navigate to={"/*"} replace state={location.state}/>
+                        </Routes>
+                    </Column>
+                </Grid>
+            </Content>
             <BTT/>
         </Theme>
     );
-
-    return (
-        <Component/>
-    );
 };
+
+
 
 export default Application;

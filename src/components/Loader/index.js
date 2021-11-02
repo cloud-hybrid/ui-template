@@ -12,6 +12,10 @@ export const Loader = ({description}) => (
     <InlineLoading description={description} iconDescription={"Loading Indicator"}/>
 );
 
+Loader.defaultProps = {
+    description: " "
+};
+
 /***
  *
  * @param children {JSX.Element}
@@ -26,6 +30,8 @@ export const Loader = ({description}) => (
 
 const Component = ({children, description, timeout}) => {
     const $ = () => children;
+
+    if (timeout === null) return (<Loader description={ " " }/>);
 
     const [awaiting, setAwaiting] = useState(null);
 
@@ -42,7 +48,7 @@ const Component = ({children, description, timeout}) => {
          * array, then clearTimeout will run every time any attribute
          * or value changes.
          */
-    }, []);
+    }, [awaiting]);
 
     return (awaiting === false) ? (<$/>) : (<Loader description={description}/>);
 };
@@ -59,14 +65,14 @@ Component.propTypes = {
      * inline to the loading component
      */
 
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
 
     /***
      * Total timeout (ms) before children component renders and replaces the loading
      * component
      */
 
-    timeout: PropTypes.number.isRequired
+    timeout: PropTypes.number
 };
 
 export default Component;

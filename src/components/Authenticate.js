@@ -46,7 +46,7 @@ export const API = Request.create({
  *
  * @constructor
  */
-const Validate = async (Token, Handler) => {
+export const Validate = async (Token, Handler) => {
     const Validation = {
         Data: null, // { JWT: String, Type: String ... }
         Loading: true,
@@ -114,7 +114,9 @@ export const Token = async (Handler) => {
     console.debug("[Debug]", "JWT", Schema);
 
     if (Schema !== null) {
-        return await Validate(Schema, Handler);
+        const $ = await Validate(Schema, Handler);
+
+        return $.Status;
     } else {
         return null;
     }
