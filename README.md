@@ -25,6 +25,8 @@ The Cloud Dashboard & User Interface for *Cloud-Technology LLC.*
     - [ ] [Advanced `useEffects`](https://github.com/ReactTraining/react-workshop/tree/main/courses/advanced-hooks/01-effects)
     - [ ] [Understand `children/render`](https://reactrouter.com/web/api/Route/children-func)
 
+- [ ] Remove Hardcoded Credentials from Selenium Test-Case(s)
+
 Cloud-Technology's Dashboard is a set of user-friendly utilities that interface RESTful HTTP endpoints & related database CRUD actions. The User-Interface is
 consistent in visibility, styling, but above all else, ***functionality***.
 

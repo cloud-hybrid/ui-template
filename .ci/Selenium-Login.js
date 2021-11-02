@@ -29,7 +29,7 @@ const Waiter = async (time, instance) => {
 
 /***
  *
- * @param Instance { Driver }
+ * @param Instance {WebDriver}
  *
  * @constructor
  *
@@ -95,31 +95,13 @@ const Main = async () => {
     for (let i = 0; i < iterator; i++) {
         console.debug("[Debug] Instantiating Browser Session", "(" + String(i) + ")", "...");
 
-        //
-        // Although seemingly genius to place the await call inside of the Awaitable Promise, such will result in
-        // inconsistent race condition when establishing a new browser window.
-        //
-        // Performing a nested await results in destruction of the chromedriver server, SIGNAL 6.
-        // ... I believe that's a bug on Google's side.
-        //
-
         const Instance = await new Driver.Builder().withCapabilities(Capabilities).usingServer(URI).forBrowser("chrome").build();
 
         const Awaitable = new Promise(async (resolve, reject) => {
-            // --> Does not work consistently :== await Instance;
-
-            const Query = Driver.By;                // --> Alias to require("selenium-webdriver").Driver.By
-            const Key = Driver.Key;                 // --> Alias to require("selenium-webdriver").Driver.Key
-            const Awaitable = Driver.until;         // --> Alias to require("selenium-webdriver").Driver.until
-
             await Instance.get("https://localhost:3000/sign-in");
 
-            await Login(Instance, reject);
-
             try {
-                // const Conditional = Awaitable.titleIs("Selenium Documentation - Google Search");
-
-                // await Instance.wait(Conditional, 1000);
+                await Login(Instance, reject);
 
                 // --> 5 Minute Waiter
                 resolve(Waiter(1000, Instance));
@@ -152,13 +134,16 @@ const Main = async () => {
                 switch ($.status) {
                     case "fulfilled": {
                         Data.Successful += 1;
+
                         console.debug("[Debug]", "  ↳", "Successful", "\n");
+
                         await $.value.quit();
 
                         break;
                     }
                     case "rejected": {
                         Data.Failure += 1;
+
                         console.warn("[Warning]", " ↳", "Failure", "\n");
 
                         break;
