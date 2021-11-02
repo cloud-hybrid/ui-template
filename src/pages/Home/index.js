@@ -4,26 +4,14 @@ import {
     Grid, Column
 } from "@carbon/react";
 
-import React, {
-    Suspense, lazy as Import
-} from "react";
+import { default as Page } from "./Page";
 
-const Default = () => {
-    const Page = Import(() => import("./Page").then((Module) => Module));
-
-    return (
-        <Grid className={ [ Styles.home, Styles.component ].join(" ") }>
-            <Column lg={ 16 } md={ 8 } sm={ 4 } className={ Styles.home }>
-                <Suspense
-                    fallback={ (
-                        <></>
-                    ) }
-                >
-                    <Page/>
-                </Suspense>
-            </Column>
-        </Grid>
-    );
-};
+const Default = () => (
+    <Grid className={ [ Styles.home, Styles.component ].join(" ") }>
+        <Column lg={ 16 } md={ 8 } sm={ 4 } className={ Styles.home }>
+            <Page/>
+        </Column>
+    </Grid>
+);
 
 export default Default;

@@ -12,6 +12,16 @@ Namespace Imports
 Global Overwrites
 *//*-----------------*/
 
+/* -------------------------
+Table User Agent Styles
+*/// -----------------------
+
+th, tr, td {
+    box-shadow: none !important;
+    vertical-align: middle !important;
+    outline: none !important;
+}
+
 // Primary Content Container
 .cds--content {
     background: var(--cds-background);

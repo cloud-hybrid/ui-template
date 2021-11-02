@@ -46,30 +46,20 @@ Module(s) & Imports
 
 @use "@carbon/react/scss/theme" as *;
 
-//@forward "@carbon/react/scss/theme";
+@forward "@carbon/react/scss/theme";
+
+@import "./Application";
 
 /* -------------------------
 Document & Root Styling
 */// -----------------------
 
 :root {
-    font-kerning: auto !important;
-    font-optical-sizing: auto !important;
-    text-rendering: geometricPrecision !important;
-
     @include theme($g100);
+
+    background-color: #161616;
 
     :focus:not(:focus-visible) {
         outline: 0 none;
     }
-}
-
-/* -------------------------
-Table User Agent Styles
-*/// -----------------------
-
-th, tr, td {
-    box-shadow: none !important;
-    vertical-align: middle !important;
-    outline: none !important;
 }

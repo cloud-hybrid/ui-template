@@ -1,28 +1,57 @@
 import * as System from "./Configuration";
 
-/// import * as Worker from "./Worker";
+import ReactDOM from "react-dom";
+import React, { lazy as Import, Suspense } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import "./index.scss";
 
-import React from "react";
+import { Theme, Content } from "@carbon/react";
 
-import ReactDOM from "react-dom";
+import { default as Spinner } from "./components/Loader";
 
-import { BrowserRouter as Navigator } from "react-router-dom";
+/***
+ *
+ * @param theme: {String("g100" | "g90" | "g10" | "white")}
+ *
+ */
 
-import { default as Application } from "./Application";
+export const useTheme = (theme = "g100") => {
+    const Theme = React.createContext(theme);
 
-const DOM = () => (
-    <React.StrictMode>
-        <Navigator>
-            <Application/>
-        </Navigator>
-    </React.StrictMode>
-);
+    Theme.theme = theme;
 
-ReactDOM.render((
-    <DOM/>
-), document.getElementById("Application"));
+    return Theme;
+};
+
+const Application = Import(() => import("./Application.js"));
+const DOM = () => {
+    const theme = useTheme();
+
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
+        const Preference = event.matches ? "dark" : "light";
+
+        theme.theme = (
+            Preference === "dark"
+        ) ? "g100" : "light";
+    });
+
+    return (
+        <Theme theme={ theme.theme }>
+            <Content>
+                <Router>
+                    <Suspense fallback={(<Spinner timeout={null}/>)}>
+                        <Application/>
+                    </Suspense>
+                </Router>
+            </Content>
+        </Theme>
+    );
+}
+
+ReactDOM.render((<DOM/>), document.getElementById("Application"));
+
+import("./Worker.js").then((Module) => Module.register());
 
 /// ( process.env.NODE_ENV === "production" ) ? Worker.register()
 ///     : Worker.unregister();
