@@ -1,5 +1,3 @@
-import { default as axios } from "axios";
-
 import { default as Outbound } from "./../../../utilities/request.js";
 
 /***
@@ -73,8 +71,8 @@ const flatten = (obj) => {
 
 const Data = async () => {
     const Query = await Outbound({
-        path: "/api/v4/projects",
-        host: "gitlab.mycapstone.com",
+        path: process.env["GitLab"]["Projects"] + "?" + "page=1" + "&" + "per_page=1",
+        host: process.env["GitLab"]["Host"],
         port: 443,
         requestCert: true,
         rejectUnauthorized: false
@@ -82,7 +80,7 @@ const Data = async () => {
         "PRIVATE-TOKEN": process.env["GitLab-Token"]
     });
 
-    return Query;
+    return flatten(JSON.parse(Query)["0"]);
 };
 
 export default async () => await Data();

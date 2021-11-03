@@ -1,4 +1,4 @@
-import { default as Organization } from "./organization.js";
+import { default as Organization } from "./Organization.js";
 
 const Exports = {
     Organization

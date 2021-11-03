@@ -1,6 +1,3 @@
-!./.run
-!./src/Normalize.css
-
 logs
 *.log
 npm-debug.log*
@@ -52,6 +49,7 @@ typings/
 
 .yarn-integrity
 
+.env
 .env.test
 .env.local
 .env.staging.local
@@ -79,9 +77,6 @@ dist
 .dynamodb/
 
 .tern-port
-
-*.css
-*.css.map
 
 .DS_Store
 
