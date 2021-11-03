@@ -24,6 +24,10 @@
         max-width: 100%;
     }
 
+    #{&}-call-to-action {
+        min-height: 100vh;
+    }
+
     #{&}-page-banner {
         padding-top:    $spacing-05;
         padding-bottom: $spacing-07 * 4;
@@ -112,6 +116,13 @@
         @include breakpoint-between(321px, md) {
             max-width: 75%;
         }
+    }
+
+    @media (max-width: 60.0rem) {
+        #{&}-primary-image {
+            display: none;
+        }
+
     }
 }
 

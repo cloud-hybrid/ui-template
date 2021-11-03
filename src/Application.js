@@ -64,11 +64,7 @@ const Application = () => {
             <Grid>
                 <Column lg={ 16 } md={ 8 } sm={ 4 }>
                     <Breadcrumbs Title={ location.pathname }/>
-                    <Suspense
-                        fallback={ (
-                            null
-                        ) }
-                    >
+                    <Suspense fallback={ null }>
                         <Spinner timeout={ 1000 } description={ "" }>
                             <Routes location={ location } basename={ "/" }>
                                 {/* Base Endpoint(s) */ }

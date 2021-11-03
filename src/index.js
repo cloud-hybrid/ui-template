@@ -1,4 +1,6 @@
-import * as System from "./Configuration";
+import "react-app-polyfill/stable";
+
+import "./Configuration";
 
 import ReactDOM from "react-dom";
 import React, { lazy as Import, Suspense } from "react";
@@ -41,9 +43,7 @@ const DOM = () => {
             <Content>
                 <Router>
                     <Suspense
-                        fallback={ (
-                            <Spinner timeout={ null }/>
-                        ) }
+                        fallback={ null }
                         children={ (
                             <Application/>
                         ) }

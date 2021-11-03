@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectResources">
+    <resource url="https://javascript.schemastore.org" location="$PROJECT_DIR$" />
+    <resource url="https://javascript.schemastore.org/*" location="$PROJECT_DIR$" />
+    <resource url="https://javascript.schemastore.org/gulpfile.intellisense-setup.js" location="$PROJECT_DIR$" />
+    <resource url="https://javascript.schemastore.org/react.intellisense.js" location="$PROJECT_DIR$" />
+    <xml-schema-version>XMLSchema_1_1</xml-schema-version>
+  </component>
+  <component name="WebPackConfiguration">
+    <option name="mode" value="AUTO" />
+  </component>
+</project>
