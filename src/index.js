@@ -40,18 +40,26 @@ const DOM = () => {
         <Theme theme={ theme.theme }>
             <Content>
                 <Router>
-                    <Suspense fallback={(<Spinner timeout={null}/>)}>
-                        <Application/>
-                    </Suspense>
+                    <Suspense
+                        fallback={ (
+                            <Spinner timeout={ null }/>
+                        ) }
+                        children={ (
+                            <Application/>
+                        ) }
+                    />
                 </Router>
             </Content>
         </Theme>
     );
-}
+};
 
-ReactDOM.render((<DOM/>), document.getElementById("Application"));
+ReactDOM.render((
+    <DOM/>
+), document.getElementById("Application"));
 
-import("./Worker.js").then((Module) => Module.register());
-
-/// ( process.env.NODE_ENV === "production" ) ? Worker.register()
-///     : Worker.unregister();
+(
+    process.env.NODE_ENV === "production"
+)
+    ? import("./Worker.js").then((Module) => Module.register())
+    : import("./Worker.js").then((Module) => Module.unregister());

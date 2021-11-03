@@ -20,10 +20,6 @@ import { default as Selectable } from "./../../components/Tile-Mutli-Select/Inde
 
 import { default as List } from "./../../components/Selectable-List";
 
-import { default as Testing } from "./../../components/Test";
-
-import { Inline } from "./../../components/Notifications/Authentication/Informational.js";
-
 function createArrayFromPhrase(phrase) {
     const splitPhrase = phrase.split(" ");
     const thirdWord = splitPhrase.pop();

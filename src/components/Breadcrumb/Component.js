@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import * as Styles from "./SCSS/Index.module.scss";
 import * as Placeholder from "./SCSS/Skeleton.module.scss";
@@ -19,37 +19,45 @@ const Compose = () => {
     const Hash = String(window.location.hash).slice(2);
     const Relative = Hash.capitalize();
 
-    return ["Nexus", window.location.pathname, Relative].join("/");
+    return [ "Nexus", window.location.pathname, Relative ].join("/");
 };
 
 const Deconstruct = (Title = null) => {
     const Data = [];
 
-    const Composition = (Title === null) ? Compose()
-        : Title.join("/")
+    const Composition = (
+        Title === null
+    ) ? Compose()
+        : Title.join("/");
 
     const Components = Composition.split("/").filter(($) => $ !== "");
 
     Components.forEach(
         (Element, Index, Collection) => {
-            const Properties = (Index === 0) ? {
+            const Properties = (
+                Index === 0
+            ) ? {
                 "data-value": Element,
                 href: "/#/",
                 value: -1,
-                key: ["Breadcrumb-Item", String(Index)].join("-"),
-                isCurrentPage: (Index === Collection.length - 1)
-            }: {
+                key: [ "Breadcrumb-Item", String(Index) ].join("-"),
+                isCurrentPage: (
+                    Index === Collection.length - 1
+                )
+            } : {
                 "data-value": String(Element).charAt(0).toUpperCase()
-                    + String(Element).slice(1),
-                href: ["", Element.toLowerCase()].join("/"),
+                              + String(Element).slice(1),
+                href: [ "", Element.toLowerCase() ].join("/"),
                 value: -1,
-                key: ["Breadcrumb-Item", String(Index)].join("-"),
-                isCurrentPage: (Index === Collection.length - 1)
+                key: [ "Breadcrumb-Item", String(Index) ].join("-"),
+                isCurrentPage: (
+                    Index === Collection.length - 1
+                )
             };
 
             Data.push(
                 (
-                    <BreadcrumbItem { ... Properties } className={Styles.crumb}>
+                    <BreadcrumbItem { ... Properties } className={ Styles.crumb }>
                         { Properties["data-value"] }
                     </BreadcrumbItem>
                 )
@@ -58,7 +66,7 @@ const Deconstruct = (Title = null) => {
     );
 
     return Data;
-}
+};
 
 const Component = () => {
     const Data = Deconstruct(null);
@@ -79,18 +87,13 @@ Component.propTypes = {
     Title: PropTypes.string
 };
 
-export const Strict = ({Title, children}) => {
-    const $ = () => children;
-
-    const Data = Deconstruct(["Nexus", Title]);
+export const Strict = ({ Title }) => {
+    const Data = Deconstruct([ "Nexus", Title ]);
 
     return (
-        <Breadcrumb aria-label={"Parent Navigation"} noTrailingSlash={true} className={Styles.breadcrumb}>
+        <Breadcrumb aria-label={ "Parent Navigation" } noTrailingSlash={ true } className={ Styles.breadcrumb }>
             {
                 Data.map((Component) => Component)
-            }
-            {
-                (children) ? <li><$/></li> : null
             }
         </Breadcrumb>
     );

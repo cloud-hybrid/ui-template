@@ -1,0 +1,15 @@
+{
+    "name": "@cloud-technology/api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js"
+    },
+    "type": "module",
+    "dependencies": {
+        "octokit": "^1.7.0",
+        "@cloud-technology/api-library": "cloud-hybrid/api-library#Development"
+    }
+}

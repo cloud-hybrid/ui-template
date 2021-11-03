@@ -2,7 +2,7 @@ import React, { useEffect, useState, lazy as Import, Suspense } from "react";
 
 import { Grid, Column } from "@carbon/react";
 
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 
 import { default as Menu } from "./components/Menu/Index";
 
@@ -24,7 +24,6 @@ const GitLab = Import(() => import("./pages/GitLab"));
 const Pipelines = Import(() => import("./pages/Pipelines"));
 const Template = Import(() => import("./pages/Template"));
 
-
 import { default as Home } from "./pages/Home";
 
 /// import { default as Home } from "./pages/Home";
@@ -35,7 +34,12 @@ import { default as Home } from "./pages/Home";
 /// import { default as Template } from "./pages/Template";
 
 import "./Application.scss";
+
 const Application = () => {
+    // Window URL Tracking (Stateful)
+    const location = useLocation();
+
+    // Authorization Route State
     const Authorization = useState(null);
 
     useEffect(() => {
@@ -44,7 +48,9 @@ const Application = () => {
 
             const $ = await Authentication.JWT();
 
-            const Validation = ($ !== null) ? await Authentication.Validate($, Handler) : null;
+            const Validation = (
+                $ !== null
+            ) ? await Authentication.Validate($, Handler) : null;
 
             Authorization[1](Validation?.Status?.Code === 200);
         };
@@ -58,64 +64,105 @@ const Application = () => {
             <Grid>
                 <Column lg={ 16 } md={ 8 } sm={ 4 }>
                     <Breadcrumbs Title={ location.pathname }/>
-                    <Suspense fallback={(null)}>
-                        <Spinner timeout={1000} description={""}>
-                            <Routes location={location} basename={"/"}>
-                                {/* Base Endpoint(s) */}
+                    <Suspense
+                        fallback={ (
+                            null
+                        ) }
+                    >
+                        <Spinner timeout={ 1000 } description={ "" }>
+                            <Routes location={ location } basename={ "/" }>
+                                {/* Base Endpoint(s) */ }
 
-                                <Route path={"/"} element={
-                                    (<Home/>)
-                                }/>
+                                <Route
+                                    path={ "/" } element={
+                                    (
+                                        <Home/>
+                                    )
+                                }
+                                />
 
-                                <Route path={"/login"} element={
-                                    // (Authorization[0] !== true)
-                                    <Spinner timeout={1250} description={"Establishing Secure Context ..."}>
-                                        <Login Authorizer={Authorization}/>
+                                <Route
+                                    path={ "/login" } element={
+                                    <Spinner timeout={ 1250 } description={ "Establishing Secure Context ..." }>
+                                        <Login Authorizer={ Authorization }/>
                                     </Spinner>
-                                }/>
+                                }
+                                />
 
-                                {/* Authorized Endpoint(s) */}
+                                {/* Authorized Endpoint(s) */ }
 
-                                <Route path={"/gitlab"} element={(
-                                    <Spinner timeout={1000} description={"Validating Authorized Session ..."}>
+                                <Route
+                                    path={ "/gitlab" } element={ (
+                                    <Spinner timeout={ 1000 } description={ "Validating Authorized Session ..." }>
                                         {
-                                            (Authorization[0] === true)
-                                                ? (<GitLab description={"Loading VCS Project(s) ..."}/>)
-                                                : (<Navigate to={ "/login" }/>)
+                                            (
+                                                Authorization[0] === true
+                                            )
+                                                ? (
+                                                    <GitLab description={ "Loading VCS Project(s) ..." }/>
+                                                )
+                                                : (
+                                                    <Navigate to={ "/login" }/>
+                                                )
                                         }
                                     </Spinner>
-                                )}/>
+                                ) }
+                                />
 
-                                <Route path={"/github"} element={(
-                                    <Spinner timeout={1000} description={"Validating Authorized Session ..."}>
+                                <Route
+                                    path={ "/github" } element={ (
+                                    <Spinner timeout={ 1000 } description={ "Validating Authorized Session ..." }>
                                         {
-                                            (Authorization[0] === true)
-                                                ? (<GitHub description={"Loading Organization ..."}/>)
-                                                : (<Navigate to={ "/login" }/>)
+                                            (
+                                                Authorization[0] === true
+                                            )
+                                                ? (
+                                                    <GitHub description={ "Loading Organization ..." }/>
+                                                )
+                                                : (
+                                                    <Navigate to={ "/login" }/>
+                                                )
                                         }
                                     </Spinner>
-                                )}/>
+                                ) }
+                                />
 
-                                <Route path={"/pipelines"} element={(
-                                    <Spinner timeout={1000} description={"Validating Authorized Session ..."}>
+                                <Route
+                                    path={ "/pipelines" } element={ (
+                                    <Spinner timeout={ 1000 } description={ "Validating Authorized Session ..." }>
                                         {
-                                            (Authorization[0] === true)
-                                                ? (<Pipelines description={"Loading CI-CD Pipeline(s) ..."}/>)
-                                                : (<Navigate to={ "/login" }/>)
+                                            (
+                                                Authorization[0] === true
+                                            )
+                                                ? (
+                                                    <Pipelines description={ "Loading CI-CD Pipeline(s) ..." }/>
+                                                )
+                                                : (
+                                                    <Navigate to={ "/login" }/>
+                                                )
                                         }
                                     </Spinner>
-                                )}/>
+                                ) }
+                                />
 
-                                <Route path={"/template"} element={(
-                                    <Spinner timeout={1000} description={"Loading Template ..."}>
+                                <Route
+                                    path={ "/template" } element={ (
+                                    <Spinner timeout={ 1000 } description={ "Loading Template ..." }>
                                         {
-                                            (Authorization[0] === true)
-                                                ? (<Template description={"Loading Template ..."}/>)
-                                                : (<Navigate to={ "/login" }/>)
+                                            (
+                                                Authorization[0] === true
+                                            )
+                                                ? (
+                                                    <Template description={ "Loading Template ..." }/>
+                                                )
+                                                : (
+                                                    <Navigate to={ "/login" }/>
+                                                )
                                         }
                                     </Spinner>
-                                )}/>
-                                <Navigate to={"/*"} replace state={location.state}/>
+                                ) }
+                                />
+                                <Navigate to={ "/*" } replace state={ location.state }/>
                             </Routes>
                         </Spinner>
                     </Suspense>
