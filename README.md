@@ -6,36 +6,37 @@ The Cloud Dashboard & User Interface for *Cloud-Technology LLC.*
 
 ## Overview ##
 
-- [ ] Update to `react-dom-router` Beta
+- [x] Update to `react-dom-router` Beta
 - [x] Implement POC for [`defaultProps` JSX](https://reactjs.org/docs/typechecking-with-proptypes.html)
     - ~~Update Documentation to Reflect Understanding~~
-- [ ] Install & Document [`react-devtools-core`](https://github.com/facebook/react/tree/main/packages/react-devtools)
+- [x] Install & Document [`react-devtools-core`](https://github.com/facebook/react/tree/main/packages/react-devtools)
     - https://www.npmjs.com/package/react-devtools-core
 - [ ] Review & Document an Applicable use-case for a Merged, Shallow `useState` (Probably Login)
     - https://reactjs.org/docs/state-and-lifecycle.html#using-state-correctly
-- [ ] Review & Document POC for [`react-dom-router@^6.x`](https://github.com/remix-run/react-router/tree/dev/examples)
-    - [ ] [Warn-Up](https://replit.com/@RemixRun/React-Router-v6-Tutorial-Completed)
-    - [ ] [General Usage](https://github.com/remix-run/react-router/tree/main/examples/basic)
-    - [ ] [Lazy Loading](https://github.com/remix-run/react-router/blob/dev/examples/lazy-loading/src/App.tsx)
-    - [ ] [Authorization via `useNavigate` & `<Navigate/>`](https://github.com/remix-run/react-router/tree/main/examples/auth/src)
-    - [ ] [Cross-Path Stateful Modal](https://github.com/remix-run/react-router/tree/main/examples/modal/src)
-    - [ ] [Multi-Application](https://github.com/remix-run/react-router/tree/main/examples/multi-app)
-    - [ ] [Optimizations](https://github.com/ReactTraining/react-workshop/tree/main/courses/electives/performance-optimizations/lecture)
-    - [ ] [Imperative Programming](https://github.com/ReactTraining/react-workshop/tree/main/courses/advanced-hooks/02-imperative-react)
-    - [ ] [Advanced `useEffects`](https://github.com/ReactTraining/react-workshop/tree/main/courses/advanced-hooks/01-effects)
-    - [ ] [Understand `children/render`](https://reactrouter.com/web/api/Route/children-func)
+- [x] Review & Document POC for [`react-dom-router@^6.x`](https://github.com/remix-run/react-router/tree/dev/examples)
+    - [x] [Warn-Up](https://replit.com/@RemixRun/React-Router-v6-Tutorial-Completed)
+    - [x] [General Usage](https://github.com/remix-run/react-router/tree/main/examples/basic)
+    - [x] [Lazy Loading](https://github.com/remix-run/react-router/blob/dev/examples/lazy-loading/src/App.tsx)
+    - [x] [Authorization via `useNavigate` & `<Navigate/>`](https://github.com/remix-run/react-router/tree/main/examples/auth/src)
+    - [x] [Cross-Path Stateful Modal](https://github.com/remix-run/react-router/tree/main/examples/modal/src)
+    - [x] [Multi-Application](https://github.com/remix-run/react-router/tree/main/examples/multi-app)
+    - [x] [Optimizations](https://github.com/ReactTraining/react-workshop/tree/main/courses/electives/performance-optimizations/lecture)
+    - [x] [Imperative Programming](https://github.com/ReactTraining/react-workshop/tree/main/courses/advanced-hooks/02-imperative-react)
+    - [x] [Advanced `useEffects`](https://github.com/ReactTraining/react-workshop/tree/main/courses/advanced-hooks/01-effects)
+    - [x] [Understand `children/render`](https://reactrouter.com/web/api/Route/children-func)
 
 - [ ] Remove Hardcoded Credentials from Selenium Test-Case(s)
 
-Cloud-Technology's Dashboard is a set of user-friendly utilities that interface RESTful HTTP endpoints & related database CRUD actions. The User-Interface is
-consistent in visibility, styling, but above all else, ***functionality***.
+Cloud-Technology's Dashboard is a set of user-friendly utilities that interface RESTful HTTP endpoints & related
+database CRUD actions. The User-Interface is consistent in visibility, styling, but above all else, ***functionality***.
 
-As a *Single-Page-Application* (*SPA*), the client-sided front-end can remain functional so long as the API & dependent endpoints remain online -- largely a
-benefit from micro-serviced architecture(s).
+As a *Single-Page-Application* (*SPA*), the client-sided front-end can remain functional so long as the API & dependent
+endpoints remain online -- largely a benefit from micro-serviced architecture(s).
 
 ### Code Splitting ###
 
-The following project makes use of [code-splitting](https://reactjs.org/docs/code-splitting.html#route-based-code-splitting).
+The following project makes use
+of [code-splitting](https://reactjs.org/docs/code-splitting.html#route-based-code-splitting).
 
 Combined with `react-dom-router`, project(s) benefit from both code-spliting *and*
 development ease when establishing **page transitions**.
@@ -43,21 +44,21 @@ development ease when establishing **page transitions**.
 **Example**
 
 ```js
-import React, { Suspense, lazy }                  from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-const Home  = lazy(() => import("./routes/Home"));
+const Home = lazy(() => import("./routes/Home"));
 const About = lazy(() => import("./routes/About"));
 
 const App = () => (
-    <Router>
-        <Suspense fallback={ <div>Loading...</div> }>
-            <Switch>
-                <Route exact path="/" component={ Home }/>
-                <Route path="/about" component={ About }/>
-            </Switch>
-        </Suspense>
-    </Router>
+        <Router>
+            <Suspense fallback={ <div>Loading...</div> }>
+                <Switch>
+                    <Route exact path="/" component={ Home }/>
+                    <Route path="/about" component={ About }/>
+                </Switch>
+            </Suspense>
+        </Router>
 );
 ```
 
@@ -248,8 +249,8 @@ aws cloudformation wait stack-update-complete \
 ## Environment Variables ##
 
 The included `.env.local` file + pre-configured TLS `*.key`, `*.conf`,
-`*.crt`, & `*.pfx` located in [configuration](./configuration) should be enough to begin local development. If the default development TLS file(s) need to be
-changed, the password for `Development.pfx` is `Development`.
+`*.crt`, & `*.pfx` located in [configuration](./configuration) should be enough to begin local development. If the
+default development TLS file(s) need to be changed, the password for `Development.pfx` is `Development`.
 
 Please refer to the following table when creating distributions & deploying assets:
 
@@ -271,11 +272,13 @@ Please refer to the following table when creating distributions & deploying asse
 | `SSL_KEY_FILE`            |  _N/A_                 | [Description] |
 | `ENVIRONMENT`             | **_Production_**       | [Description] |
 
-Anything listed as a value of `...` is a ***soft dependency*** -- meaning that in order to achieve a full working state, the value(s) should exist and any
-associated resource(s)
-created ahead of time. However, the application will continue to resolve requests regardless of such dependents in order to avoid *chicken-or-egg* problems.
+Anything listed as a value of `...` is a ***soft dependency*** -- meaning that in order to achieve a full working state,
+the value(s) should exist and any associated resource(s)
+created ahead of time. However, the application will continue to resolve requests regardless of such dependents in order
+to avoid *chicken-or-egg* problems.
 
-These values for production should be established in a `.env.production` file during the CI-CD build process, and finally, in a `.env` during the distribution.
+These values for production should be established in a `.env.production` file during the CI-CD build process, and
+finally, in a `.env` during the distribution.
 
 ### TLS Development Key(s) ###
 
@@ -390,7 +393,7 @@ openssl pkcs12 -export -out "Development.pfx" -inkey "Development.key" -in "Deve
 **Prop-Types**
 
 ```js
-import React     from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 class MyComponent extends React.Component {
@@ -402,9 +405,9 @@ class MyComponent extends React.Component {
 MyComponent.propTypes = {
     // You can declare that a prop is a specific JS primitive. By default, these
     // are all optional.
-    optionalArray:  PropTypes.array,
-    optionalBool:   PropTypes.bool,
-    optionalFunc:   PropTypes.func,
+    optionalArray: PropTypes.array,
+    optionalBool: PropTypes.bool,
+    optionalFunc: PropTypes.func,
     optionalNumber: PropTypes.number,
     optionalObject: PropTypes.object,
     optionalString: PropTypes.string,
@@ -426,7 +429,7 @@ MyComponent.propTypes = {
 
     // You can ensure that your prop is limited to specific values by treating
     // it as an enum.
-    optionalEnum: PropTypes.oneOf(['News', 'Photos']),
+    optionalEnum: PropTypes.oneOf([ 'News', 'Photos' ]),
 
     // An object that could be one of many types
     optionalUnion: PropTypes.oneOfType([
