@@ -2,33 +2,28 @@
 
 /* =============================================================================
 Package Style Sheet (SCSS)
-*///// =========================================================================
+*/
+//// =========================================================================
 
 @use "sass:map";
 
 /* --------------------
 Global Variable(s)
-*/// ------------------
+*/
+// ------------------
 
 $prefix: "cds" !default;
-$name: "io" !default;
+$name:   "io" !default;
 
 /* ------------------------------------
 Design System Extension Enablement
-*/// ----------------------------------
-
-@use "@carbon/feature-flags" with (
-    $feature-flags: (
-        "enable-css-custom-properties": true,
-        "enable-use-controlled-state-with-value": true,
-        "enable-css-grid": true,
-        "enable-v11-release": true
-    )
-);
+*/
+// ----------------------------------
 
 /* ---------------------
 Module(s) & Imports
-*/// -------------------
+*/
+// -------------------
 
 @use "@carbon/react";
 
@@ -52,7 +47,8 @@ Module(s) & Imports
 
 /* -------------------------
 Document & Root Styling
-*/// -----------------------
+*/
+// -----------------------
 
 :root {
     @include theme($g100);

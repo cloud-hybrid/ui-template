@@ -10,8 +10,6 @@ import "./index.scss";
 
 import { Theme, Content } from "@carbon/react";
 
-import { default as Spinner } from "./components/Loader";
-
 /***
  *
  * @param theme: {String("g100" | "g90" | "g10" | "white")}

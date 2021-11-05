@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import * as Styles from "./SCSS/Index.module.scss";
 
@@ -21,6 +22,14 @@ import { default as Selectable } from "./../../components/Tile-Mutli-Select/Inde
 
 import { default as List } from "./../../components/Selectable-List";
 
+/***
+ *
+ * @param phrase {string} - Spoken Phrase, Space Separated
+ *
+ * @returns {(*)[]}
+ *
+ */
+
 function createArrayFromPhrase(phrase) {
     const splitPhrase = phrase.split(" ");
     const thirdWord = splitPhrase.pop();
@@ -38,6 +47,18 @@ const Sectional = (props) => (
         { props.children }
     </Grid>
 );
+
+Sectional.propTypes = {
+    /***
+     * Header H3 String Context
+     */
+    heading: PropTypes.string.isRequired,
+
+    /***
+     * JSX Node(s) as Individual Elements or as an Array
+     */
+    children: PropTypes.node
+};
 
 const Card = ({ heading, body, icon }) => {
     const splitHeading = createArrayFromPhrase(heading);
@@ -59,6 +80,14 @@ const Card = ({ heading, body, icon }) => {
         </Column>
     );
 };
+
+/***
+ *
+ * @returns {JSX.Element}
+ *
+ * @constructor
+ *
+ */
 
 const Component = () => (
     <React.Fragment>
