@@ -1,1 +1,0 @@
-/Users/io/Next/Cloud-Hybrid/cloud-technology/packages/ui-template/documentation/rust-bincode/target/debug/rust-bincode: /Users/io/Next/Cloud-Hybrid/cloud-technology/packages/ui-template/documentation/rust-bincode/src/main.rs
