@@ -1,6 +1,6 @@
 import React, { useEffect, useState, lazy as Import, Suspense } from "react";
 
-import { Grid, Column } from "@carbon/react";
+import { Grid, Column, Row } from "@carbon/react";
 
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 
@@ -29,6 +29,8 @@ const Dashboard = {
     Index: Import(() => import("./pages/Dashboard/Pages/Index")),
     Mobile: Import(() => import("./pages/Dashboard/Pages/Mobile"))
 };
+
+import { default as Version } from "./components/Version";
 
 import { default as Home } from "./pages/Home";
 
@@ -61,7 +63,9 @@ const Application = () => {
             Authorization[1](Validation?.Status?.Code === 200);
         };
 
-        Token(Authorization);
+        Token(Authorization).catch((e) => {
+            throw new Error(JSON.stringify(e, null, 4));
+        });
     }, []);
 
     return (
@@ -69,7 +73,11 @@ const Application = () => {
             <Menu Authorizer={ Authorization }/>
             <Grid>
                 <Column lg={ 16 } md={ 8 } sm={ 4 }>
-                    <Breadcrumbs Title={ location.pathname }/>
+                    <Row>
+                        <Column>
+                            <Breadcrumbs Title={ location.pathname }/>
+                        </Column>
+                    </Row>
                     <Suspense fallback={ null }>
                         <Spinner timeout={ 1000 } description={ "" }>
                             <Routes location={ location } basename={ "/" }>
@@ -211,10 +219,9 @@ const Application = () => {
                     </Suspense>
                 </Column>
             </Grid>
-            <BTT/>;
+            <BTT/>
         </React.StrictMode>
-    )
-        ;
+    );
 };
 
 export default Application;

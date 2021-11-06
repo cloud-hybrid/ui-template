@@ -43,6 +43,7 @@ import {
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 
 import { default as Mode } from "./Mode-Tagger";
+import { default as Version } from "./Version.js";
 
 const Icons = {
     Home: () => (
@@ -204,6 +205,7 @@ const Component = ({ Authorizer }) => {
                             />
                         </HeaderNavigation>
                         <Mode/>
+                        <Version version={ "0.0.1" }/>
                         {
                             (
                                 Authorizer[0] === true

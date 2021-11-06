@@ -1,6 +1,9 @@
 import { Tag } from "@carbon/react";
+import React from "react";
 
 import * as Tagger from "./SCSS/Mode.module.scss";
+
+import { default as Modal } from "./../Version";
 
 const Mode = () => {
     const display = process.env.NODE_ENV !== "production";
@@ -11,7 +14,7 @@ const Mode = () => {
                 <span>
                     {
                         (process.env.NODE_ENV === "development")
-                            ? (<Tag>Development</Tag>)
+                            ? (<Tag type={ "green" }>Development</Tag>)
                             : (<Tag>Staging</Tag>)
                     }
                 </span>

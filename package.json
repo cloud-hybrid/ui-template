@@ -37,6 +37,7 @@
         "react-scripts": "^4.0.3"
     },
     "devDependencies": {
+        "@babel/plugin-syntax-throw-expressions": "^7.16.0",
         "babel-plugin-prismjs": "^2.1.0",
         "html-webpack-plugin": "^5.5.0",
         "postcss-custom-properties": "^10.0.0",

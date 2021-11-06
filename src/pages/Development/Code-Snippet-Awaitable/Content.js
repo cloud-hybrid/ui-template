@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { CodeSnippet, CodeSnippetSkeleton, InlineNotification } from "@carbon/react";
+import { CodeSnippet, CodeSnippetSkeleton } from "@carbon/react";
+
+import { Inline } from "./../../../components/Notifications/Authentication/Informational.js";
 
 import axios from "axios";
 
@@ -25,8 +27,15 @@ const Component = () => {
                 setData($);
 
                 setError(false);
+
             } catch ( error ) {
-                setError(true);
+                console.warn(error);
+                setError({
+                    column: error?.column,
+                    line: error?.line,
+                    message: error?.message,
+                    stack: error?.stack
+                });
             }
             finally {
                 setLoading(false);
@@ -39,18 +48,23 @@ const Component = () => {
     }, [ url ]);
 
     const Awaitable = () => (loading) && (<CodeSnippetSkeleton type={ "multi" }/>);
-    const Error = () => (error) && (
-        <div>
-            <InlineNotification
-                caption="00:00:00 AM"
-                iconDescription="describes the close button"
-                subtitle={ <span>Subtitle text goes here. <a href="#example">Example link</a></span> }
-                timeout={ 0 }
-                title="Notification title"
+
+    const Error = () => (error && !loading) && (
+        <div style={ { marginBottom: "1.0rem" } }>
+            <Inline
+                kind={ "error" }
+                lowContrast={ true }
+                role={ "alert" }
+                statusIconDescription={ "Status-Icon" }
+                iconDescription={ "Close Error Message" }
+                title={ "Error" }
+                subtitle={ error?.message }
+                hideCloseButton={ true }
             />
         </div>
     );
-    const Data = () => (data) && (
+
+    const Data = () => (data && !loading) && (
         <CodeSnippet
             type={ "multi" }
             className={ Styles.snippet }
@@ -59,6 +73,7 @@ const Component = () => {
             }
             showMoreText={ "Expand" }
             showLessText={ "Collapse" }
+            maxCollapsedNumberOfRows={ 15 }
             wrapText={ false }
         />
     );

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 
 import { InlineNotification, ToastNotification, ActionableNotification } from "carbon-components-react";
+import React from "react";
 import { default as Difference } from "./../../../utilities/Difference.js";
 
 const Delimiter = () => (
@@ -22,6 +23,9 @@ export const Inline = (props) => {
         statusIconDescription,
         hideCloseButton,
         closeOnEscape,
+        onClose,
+        onCloseButtonClick,
+        children,
         ... properties
     } = props;
 
@@ -40,25 +44,31 @@ export const Inline = (props) => {
             statusIconDescription={ statusIconDescription }
             hideCloseButton={ hideCloseButton }
             closeOnEscape={ closeOnEscape }
+            children={ children }
+            onClose={ onClose }
 
             {
                 ... properties
             }
 
-            data-properties={
-                String(JSON.stringify({
-                    Properties: JSON.stringify(Difference(props, properties), null, 4),
-                    Attributes: JSON.stringify(properties, null, 4)
-                }, null, 4).valueOf())
-            }
+            /// data-properties={
+            ///     String(JSON.stringify({
+            ///         Properties: JSON.stringify(Difference(props, properties), null, 4),
+            ///         Attributes: JSON.stringify(properties, null, 4)
+            ///     }, null, 4).valueOf())
+            /// }
         >
             <span>
                 <strong>
                     { title }
                 </strong>
+                {
+                    " - "
+                }
                 <Delimiter/>
                 { subtitle }
             </span>
+            <br/>
         </InlineNotification>
     );
 };
@@ -73,10 +83,14 @@ Inline.defaultProps = {
     statusIconDescription: "[Status Icon Descriptive Content]",
     hideCloseButton: false,
     closeOnEscape: true,
+    children: null,
     properties: null
 };
 
 Inline.propTypes = {
+    title: PropTypes.string,
+    subtitle: PropTypes.oneOfType([ PropTypes.string, PropTypes.node ]),
+
     /**
      * Specify the content
      */

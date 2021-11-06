@@ -1,7 +1,7 @@
 .tag {
     span {
         text-align: center;
-        width: max-content;
+        width:      max-content;
     }
 }
 
@@ -12,8 +12,13 @@
 }
 
 @media (max-width: 65.98rem) {
-    .tag {
+    .tag:first-of-type {
         border-left: 1px solid var(--cds-border-subtle);
+    }
+}
+
+@media (max-width: 65.98rem) {
+    .tag {
         padding-left: 1.75rem;
     }
 }
