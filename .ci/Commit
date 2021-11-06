@@ -1,0 +1,36 @@
+#!/bin/env bash --posix
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:   *.*   -*- #
+
+set -euo pipefail
+
+#
+# ========================================================================
+# Git Commit Helper
+# ========================================================================
+# * Ensure to Sanitize Sensitive, Hard-Coded Information
+#
+
+[[ "${@}" =~ "--disable-ci" ]] && TRIGGER="FALSE" || TRIGGER="TRUE"
+[[ "${@}" =~ "--debug" || "${@}" =~ "--Debug" ]] && set -x
+
+# ------------------------------------------------------------------------
+# Script Entry Point
+# ------------------------------------------------------------------------
+
+git add --all
+
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+printf "%s: " "Git Commit Message"
+
+EOM="$(read ___; echo "${___}")"
+
+git commit --message "${EOM}"
+
+ORIGIN="$(git config branch.$(git name-rev --name-only HEAD).remote)"
+
+[[ "${TRIGGER}" == "FALSE" ]] && git push -o "ci.skip" --set-upstream "${ORIGIN}" "${BRANCH}" \
+    || git push --set-upstream "${ORIGIN}" "${BRANCH}"

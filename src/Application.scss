@@ -14,12 +14,13 @@ Global Overwrites
 
 /* -------------------------
 Table User Agent Styles
-*/// -----------------------
+*/
+// -----------------------
 
 th, tr, td {
-    box-shadow: none !important;
+    box-shadow:     none !important;
     vertical-align: middle !important;
-    outline: none !important;
+    outline:        none !important;
 }
 
 // Primary Content Container
@@ -32,7 +33,7 @@ th, tr, td {
 
 // Spinner
 .cds--inline-loading {
-    height: 1.25rem;
+    height:     1.25rem;
     min-height: 1.25rem;
 }
 
@@ -168,20 +169,58 @@ Functional Mixins
     user-select:         none;
 }
 
+@mixin enable-selection-auto { /*** Supported by Chrome, Edge, Opera and Firefox */
+    // - [] @Task: Test on Mobile
+    // >>> -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    // - [] @Task: Test on Mobile
+    // >>> -webkit-touch-callout: none; /* iOS Safari */
+
+    -webkit-user-select: auto; /* Safari */
+    -khtml-user-select:  auto; /* Konqueror HTML */
+    -moz-user-select:    auto; /* Old versions of Firefox */
+    -ms-user-select:     auto; /* Internet Explorer/Edge */
+
+    user-select:         auto;
+}
+
+@mixin enable-selection-all { /*** Supported by Chrome, Edge, Opera and Firefox */
+    // - [] @Task: Test on Mobile
+    // >>> -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    // - [] @Task: Test on Mobile
+    // >>> -webkit-touch-callout: none; /* iOS Safari */
+
+    -webkit-user-select: all; /* Safari */
+    -khtml-user-select:  all; /* Konqueror HTML */
+    -moz-user-select:    all; /* Old versions of Firefox */
+    -ms-user-select:     all; /* Internet Explorer/Edge */
+
+    user-select:         all;
+}
+
 /* -------------------
 Utility Selectors
 *//*-----------------*/
 
 .no-select {
-    @include disable-selection;
+    @include disable-selection();
 }
 
 .unselectable {
-    @include disable-selection;
+    @include disable-selection();
 }
 
 .no-highlight {
-    @include disable-selection;
+    @include disable-selection();
+}
+
+.select-all {
+    @include enable-selection-all();
+}
+
+.enable-select-all {
+    @include enable-selection-all();
 }
 
 /*

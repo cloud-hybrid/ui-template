@@ -1,0 +1,365 @@
+#!/usr/bin/env file .
+
+# -*-  Coding: UTF-8  -*- #
+# -*-  System: Linux  -*- #
+# -*-  Usage:  *.Yaml -*- #
+
+# Owner:    Jacob B. Sanders
+# Source:   gitlab.cloud-technology.io
+# License:  BSD 3-Clause License
+
+#
+# Copyright 2021 Jacob B. Sanders - Cloud Technology LLC. & Affiliates
+#
+# Redistribution and use in source and binary forms, with or without modification, are permitted
+# provided that the following conditions are met:
+#
+# 1.  Redistributions of source code must retain the above copyright notice, this list of
+#     conditions and the following disclaimer.
+#
+# 2.   Redistributions in binary form must reproduce the above copyright notice, this list of
+#      conditions and the following disclaimer in the documentation and/or other materials
+#      provided with the distribution.
+#
+# 3.  Neither the name of the copyright holder nor the names of its contributors may be used
+#     to endorse or promote products derived from this software without specific prior written
+#     permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
+# OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+# AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER
+# OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+# OF SUCH DAMAGE.
+#
+
+#
+# ========================================================================
+# --> Pipeline: Continuous Integration & Deployment Configuration(s)
+# ========================================================================
+#
+
+# - - - - - - - - - - - - -
+# Container Configurations
+# - - - - - - - - - - - - -
+
+.AWS-Installation: &AWS-Installation
+    - apk add --quiet --no-cache python3 py3-pip
+    - python3 -m venv .venv && source .venv/bin/activate
+    - python -m pip install pip awscli --upgrade
+
+.AWS-Configuration: &AWS-Configuration
+    - aws configure set aws_default_output json --profile default
+    - aws configure set aws_default_region us-east-2 --profile default
+
+# ------------------------------------------------------------------------
+# Primary Entry-Point (Jobs + Stages + Triggers)
+# ------------------------------------------------------------------------
+
+image: "docker:stable"
+cache: [ ]
+stages: [ "Setup", "Build", "Artifacts", "Package", "Distribution", "Deployment", "Health-Check" ]
+variables: {
+    CONTAINER: "nexus-front-end",
+    TAG: "latest",
+    STACK: "Nexus-Front-End",
+    SERVICE: "Nexus-Front-End-Service",
+
+    GIT_DEPTH: 5,
+    GIT_STRATEGY: "clone",
+    GIT_SUBMODULE_STRATEGY: "none"
+}
+
+Dependencies:
+    stage: "Setup"
+    image: "node:16-alpine"
+    only: [ "Development" ]
+    script:
+        - npm install .
+    cache:
+        paths: [ "node_modules" ]
+
+Version:
+    stage: "Setup"
+    image: "docker:stable"
+    script: [ "cat VERSION" ]
+    cache: []
+
+SSL:
+    stage: "Build"
+    image: "node:alpine"
+    only: [ "Development" ]
+    needs: [
+        { job: Dependencies, artifacts: False }
+    ]
+    cache: []
+    artifacts: {}
+    script:
+        - apk add openssl
+        - export SUBJECT="/C=US/ST=MN/O=Cloud Technology LLC./CN=nexus.cloud-technology.io"
+        - |
+            openssl req -x509 -newkey rsa:2048  \
+                -nodes -sha256                  \
+                    -keyout Production.Key      \
+                        -out Production.PEM     \
+                            -subj "${SUBJECT}"
+
+Runtime:
+    stage: "Build"
+    image: "docker:stable"
+    needs: [
+        { job: Version, artifacts: False },
+        { job: Dependencies, artifacts: False }
+    ]
+    cache: []
+    variables:
+        API: "api.cloud-technology.io:3000"
+        API_ENDPOINT: "https://api.cloud-technology.io:3000"
+        WS_ENDPOINT: "wss://api.cloud-technology.io:3000"
+    script:
+        -   |
+            cat << EOF > .env.production
+            PORT="8443"
+            HTTPS="false"
+            HOST="0.0.0.0"
+
+            FAST_REFRESH="false"
+
+            NODE_ENV="production"
+            BABEL_ENV="production"
+
+            SCROLL_TRACKING="false"
+            GENERATE_SOURCEMAP="true"
+            INLINE_RUNTIME_CHUNK="true"
+            ESLINT_NO_DEV_ERRORS="true"
+            DISABLE_ESLINT_PLUGIN="true"
+
+            SASS_PATH="node_modules:src"
+
+            SSL_CRT_FILE=""
+            SSL_KEY_FILE=""
+
+            ENVIRONMENT="Production"
+
+            REACT_APP_API="${API}"
+            REACT_APP_API_ENDPOINT="${API_ENDPOINT}"
+            REACT_APP_WS_ENDPOINT="${WS_ENDPOINT}"
+            EOF
+
+    artifacts: {
+        paths: [ ".env.production" ],
+        expire_in: "1 hour"
+    }
+
+Tokens:
+    stage: "Build"
+    image: "docker:stable"
+    needs: [
+        { job: Version, artifacts: False },
+        { job: Dependencies, artifacts: False }
+    ]
+    cache: []
+    script: [ "echo 'CI=\"true\"' >> .env.local" ]
+    artifacts: {
+        paths: [ ".env.local" ],
+        expire_in: "1 hour"
+    }
+
+Public:
+    stage: "Artifacts"
+    image: "node:16"
+    only: [ "Development" ]
+    needs: [
+        { job: Dependencies, artifacts: True },
+        { job: Runtime, artifacts: False },
+        { job: Tokens, artifacts: False },
+        { job: SSL, artifacts: False }
+    ]
+    allow_failure: False
+    artifacts: { paths: [ "public" ] }
+    script: [ "printf \"%s\" \"Archiving Public File(s)\"" ]
+
+Secrets:
+    stage: "Artifacts"
+    image: "node:16"
+    only: [ "Development" ]
+    cache: []
+    needs: [
+        { job: Dependencies, artifacts: False },
+        { job: Runtime, artifacts: False },
+        { job: Tokens, artifacts: False },
+        { job: SSL, artifacts: True }
+    ]
+    allow_failure: False
+    artifacts: { paths: [
+            "*/**/*.conf",
+            "*/**/*.Key", "*/**/*.key",
+            "*/**/*.pem", "*/**/*.PEM",
+            "*/**/*.crt", "*/**/*.CRT",
+            "*/**/*.pfx", "*/**/*.PFX",
+            "*/**/*.p12", "*/**/*.P12",
+            "*/**/.env", "*/**/*.env", "*/**/*.env.*",
+    ], exclude: [ "node_modules", ".git" ] }
+    script: [ "printf \"%s\" \"Archiving Build Secret(s)\"" ]
+
+Environment:
+    stage: "Artifacts"
+    image: "node:16"
+    only: [ "Development" ]
+    cache: []
+    needs: [
+        { job: Dependencies, artifacts: False },
+        { job: Runtime, artifacts: True },
+        { job: Tokens, artifacts: True },
+        { job: SSL, artifacts: False }
+    ]
+    allow_failure: False
+    artifacts: { paths: [ "VERSION", "package.json", "package-lock.json" ] }
+    script: [ "printf \"%s\" \"Archiving Environment Variable(s)\"" ]
+
+Compile:
+    stage: "Package"
+    only: [ "Development" ]
+    image: "node:16-alpine"
+    needs: [
+        { job: Dependencies, artifacts: True },
+        { job: Runtime, artifacts: True },
+        { job: Version, artifacts: True },
+        { job: Tokens, artifacts: True },
+        { job: Public, artifacts: True },
+        { job: SSL, artifacts: True }
+    ]
+    script:
+        - rm -f .env
+        - rm -f .env.local
+        - npm run build --production
+    cache: { paths: [ "node_modules" ] }
+    artifacts:
+        paths: [ "build", "public", "*/**/serve.json" ]
+        expire_in: "1 hour"
+
+Destroy:
+    stage: "Package"
+    only: [ "Development" ]
+    image: "docker:stable"
+    cache: []
+    needs: [
+        { job: Dependencies, artifacts: False },
+        { job: Environment, artifacts: False },
+        { job: Runtime, artifacts: False },
+        { job: Secrets, artifacts: False },
+        { job: Version, artifacts: False },
+        { job: Public, artifacts: False },
+        { job: Tokens, artifacts: False },
+        { job: SSL, artifacts: False },
+    ]
+    before_script: [ *AWS-Installation ]
+    script:
+        - *AWS-Configuration
+        - aws cloudformation delete-stack --stack-name "${STACK}" || true
+
+# ... Registry:
+# ...     stage: "Distribution"
+# ...     variables: { CI_DEBUG_TRACE: "False", PREFIX: "Nexus-URL-Service" }
+# ...     only: [ "Development" ]
+# ...     image: "docker:stable"
+# ...     services: [ "docker:dind" ]
+# ...     allow_failure: True
+# ...     needs: [
+# ...         { job: Compile, artifacts: True }
+# ...     ]
+# ...     cache: []
+# ...     before_script:
+# ...         - *AWS-Installation
+# ...     script:
+# ...         - *AWS-Configuration
+# ...         -   |
+# ...             export VERSION="$(printf "%s" "$(cat VERSION)")"
+# ...
+# ...             export BASE="${CI_REGISTRY_IMAGE}/${CONTAINER}"
+# ...             export TARGET="${BASE}/${VERSION}"
+# ...             export LATEST="${TARGET}:latest"
+# ...
+# ...             docker build --no-cache --tag "${TARGET}" --tag "${LATEST}" .
+# ...             docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+# ...             docker push "${TARGET}" && docker push "${LATEST}"
+
+#ECR:
+#    stage: "Distribution"
+#    variables: { CI_DEBUG_TRACE: "False", PREFIX: "Nexus-URL-Service" }
+#    only: [ "Development" ]
+#    image: "docker:stable"
+#    services: [ "docker:dind" ]
+#    cache: [ ]
+#    needs: [
+#        { job: Compile, artifacts: True },
+#        { job: Destroy, artifacts: False }
+#    ]
+#    before_script: [ *AWS-Installation ]
+#    script:
+#        - *AWS-Configuration
+#        - |
+#            export VERSION="$(printf "%s" "$(cat VERSION)")"
+#
+#            export AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
+#            export AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
+#
+#            export BASE="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${CONTAINER}"
+#            export TARGET="${BASE}:${VERSION}"
+#            export LATEST="${BASE}:latest"
+#
+#            docker build --no-cache --tag "${TARGET}" --tag "${LATEST}" .
+#
+#            export URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+#            export PASSWORD="$(aws ecr get-login-password --region ${AWS_DEFAULT_REGION})"
+#
+#            aws ecr create-repository --repository-name "${CONTAINER}" --region "${AWS_DEFAULT_REGION}" || true
+#            printf "%s\n" "${PASSWORD}" | docker login "${URL}" --username AWS --password-stdin
+#
+#            docker push "${TARGET}" && docker push "${LATEST}"
+
+#Stack:
+#    stage: "Deployment"
+#    only: [ "Development" ]
+#    image: "docker:stable"
+#    cache: [ ]
+#    needs: [
+#        { job: ECR, artifacts: False },
+#        { job: Destroy, artifacts: False },
+#        { job: Registry, artifacts: False }
+#    ]
+#    variables:
+#        FLAG: "CAPABILITY_NAMED_IAM"
+#    environment:
+#        deployment_tier: "production"
+#        action: start
+#        name: "Production"
+#        url: "https://nexus.cloud-technology.io"
+#    before_script: [ *AWS-Installation ]
+#    script:
+#        - *AWS-Configuration
+#        - cd .ci/AWS && echo "Running Deployment Script"
+#        - |
+#            { \
+#                aws cloudformation create-stack --stack-name "${STACK}" \
+#                    --template-body "file://Stack.Yaml" \
+#                        --capabilities "${FLAG}" ; \
+#            } || true
+
+#Waiter:
+#    stage: "Health-Check"
+#    only: [ "Development" ]
+#    image: "docker:stable"
+#    cache: [ ]
+#    needs: [ { job: Stack, artifacts: False } ]
+#    allow_failure: True
+#    before_script: [ *AWS-Installation ]
+#    script:
+#        - *AWS-Configuration
+#        - aws cloudformation wait stack-create-complete
+#            --stack-name "${STACK}" || true
+#            - aws cloudformation wait stack-update-complete
+#            --stack-name "${STACK}" || true

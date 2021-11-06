@@ -86,8 +86,6 @@ const Icons = {
     }
 };
 
-//import { Component as MenuNotification } from "./../../components/Notifications/Menu.js";
-
 import { default as Notifications } from "./Notifications.js";
 
 /***
@@ -187,6 +185,9 @@ const Component = ({ Authorizer }) => {
                                 </HeaderMenuItem>
                                 <HeaderMenuItem element={ Link } to="/notifications">
                                     <strong>Notifications</strong>
+                                </HeaderMenuItem>
+                                <HeaderMenuItem element={ Link } to="/snippet">
+                                    <strong>Code-Snippet</strong>
                                 </HeaderMenuItem>
                             </HeaderMenu>
                             <hr

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        #controls {
+            position: fixed;
+            left:     0px;
+            width:    20%;
+            top:      0px;
+            height:   10%;
+        }
+
+        #chart {
+            position: fixed;
+            left:     0px;
+            right:    0px;
+            top:      0px;
+            bottom:   0px;
+        }
+
+        path.link {
+            fill:         none;
+            stroke:       #C5C5C5;
+            stroke-width: 1.0px;
+        }
+
+        circle {
+            fill:         #CCCCCC;
+            stroke:       #FFFFFF;
+            stroke-width: 1.5px;
+        }
+
+        text {
+            fill:           #000000;
+            font:           11px sans-serif;
+            pointer-events: none;
+        }
+
+        .ingoing {
+            stroke:       #237690 !important;
+            stroke-width: 1.5px !important;
+        }
+
+        .outgoing {
+            stroke:       #FA1209 !important;
+            stroke-width: 1.5px !important;
+        }
+
+        .selected {
+            stroke:       #000000 !important;
+            stroke-width: 1.5px !important;
+        }
+    </style>
+</head>
+<body>
+<div id="chart"></div>
+<div id="controls">
+    <input type="checkbox" id="cb_hierarchical" checked="True" onclick="render();">
+    Order by dependency chain
+    <br>
+    <input type="checkbox" id="cb_curved" checked="True" onclick="render();">
+    Curved Lines
+    <br>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+<script>
+    graph = JSON.parse("{\"directed\": true, \"graph\": [], \"nodes\": [{\"id\": 0, \"name\": \"Project\", \"level\": 7}, {\"id\": 1, \"name\": \"Project\", \"level\": 2}, {\"id\": 2, \"name\": \"Project\", \"level\": 12}, {\"id\": 3, \"name\": \"Project\", \"level\": 12}, {\"id\": 4, \"name\": \"Project\", \"level\": 3}, {\"id\": 5, \"name\": \"Project\", \"level\": 3}, {\"id\": 6, \"name\": \"Project\", \"level\": 8}, {\"id\": 7, \"name\": \"Project\", \"level\": 9}, {\"id\": 8, \"name\": \"Project\", \"level\": 1}, {\"id\": 9, \"name\": \"Project\", \"level\": 5}, {\"id\": 10, \"name\": \"Project\", \"level\": 12}, {\"id\": 11, \"name\": \"Project\", \"level\": 8}, {\"id\": 12, \"name\": \"Project\", \"level\": 10}, {\"id\": 13, \"name\": \"Project\", \"level\": 4}, {\"id\": 14, \"name\": \"Project\", \"level\": 3}, {\"id\": 15, \"name\": \"Project\", \"level\": 6}, {\"id\": 16, \"name\": \"Project\", \"level\": 7}, {\"id\": 17, \"name\": \"Project\", \"level\": 3}, {\"id\": 18, \"name\": \"Project\", \"level\": 9}, {\"id\": 19, \"name\": \"Project\", \"level\": 9}, {\"id\": 20, \"name\": \"Project\", \"level\": 7}, {\"id\": 21, \"name\": \"Project\", \"level\": 13}, {\"id\": 22, \"name\": \"Project\", \"level\": 7}, {\"id\": 23, \"name\": \"Project\", \"level\": 8}, {\"id\": 24, \"name\": \"Project\", \"level\": 3}, {\"id\": 25, \"name\": \"Project\", \"level\": 0}, {\"id\": 26, \"name\": \"Project\", \"level\": 6}, {\"id\": 27, \"name\": \"Project\", \"level\": 7}, {\"id\": 28, \"name\": \"Project\", \"level\": 15}, {\"id\": 29, \"name\": \"Project\", \"level\": 8}, {\"id\": 30, \"name\": \"Project\", \"level\": 9}, {\"id\": 31, \"name\": \"Project\", \"level\": 3}, {\"id\": 32, \"name\": \"Project\", \"level\": 8}, {\"id\": 33, \"name\": \"Project\", \"level\": 3}, {\"id\": 34, \"name\": \"Project\", \"level\": 2}, {\"id\": 35, \"name\": \"Project\", \"level\": 12}, {\"id\": 36, \"name\": \"Project\", \"level\": 8}, {\"id\": 37, \"name\": \"Project\", \"level\": 6}, {\"id\": 38, \"name\": \"Project\", \"level\": 8}, {\"id\": 39, \"name\": \"Project\", \"level\": 8}, {\"id\": 40, \"name\": \"Project\", \"level\": 6}, {\"id\": 41, \"name\": \"Project\", \"level\": 8}, {\"id\": 42, \"name\": \"Project\", \"level\": 8}, {\"id\": 43, \"name\": \"Project\", \"level\": 5}, {\"id\": 44, \"name\": \"Project\", \"level\": 15}, {\"id\": 45, \"name\": \"Project\", \"level\": 1}, {\"id\": 46, \"name\": \"Project\", \"level\": 12}, {\"id\": 47, \"name\": \"Project\", \"level\": 8}, {\"id\": 48, \"name\": \"Project\", \"level\": 7}, {\"id\": 49, \"name\": \"Project\", \"level\": 1}, {\"id\": 50, \"name\": \"Project\", \"level\": 14}, {\"id\": 51, \"name\": \"Project\", \"level\": 1}, {\"id\": 52, \"name\": \"Project\", \"level\": 6}, {\"id\": 53, \"name\": \"Project\", \"level\": 15}, {\"id\": 54, \"name\": \"Project\", \"level\": 15}, {\"id\": 55, \"name\": \"Project\", \"level\": 9}, {\"id\": 56, \"name\": \"Project\", \"level\": 4}, {\"id\": 57, \"name\": \"Project\", \"level\": 8}, {\"id\": 58, \"name\": \"Project\", \"level\": 1}, {\"id\": 59, \"name\": \"Project\", \"level\": 1}, {\"id\": 60, \"name\": \"Project\", \"level\": 15}, {\"id\": 61, \"name\": \"Project\", \"level\": 7}, {\"id\": 62, \"name\": \"Project\", \"level\": 8}, {\"id\": 63, \"name\": \"Project\", \"level\": 7}, {\"id\": 64, \"name\": \"Project\", \"level\": 3}, {\"id\": 65, \"name\": \"Project\", \"level\": 7}, {\"id\": 66, \"name\": \"Project\", \"level\": 1}, {\"id\": 67, \"name\": \"Project\", \"level\": 14}, {\"id\": 68, \"name\": \"Project\", \"level\": 5}, {\"id\": 69, \"name\": \"Project\", \"level\": 8}, {\"id\": 70, \"name\": \"Project\", \"level\": 7}, {\"id\": 71, \"name\": \"Project\", \"level\": 7}, {\"id\": 72, \"name\": \"Project\", \"level\": 5}, {\"id\": 73, \"name\": \"Project\", \"level\": 6}, {\"id\": 74, \"name\": \"Project\", \"level\": 2}, {\"id\": 75, \"name\": \"Project\", \"level\": 7}, {\"id\": 76, \"name\": \"Project\", \"level\": 4}, {\"id\": 77, \"name\": \"Project\", \"level\": 3}, {\"id\": 78, \"name\": \"Project\", \"level\": 8}, {\"id\": 79, \"name\": \"Project\", \"level\": 4}, {\"id\": 80, \"name\": \"Project\", \"level\": 3}, {\"id\": 81, \"name\": \"Project\", \"level\": 2}, {\"id\": 82, \"name\": \"Project\", \"level\": 16}, {\"id\": 83, \"name\": \"Project\", \"level\": 13}, {\"id\": 84, \"name\": \"Project\", \"level\": 12}, {\"id\": 85, \"name\": \"Project\", \"level\": 11}, {\"id\": 86, \"name\": \"Project\", \"level\": 3}, {\"id\": 87, \"name\": \"Project\", \"level\": 9}, {\"id\": 88, \"name\": \"Project\", \"level\": 2}, {\"id\": 89, \"name\": \"Project\", \"level\": 6}, {\"id\": 90, \"name\": \"Project\", \"level\": 5}, {\"id\": 91, \"name\": \"Project\", \"level\": 3}, {\"id\": 92, \"name\": \"Project\", \"level\": 5}, {\"id\": 93, \"name\": \"Project\", \"level\": 5}, {\"id\": 94, \"name\": \"Project\", \"level\": 4}, {\"id\": 95, \"name\": \"Project\", \"level\": 1}, {\"id\": 96, \"name\": \"Project\", \"level\": 13}, {\"id\": 97, \"name\": \"Project\", \"level\": 8}, {\"id\": 98, \"name\": \"Project\", \"level\": 5}, {\"id\": 99, \"name\": \"Project\", \"level\": 4}, {\"id\": 100, \"name\": \"Project\", \"level\": 6}, {\"id\": 101, \"name\": \"Project\", \"level\": 8}, {\"id\": 102, \"name\": \"Project\", \"level\": 11}, {\"id\": 103, \"name\": \"Project\", \"level\": 5}, {\"id\": 104, \"name\": \"Project\", \"level\": 10}], \"links\": [{\"source\": 0, \"target\": 57}, {\"source\": 0, \"target\": 36}, {\"source\": 0, \"target\": 23}, {\"source\": 0, \"target\": 82}, {\"source\": 0, \"target\": 39}, {\"source\": 0, \"target\": 18}, {\"source\": 0, \"target\": 41}, {\"source\": 0, \"target\": 6}, {\"source\": 0, \"target\": 85}, {\"source\": 0, \"target\": 60}, {\"source\": 1, \"target\": 50}, {\"source\": 1, \"target\": 4}, {\"source\": 1, \"target\": 77}, {\"source\": 1, \"target\": 85}, {\"source\": 1, \"target\": 75}, {\"source\": 1, \"target\": 14}, {\"source\": 2, \"target\": 50}, {\"source\": 2, \"target\": 83}, {\"source\": 2, \"target\": 67}, {\"source\": 3, \"target\": 50}, {\"source\": 3, \"target\": 67}, {\"source\": 3, \"target\": 21}, {\"source\": 4, \"target\": 50}, {\"source\": 4, \"target\": 7}, {\"source\": 4, \"target\": 20}, {\"source\": 5, \"target\": 75}, {\"source\": 5, \"target\": 60}, {\"source\": 5, \"target\": 85}, {\"source\": 6, \"target\": 104}, {\"source\": 7, \"target\": 50}, {\"source\": 7, \"target\": 12}, {\"source\": 7, \"target\": 85}, {\"source\": 8, \"target\": 50}, {\"source\": 8, \"target\": 35}, {\"source\": 8, \"target\": 91}, {\"source\": 8, \"target\": 96}, {\"source\": 8, \"target\": 26}, {\"source\": 8, \"target\": 68}, {\"source\": 9, \"target\": 101}, {\"source\": 9, \"target\": 7}, {\"source\": 9, \"target\": 62}, {\"source\": 12, \"target\": 85}, {\"source\": 12, \"target\": 102}, {\"source\": 13, \"target\": 22}, {\"source\": 13, \"target\": 52}, {\"source\": 13, \"target\": 27}, {\"source\": 13, \"target\": 47}, {\"source\": 13, \"target\": 30}, {\"source\": 13, \"target\": 43}, {\"source\": 13, \"target\": 60}, {\"source\": 13, \"target\": 61}, {\"source\": 13, \"target\": 62}, {\"source\": 13, \"target\": 92}, {\"source\": 13, \"target\": 7}, {\"source\": 13, \"target\": 9}, {\"source\": 13, \"target\": 70}, {\"source\": 13, \"target\": 68}, {\"source\": 13, \"target\": 12}, {\"source\": 13, \"target\": 37}, {\"source\": 13, \"target\": 73}, {\"source\": 13, \"target\": 15}, {\"source\": 13, \"target\": 16}, {\"source\": 13, \"target\": 100}, {\"source\": 13, \"target\": 101}, {\"source\": 13, \"target\": 20}, {\"source\": 13, \"target\": 103}, {\"source\": 14, \"target\": 75}, {\"source\": 14, \"target\": 50}, {\"source\": 14, \"target\": 85}, {\"source\": 14, \"target\": 56}, {\"source\": 14, \"target\": 98}, {\"source\": 15, \"target\": 70}, {\"source\": 15, \"target\": 22}, {\"source\": 15, \"target\": 7}, {\"source\": 16, \"target\": 85}, {\"source\": 16, \"target\": 101}, {\"source\": 17, \"target\": 50}, {\"source\": 17, \"target\": 85}, {\"source\": 18, \"target\": 35}, {\"source\": 25, \"target\": 30}, {\"source\": 25, \"target\": 51}, {\"source\": 25, \"target\": 80}, {\"source\": 25, \"target\": 4}, {\"source\": 25, \"target\": 95}, {\"source\": 25, \"target\": 13}, {\"source\": 25, \"target\": 59}, {\"source\": 25, \"target\": 77}, {\"source\": 25, \"target\": 1}, {\"source\": 25, \"target\": 75}, {\"source\": 25, \"target\": 8}, {\"source\": 25, \"target\": 64}, {\"source\": 25, \"target\": 14}, {\"source\": 25, \"target\": 49}, {\"source\": 25, \"target\": 33}, {\"source\": 25, \"target\": 58}, {\"source\": 25, \"target\": 66}, {\"source\": 25, \"target\": 45}, {\"source\": 20, \"target\": 85}, {\"source\": 20, \"target\": 7}, {\"source\": 21, \"target\": 67}, {\"source\": 22, \"target\": 85}, {\"source\": 24, \"target\": 50}, {\"source\": 24, \"target\": 85}, {\"source\": 26, \"target\": 30}, {\"source\": 26, \"target\": 50}, {\"source\": 26, \"target\": 35}, {\"source\": 26, \"target\": 0}, {\"source\": 26, \"target\": 63}, {\"source\": 26, \"target\": 48}, {\"source\": 26, \"target\": 75}, {\"source\": 26, \"target\": 65}, {\"source\": 27, \"target\": 101}, {\"source\": 29, \"target\": 50}, {\"source\": 29, \"target\": 60}, {\"source\": 29, \"target\": 87}, {\"source\": 29, \"target\": 19}, {\"source\": 30, \"target\": 60}, {\"source\": 30, \"target\": 44}, {\"source\": 30, \"target\": 85}, {\"source\": 30, \"target\": 21}, {\"source\": 30, \"target\": 53}, {\"source\": 32, \"target\": 50}, {\"source\": 32, \"target\": 60}, {\"source\": 32, \"target\": 18}, {\"source\": 32, \"target\": 19}, {\"source\": 33, \"target\": 99}, {\"source\": 33, \"target\": 48}, {\"source\": 33, \"target\": 26}, {\"source\": 33, \"target\": 75}, {\"source\": 33, \"target\": 98}, {\"source\": 33, \"target\": 68}, {\"source\": 33, \"target\": 79}, {\"source\": 34, \"target\": 75}, {\"source\": 34, \"target\": 17}, {\"source\": 34, \"target\": 33}, {\"source\": 37, \"target\": 27}, {\"source\": 37, \"target\": 70}, {\"source\": 37, \"target\": 101}, {\"source\": 38, \"target\": 67}, {\"source\": 38, \"target\": 96}, {\"source\": 40, \"target\": 67}, {\"source\": 41, \"target\": 82}, {\"source\": 66, \"target\": 75}, {\"source\": 66, \"target\": 74}, {\"source\": 66, \"target\": 88}, {\"source\": 45, \"target\": 81}, {\"source\": 47, \"target\": 30}, {\"source\": 47, \"target\": 67}, {\"source\": 47, \"target\": 46}, {\"source\": 47, \"target\": 96}, {\"source\": 48, \"target\": 32}, {\"source\": 48, \"target\": 18}, {\"source\": 48, \"target\": 29}, {\"source\": 49, \"target\": 50}, {\"source\": 49, \"target\": 60}, {\"source\": 49, \"target\": 85}, {\"source\": 49, \"target\": 5}, {\"source\": 50, \"target\": 60}, {\"source\": 50, \"target\": 44}, {\"source\": 50, \"target\": 54}, {\"source\": 50, \"target\": 53}, {\"source\": 51, \"target\": 75}, {\"source\": 51, \"target\": 65}, {\"source\": 51, \"target\": 34}, {\"source\": 51, \"target\": 33}, {\"source\": 52, \"target\": 7}, {\"source\": 52, \"target\": 101}, {\"source\": 56, \"target\": 75}, {\"source\": 56, \"target\": 65}, {\"source\": 56, \"target\": 98}, {\"source\": 58, \"target\": 75}, {\"source\": 58, \"target\": 17}, {\"source\": 58, \"target\": 33}, {\"source\": 59, \"target\": 50}, {\"source\": 59, \"target\": 35}, {\"source\": 59, \"target\": 1}, {\"source\": 59, \"target\": 31}, {\"source\": 59, \"target\": 85}, {\"source\": 59, \"target\": 72}, {\"source\": 59, \"target\": 75}, {\"source\": 59, \"target\": 14}, {\"source\": 59, \"target\": 67}, {\"source\": 60, \"target\": 82}, {\"source\": 62, \"target\": 50}, {\"source\": 62, \"target\": 60}, {\"source\": 62, \"target\": 85}, {\"source\": 62, \"target\": 55}, {\"source\": 63, \"target\": 87}, {\"source\": 63, \"target\": 36}, {\"source\": 63, \"target\": 69}, {\"source\": 63, \"target\": 23}, {\"source\": 63, \"target\": 82}, {\"source\": 63, \"target\": 60}, {\"source\": 63, \"target\": 41}, {\"source\": 63, \"target\": 85}, {\"source\": 63, \"target\": 97}, {\"source\": 63, \"target\": 11}, {\"source\": 64, \"target\": 15}, {\"source\": 64, \"target\": 16}, {\"source\": 64, \"target\": 22}, {\"source\": 64, \"target\": 52}, {\"source\": 64, \"target\": 100}, {\"source\": 64, \"target\": 101}, {\"source\": 64, \"target\": 85}, {\"source\": 64, \"target\": 9}, {\"source\": 64, \"target\": 62}, {\"source\": 64, \"target\": 94}, {\"source\": 65, \"target\": 42}, {\"source\": 67, \"target\": 28}, {\"source\": 68, \"target\": 50}, {\"source\": 68, \"target\": 60}, {\"source\": 70, \"target\": 50}, {\"source\": 70, \"target\": 62}, {\"source\": 70, \"target\": 84}, {\"source\": 70, \"target\": 85}, {\"source\": 70, \"target\": 7}, {\"source\": 70, \"target\": 47}, {\"source\": 71, \"target\": 38}, {\"source\": 71, \"target\": 67}, {\"source\": 71, \"target\": 78}, {\"source\": 72, \"target\": 30}, {\"source\": 73, \"target\": 50}, {\"source\": 73, \"target\": 16}, {\"source\": 73, \"target\": 22}, {\"source\": 73, \"target\": 60}, {\"source\": 73, \"target\": 61}, {\"source\": 73, \"target\": 85}, {\"source\": 73, \"target\": 20}, {\"source\": 74, \"target\": 30}, {\"source\": 74, \"target\": 50}, {\"source\": 74, \"target\": 80}, {\"source\": 74, \"target\": 35}, {\"source\": 74, \"target\": 24}, {\"source\": 74, \"target\": 14}, {\"source\": 74, \"target\": 13}, {\"source\": 74, \"target\": 77}, {\"source\": 74, \"target\": 5}, {\"source\": 74, \"target\": 91}, {\"source\": 74, \"target\": 62}, {\"source\": 74, \"target\": 64}, {\"source\": 74, \"target\": 72}, {\"source\": 74, \"target\": 86}, {\"source\": 74, \"target\": 103}, {\"source\": 74, \"target\": 26}, {\"source\": 74, \"target\": 101}, {\"source\": 74, \"target\": 31}, {\"source\": 74, \"target\": 75}, {\"source\": 75, \"target\": 85}, {\"source\": 76, \"target\": 90}, {\"source\": 76, \"target\": 67}, {\"source\": 77, \"target\": 50}, {\"source\": 77, \"target\": 76}, {\"source\": 77, \"target\": 85}, {\"source\": 77, \"target\": 42}, {\"source\": 80, \"target\": 50}, {\"source\": 80, \"target\": 85}, {\"source\": 83, \"target\": 50}, {\"source\": 84, \"target\": 96}, {\"source\": 85, \"target\": 50}, {\"source\": 85, \"target\": 35}, {\"source\": 85, \"target\": 21}, {\"source\": 85, \"target\": 82}, {\"source\": 85, \"target\": 60}, {\"source\": 85, \"target\": 83}, {\"source\": 85, \"target\": 2}, {\"source\": 85, \"target\": 46}, {\"source\": 85, \"target\": 84}, {\"source\": 85, \"target\": 3}, {\"source\": 85, \"target\": 10}, {\"source\": 86, \"target\": 13}, {\"source\": 86, \"target\": 37}, {\"source\": 87, \"target\": 104}, {\"source\": 88, \"target\": 85}, {\"source\": 89, \"target\": 50}, {\"source\": 89, \"target\": 71}, {\"source\": 90, \"target\": 50}, {\"source\": 91, \"target\": 67}, {\"source\": 92, \"target\": 50}, {\"source\": 92, \"target\": 85}, {\"source\": 93, \"target\": 67}, {\"source\": 94, \"target\": 85}, {\"source\": 94, \"target\": 52}, {\"source\": 94, \"target\": 62}, {\"source\": 95, \"target\": 50}, {\"source\": 95, \"target\": 85}, {\"source\": 95, \"target\": 68}, {\"source\": 43, \"target\": 16}, {\"source\": 43, \"target\": 22}, {\"source\": 43, \"target\": 37}, {\"source\": 43, \"target\": 101}, {\"source\": 43, \"target\": 85}, {\"source\": 43, \"target\": 20}, {\"source\": 96, \"target\": 67}, {\"source\": 97, \"target\": 104}, {\"source\": 98, \"target\": 75}, {\"source\": 98, \"target\": 65}, {\"source\": 98, \"target\": 26}, {\"source\": 98, \"target\": 89}, {\"source\": 98, \"target\": 40}, {\"source\": 99, \"target\": 50}, {\"source\": 99, \"target\": 67}, {\"source\": 99, \"target\": 93}, {\"source\": 99, \"target\": 72}, {\"source\": 100, \"target\": 50}, {\"source\": 101, \"target\": 7}, {\"source\": 103, \"target\": 30}, {\"source\": 103, \"target\": 15}, {\"source\": 103, \"target\": 22}, {\"source\": 103, \"target\": 52}, {\"source\": 103, \"target\": 60}, {\"source\": 103, \"target\": 61}, {\"source\": 103, \"target\": 100}, {\"source\": 103, \"target\": 35}, {\"source\": 103, \"target\": 73}, {\"source\": 103, \"target\": 20}, {\"source\": 103, \"target\": 70}, {\"source\": 103, \"target\": 7}], \"multigraph\": false}");
+
+    const cb_hierarchical = document.getElementById("cb_hierarchical");
+    const cb_curved = document.getElementById("cb_curved");
+    const chartDiv = document.getElementById("chart");
+    const svg = d3.select(chartDiv).append("svg");
+
+    const Stems = {};
+    const Links = {};
+    const Incoming = {};
+
+    graph.links.forEach(function (d) {
+        Stems[d.source + "," + d.target] = 1;
+        Links[d.target] = (Links[d.target] != undefined ? Links[d.target] + 1 : 1);
+        Links[d.source] = (Links[d.source] != undefined ? Links[d.source] + 1 : 1);
+        Incoming[d.target] = (Incoming[d.target] != undefined ? Incoming[d.target] + 1 : 1);
+        d.distance = graph.nodes[d.target].level - graph.nodes[d.source].level;
+    });
+
+    const Maxiumum = graph.nodes.reduce(function (currentValue, node) {
+        return Math.max(node.level, currentValue);
+    }, 0);
+    const maxlinks = Object.values(Links).reduce(function (currentValue, entry) {
+        return Math.max(entry, currentValue);
+    }, 0);
+
+    const Background = svg.append("svg:defs")
+            .append("filter")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 1)
+            .attr("height", 1)
+            .attr("id", "Background");
+
+    Background
+            .append("feFlood")
+            .attr("flood-color", "white");
+
+    Background
+            .append("feComposite")
+            .attr("in", "SourceGraphic");
+
+    const simulation = d3.forceSimulation(graph.nodes)
+            .on("tick", tick);
+
+    // add the links
+    const path = svg.selectAll("path")
+            .data(graph.links)
+            .enter().append("svg:path")
+            .attr("class", "link");
+
+    // define the nodes
+    const node = svg.selectAll(".node")
+            .data(graph.nodes)
+            .enter().append("g")
+            .attr("class", "node")
+            .on("mouseover", highlight(true))
+            .on("mouseout", highlight(false))
+            .call(d3.drag()
+                    .on("start", start)
+                    .on("drag", drag)
+                    .on("end", end));
+
+    // add the node-circles
+    const circle = node.append("circle")
+            .attr("z", 0);
+
+    // add the text to nodes
+    const title = node.append("text")
+            .attr("x", 12)
+            .attr("z", 5)
+            .attr("dy", ".35em")
+            .attr("filter", "url(#Background)")
+            .text(function (d) {
+                return d.name;
+            });
+
+    function start(d) {
+        if ( !d3.event.active ) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+
+    function drag(d) {
+        d.fx = d3.event.x;
+        d.fy = d3.event.y;
+    }
+
+    function end(d) {
+        if ( !d3.event.active ) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+    }
+
+    function tick(e) {
+        const width = chartDiv.clientWidth;
+        const height = chartDiv.clientHeight;
+
+        node
+                .attr("cx", function (d) {
+                    return d.x = Math.max(d.radius, Math.min(width - d.radius - 75, d.x));
+                })
+                .attr("cy", function (d) {
+                    return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y));
+                })
+                .attr("transform", function (d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
+
+        path.attr("d", function (d) {
+            if ( cb_curved.checked ) {
+                return "M" + d.source.x + "," + d.source.y + "C" + d.target.x + "," + d.source.y + "," + d.source.x + "," + d.target.y + "," + d.target.x + "," + d.target.y;
+            } else {
+                return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
+            }
+        });
+    }
+
+    function highlight(active) {
+        return function (d, i) {
+            path.classed("ingoing", function (link) {
+                return active && link.target === d;
+            });
+            path.classed("outgoing", function (link) {
+                return active && link.source === d;
+            });
+            node.classed("ingoing", function (node) {
+                return active && Stems[node.id + "," + d.id];
+            });
+            node.classed("outgoing", function (node) {
+                return active && Stems[d.id + "," + node.id];
+            });
+            node.classed("selected", function (node) {
+                return active && d.id === node.id;
+            });
+            circle.classed("ingoing", function (node) {
+                return active && Stems[node.id + "," + d.id];
+            });
+            circle.classed("outgoing", function (node) {
+                return active && Stems[d.id + "," + node.id];
+            });
+            circle.classed("selected", function (node) {
+                return active && d.id === node.id;
+            });
+            title.classed("ingoing", function (node) {
+                return active && Stems[node.id + "," + d.id];
+            });
+            title.classed("outgoing", function (node) {
+                return active && Stems[d.id + "," + node.id];
+            });
+            title.classed("selected", function (node) {
+                return active && d.id === node.id;
+            });
+        };
+    }
+
+    function render() {
+        const width = chartDiv.clientWidth;
+        const height = chartDiv.clientHeight;
+
+        svg.attr("width", width).attr("height", height);
+
+        const radius = 25;
+        const charge = 10;
+        const link_strength = .75;
+
+        graph.nodes.forEach(function (d) {
+            d.radius = radius * Math.atan((Links[d.id] != undefined ? Links[d.id] : 0) / maxlinks * 2 * Math.PI);
+        });
+        graph.nodes.forEach(function (d) {
+            d.radius_inc = radius * Math.atan((Incoming[d.id] != undefined ? Incoming[d.id] : 0) / maxlinks * 2 * Math.PI);
+        });
+
+        circle.attr("r", function (d) {
+            return d.radius;
+        });
+
+        const leveldist = width / (Maxiumum + 1);
+
+        if ( cb_hierarchical.checked ) {
+            simulation
+                    .force("x", d3.forceX()
+                            .x(function (d) {
+                                return (d.level + 0.5) * leveldist;
+                            })
+                            .strength(2.))
+                    .force("y", d3.forceY()
+                            .y(height / 2)
+                            .strength(0.025));
+        } else {
+            simulation
+                    .force("x", d3.forceX()
+                            .x(width / 2)
+                            .strength(0.05))
+                    .force("y", d3.forceY()
+                            .y(height / 2)
+                            .strength(0.05));
+        }
+
+        simulation.force("link", d3.forceLink()
+                .links(graph.links)
+                .strength(function (d) {
+                    return link_strength / d.target.radius_inc;
+                })
+                .distance(function (d) {
+                    return d.distance * leveldist;
+                }))
+                .force("charge", d3.forceManyBody()
+                        .strength(function (d) {
+                            return -charge * d.radius;
+                        }))
+                .force("collision", d3.forceCollide()
+                        .radius(function (d) {
+                            return d.radius;
+                        }))
+                .alphaTarget(0.3)
+                .restart();
+    }
+
+    render();
+    d3.select(window).on("resize", render);
+</script>
+</body>
+</html>
