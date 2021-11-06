@@ -1,21 +1,10 @@
+import Path from "path";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import { Link, Tag } from "@carbon/react";
-
-const Year = new Date().getFullYear();
-
-const Ignore = () => true;
-
-const Legal = () => (
-    <>
-        <Link href={ "#" } target={ "#" }>Copyrights</Link>, <Link href={ "#" } target={ "#" }>Usage
-        Policy</Link>, <Link href={ "#" } target={ "#" }>DCMA</Link>, <Link href={ "#" } target={ "#" }>Security Notices</Link>,
-        and <Link href={ "#" } target={ "#" }>Personal Data</Link>
-    </>
-);
-
+import { Tag } from "@carbon/react";
 import { default as Version } from "./../Version/Component.js";
+import { default as Build } from "./../../Version.js";
 
 import "./SCSS/Version.scss";
 
@@ -25,8 +14,6 @@ const Component = (props) => {
     const display = process.env.NODE_ENV !== "production";
 
     const State = useState(false);
-
-    window.onerror = Ignore;
 
     const {
         version,
@@ -60,11 +47,11 @@ const Component = (props) => {
 };
 
 Component.defaultProps = {
-    version: process.env.REACT_APP_VERSION | "0.0.1"
+    version: Build
 };
 
 Component.propTypes = {
-    version: PropTypes.string.isRequired
+    version: PropTypes.string
 };
 
 export default Component;

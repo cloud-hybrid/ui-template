@@ -9,6 +9,8 @@ const Year = new Date().getFullYear();
 
 const Ignore = () => true;
 
+import { default as Build } from "./../../Version.js";
+
 const Legal = () => (
     <>
         <Link href={ "#" } target={ "#" }>Copyrights</Link>, <Link href={ "#" } target={ "#" }>Usage
@@ -92,11 +94,11 @@ const Component = (props) => {
 };
 
 Component.defaultProps = {
-    version: process.env.REACT_APP_VERSION
+    version: Build
 };
 
 Component.propTypes = {
-    version: PropTypes.string.isRequired,
+    version: PropTypes.string,
     state: PropTypes.any
 };
 

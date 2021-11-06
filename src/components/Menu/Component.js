@@ -205,7 +205,7 @@ const Component = ({ Authorizer }) => {
                             />
                         </HeaderNavigation>
                         <Mode/>
-                        <Version version={ "0.0.1" }/>
+                        <Version/>
                         {
                             (
                                 Authorizer[0] === true

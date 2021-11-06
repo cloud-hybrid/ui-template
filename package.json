@@ -1,6 +1,6 @@
 {
     "name": "@cloud-technology/ui-template",
-    "version": "0.0.0",
+    "version": "0.0.6",
     "private": true,
     "main": "./src/index.js",
     "scripts": {
@@ -9,6 +9,9 @@
         "clean-ts": "find . -type f -name \"*.d.ts\" -delete",
         "clean-css": "find . -type f -name \"*.css\" -delete && find . -type f -name \"*.css.map\" -delete",
         "analyze": "npm run build --production && source-map-explorer \"build/static/js/*.js\"",
+        "patch": "node Version.js --Increment --Write --Patch",
+        "minor": "node Version.js --Increment --Write --Patch",
+        "major": "node Version.js --Increment --Write --Patch",
         "build": "react-scripts build",
         "eject": "react-scripts eject",
         "start": "react-scripts start",

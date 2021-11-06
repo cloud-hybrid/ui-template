@@ -52,13 +52,13 @@ const Throw = {
 };
 
 (Entry !== undefined && FS.existsSync(Entry) && (
-    FS.statSync(Entry).isFile() || FS.statSync(Path.join(Entry, "package.json"))
-        .isFile())
+        FS.statSync(Entry).isFile() || FS.statSync(Path.join(Entry, "package.json"))
+            .isFile())
 ) ? console.info("[DEBUG]",
-        "➜" + " " + "Package" + ":", Entry
-    ) : Throw.Trigger = true;
+    "➜" + " " + "Package" + ":", Entry
+) : Throw.Trigger = true;
 
-if (Throw.Trigger === true) {
+if ( Throw.Trigger === true ) {
     console.error("[ERROR]",
         "➜" + " " + "Message" + ":", "Version.js must be interfaced via NPM",
         "\n", "             >>> \"scripts\": {",
@@ -87,7 +87,8 @@ console.info("[DEBUG]",
 
 // Runtime.chdir(CWD);
 
-console.info("[DEBUG]",
+console.info(
+    "[DEBUG]",
     "➜" + " " + "Working Directory" + ":" + " " + Runtime.cwd()
 );
 
@@ -95,7 +96,8 @@ const Data = JSON.parse(Handler);
 
 const Today = Datetime.toISOString(Datetime.getTime()).slice(0, 10);
 
-console.info("[DEBUG]",
+console.info(
+    "[DEBUG]",
     "➜" + " " + "Date" + ":" + " " + Today
 );
 
@@ -109,18 +111,19 @@ const Source = () => {
 
     target = Path.dirname(Entry) + Path.sep + "Source";
     (FS.existsSync(target) && FS.lstatSync(target).isDirectory()) ?
-        Exportables.push([target, Path.normalize(target)]) : null;
+        Exportables.push([ target, Path.normalize(target) ]) : null;
 
     target = Path.dirname(Entry) + Path.sep + "src";
     (FS.existsSync(target) && FS.lstatSync(target).isDirectory()) ?
-        Exportables.push([target, Path.normalize(target)]) : null;
+        Exportables.push([ target, Path.normalize(target) ]) : null;
 
-}; Source();
+};
+Source();
 
 const Tree = {
     Root: null,
     Modules: []
-}
+};
 
 /**
  * Finds the pathname of the parent module's package descriptor file. If the
@@ -130,14 +133,14 @@ const Tree = {
  * the root directory is reached. Returns the pathname if found or null if not.
  */
 function Package(directory) {
-    if (!directory) directory = Path.dirname(__dirname + Path.sep + "CLI");
+    if ( !directory ) directory = Path.dirname(__dirname + Path.sep + "CLI");
 
     var file = Path.resolve(directory, "package.json");
     var module = Path.resolve(directory, "Module.js");
 
     const Modular = FS.existsSync(module) && FS.statSync(module).isFile();
 
-    if (FS.existsSync(file) && FS.statSync(file).isFile() || Modular) {
+    if ( FS.existsSync(file) && FS.statSync(file).isFile() || Modular ) {
         Tree.Modules.push(directory);
         const Target = (Modular) ? Path.join(Path.dirname(module), "..")
             : Path.join(Path.dirname(file), "..");
@@ -146,17 +149,19 @@ function Package(directory) {
 
     var parent = Path.resolve(directory, "..");
 
-    if (parent === directory) return CWD;
+    if ( parent === directory ) return CWD;
     return Package(parent);
 }
 
 Tree.Root = Package();
 
-console.info("[DEBUG]",
+console.info(
+    "[DEBUG]",
     "➜" + " " + "Package" + ":" + " " + Tree.Root
 );
 
-console.info("[DEBUG]",
+console.info(
+    "[DEBUG]",
     "➜" + " " + "Modules" + ":" + " " + JSON.stringify(Tree.Modules, null, 4)
 );
 
@@ -175,10 +180,10 @@ Tree.Modules.forEach((Element, Index) => {
 
     Generation[Key] = {};
 
-    if (!(FS.existsSync(Path.join(Directory, "package.json"))) || FS.existsSync(Path.join(Directory, "Module.js"))) {
+    if ( !(FS.existsSync(Path.join(Directory, "package.json"))) || FS.existsSync(Path.join(Directory, "Module.js")) ) {
         const Components = Directory.split(Path.sep);
         const Length = Components.length;
-        const Package = Components[Length -1];
+        const Package = Components[Length - 1];
 
         FS.writeFileSync(
             Path.join(Directory, "package.json"),
@@ -209,40 +214,45 @@ Tree.Modules.forEach((Element, Index) => {
     Generation[Key].Data = JSON.parse(Buffer);
 
     // Generation[Key].Version = ...
-    if (!FS.existsSync(Path.normalize(Version))) {
-        FS.writeFileSync(Path.join(Version),
+    if ( !FS.existsSync(Path.normalize(Version)) ) {
+        FS.writeFileSync(
+            Path.join(Version),
             "0.0.0"
         );
     }
 
     // Generation[Key].Archive = ...
-    if (!FS.existsSync(Path.normalize(Target))) FS
+    if ( !FS.existsSync(Path.normalize(Target)) ) FS
         .mkdirSync(Archive);
 
     // Generation[Key].Date = ...
-    if (!FS.existsSync(Path.normalize(Target))) {
+    if ( !FS.existsSync(Path.normalize(Target)) ) {
         FS.mkdirSync(Target);
     }
 
     const File = Path.join(Target, Random());
-    FS.writeFileSync(File + "." + "JSON",
+    FS.writeFileSync(
+        File + "." + "JSON",
         JSON.stringify(
             Generation[Key].Data, null, 4
         )
     );
 
-    FS.writeFileSync(Path.join(Version),
+    FS.writeFileSync(
+        Path.join(Version),
         Generation[Key].Data.version
     );
+
+    console.debug("[DEBUG] ➜ Successfully Created & Wrote to Archive", "(" + Path.normalize(Target) + ")");
 
     Generation[Key].FS = {
         Archive: Path.normalize(Archive),
         Output: Path.normalize(Target),
         File: File
     };
-})
+});
 
-if (Parameters.includes("--Increment") || Parameters.includes("--increment")) {
+if ( Parameters.includes("--Increment") || Parameters.includes("--increment") ) {
     Version.Current = {};
     Version.Target = {};
 
@@ -277,16 +287,16 @@ if (Parameters.includes("--Increment") || Parameters.includes("--increment")) {
     };
 
     (Parameters.includes("--Major") || Parameters.includes("--major"))
-        ? Major() : console.info("[DEBUG]"
+        ? Major() : console.debug("[DEBUG]"
             + " ➜ Skipping Major Incrementor");
     (Parameters.includes("--Minor") || Parameters.includes("--minor"))
-        ? Minor() : console.info("[DEBUG]"
+        ? Minor() : console.debug("[DEBUG]"
             + " ➜ Skipping Minor Incrementor");
     (Parameters.includes("--Patch") || Parameters.includes("--patch"))
-        ? Patch() : console.info("[DEBUG]"
+        ? Patch() : console.debug("[DEBUG]"
             + " ➜ Skipping Patch Incrementor");
 
-    console.info(
+    console.debug(
         "[DEBUG] ➜ Version "
         + String(Version.Current.Major)
         + "."
@@ -303,57 +313,50 @@ if (Parameters.includes("--Increment") || Parameters.includes("--increment")) {
 }
 
 Parameters.forEach((Value, Index) => {
-    switch (Value) {
-        case "--Write": {
-            const ID = UID.toUpperCase();
-            const Target = Folder + Path.sep
-                + ID + ".JSON";
-            const Export = Folder
+    switch ( Value ) {
+    case "--Write": {
+        Data.version = String(
+            String(Version.Target.Major)
+            + "."
+            + String(Version.Target.Minor)
+            + "."
+            + String(Version.Target.Patch)
+        );
 
-            FS.writeFileSync(Target, JSON.stringify(Data, null, 4));
+        FS.writeFileSync(Entry, JSON.stringify(Data, null, 4));
 
-            console.info("[DEBUG] ➜ Successfully Created & Wrote to Archive");
+        console.debug("[DEBUG] ➜ Successfully Wrote to Package Index");
 
-            Data.version = String(
-                String(Version.Target.Major)
-                + "."
-                + String(Version.Target.Minor)
-                + "."
-                + String(Version.Target.Patch)
-            );
+        FS.writeFileSync(File, Data.version);
 
-            FS.writeFileSync(Entry, JSON.stringify(Data, null, 4));
+        console.debug("[DEBUG] ➜ Successfully Incremented VERSION Lock");
 
-            console.info("[DEBUG] ➜ Successfully Wrote to Package Index");
+        Exportables.forEach(
+            (Exportable, Index, _) => {
+                console.info("[DEBUG] ➜ Writing Version.js" + ":" + " " + Exportable[1]);
+                FS.writeFileSync(Path.join(Exportable[1], "Version.js"), "const Version = " + "\""
+                    + String(Data.version) + "\"" + ";\n" + "\n"
+                    + "export default Version;" + "\n"
+                );
+            }
+        );
 
-            FS.writeFileSync(File, Data.version);
+        console.debug("[DEBUG] ➜ Successfully Wrote Version.js File(s)");
 
-            console.info("[DEBUG] ➜ Successfully Incremented VERSION Lock");
+        Runtime.exit(0);
+    }
+        break;
 
-            Exportables.forEach(
-                (Exportable, Index, _) => {
-                    console.info("[DEBUG] ➜ Writing Version.js" + ":" + " " + Exportable[1]);
-                    FS.writeFileSync(Path.join(Exportable[1], "Version.js"), "const Version = " + "\""
-                        + String(Data.version) + "\"" + ";\n" + "\n"
-                        + "exports.default = Version;" + "\n"
-                    );
-                }
-            )
+    case "--Archive":
+        Parameters.includes("--Archive") ?
+            FS.writeFileSync(
+                Folder + Path.sep + UID.toUpperCase() + ".JSON",
+                JSON.stringify(Data, null, 4)
+            ) : console.info();
+        break;
 
-            console.info("[DEBUG] ➜ Successfully Wrote Version.js File(s)");
-
-            Runtime.exit(0);
-        } break;
-
-        case "--Archive":
-            Parameters.includes("--Archive") ?
-                FS.writeFileSync(Folder + Path.sep + UID.toUpperCase() + ".JSON",
-                    JSON.stringify(Data, null, 4)
-                ) : console.info();
-            break;
-
-        default:
-            break;
+    default:
+        break;
 
     }
 });
@@ -366,7 +369,8 @@ module.exports.default = {
     Version: Generation
 };
 
-console.info("[DEBUG]",
+console.info(
+    "[DEBUG]",
     "➜" + " " + "Exports" + ":" + " " + JSON.stringify(
         module.exports.default, null, 4
     )
