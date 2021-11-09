@@ -4,7 +4,7 @@ import * as Panel from "./SCSS/Side-Panel.module.scss";
 
 import { Store, STORE } from "./../Authenticate";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 import {
     Header,
