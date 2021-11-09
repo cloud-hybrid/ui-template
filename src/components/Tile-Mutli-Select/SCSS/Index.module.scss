@@ -6,56 +6,12 @@
         outline: none;
     }
 
-    .cds--tile {
-        outline: none;
-    }
-
     .cds--tile--selectable {
         outline: none;
     }
 
-    .cds--tile.cds--tile--selectable:active {
-        outline: 2px solid white;
-    }
-
-        .cds--tile--selectable {.cds--tile.cds--tile--selectable:focus {
-            outline: 2px solid white;
-        }
+    .cds--tile.cds--tile--selectable {
         outline: none;
-    }
-
-    .cds--tile {
-        outline: none;
-    }
-
-    .cds--tile--selectable {
-        outline: none;
-    }
-
-    .cds--tile.cds--tile--selectable:active {
-        outline: 2px solid white;
-    }
-
-        .cds--tile.cds--tile--selectable {.cds--tile.cds--tile--selectable:focus {
-            outline: 2px solid white;
-        }
-        outline: none;
-    }
-
-    .cds--tile {
-        outline: none;
-    }
-
-    .cds--tile--selectable {
-        outline: none;
-    }
-
-    .cds--tile.cds--tile--selectable:active {
-        outline: 2px solid white;
-    }
-
-    .cds--tile.cds--tile--selectable:focus {
-        outline: 2px solid white;
     }
 
     .cds--tile--is-selected {
