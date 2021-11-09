@@ -13,18 +13,6 @@ The Cloud Dashboard & User Interface for *Cloud-Technology LLC.*
     - https://www.npmjs.com/package/react-devtools-core
 - [ ] Review & Document an Applicable use-case for a Merged, Shallow `useState` (Probably Login)
     - https://reactjs.org/docs/state-and-lifecycle.html#using-state-correctly
-- [x] Review & Document POC for [`react-dom-router@^6.x`](https://github.com/remix-run/react-router/tree/dev/examples)
-    - [x] [Warn-Up](https://replit.com/@RemixRun/React-Router-v6-Tutorial-Completed)
-    - [x] [General Usage](https://github.com/remix-run/react-router/tree/main/examples/basic)
-    - [x] [Lazy Loading](https://github.com/remix-run/react-router/blob/dev/examples/lazy-loading/src/App.tsx)
-    - [x] [Authorization via `useNavigate` & `<Navigate/>`](https://github.com/remix-run/react-router/tree/main/examples/auth/src)
-    - [x] [Cross-Path Stateful Modal](https://github.com/remix-run/react-router/tree/main/examples/modal/src)
-    - [x] [Multi-Application](https://github.com/remix-run/react-router/tree/main/examples/multi-app)
-    - [x] [Optimizations](https://github.com/ReactTraining/react-workshop/tree/main/courses/electives/performance-optimizations/lecture)
-    - [x] [Imperative Programming](https://github.com/ReactTraining/react-workshop/tree/main/courses/advanced-hooks/02-imperative-react)
-    - [x] [Advanced `useEffects`](https://github.com/ReactTraining/react-workshop/tree/main/courses/advanced-hooks/01-effects)
-    - [x] [Understand `children/render`](https://reactrouter.com/web/api/Route/children-func)
-
 - [ ] Remove Hardcoded Credentials from Selenium Test-Case(s)
 
 Cloud-Technology's Dashboard is a set of user-friendly utilities that interface RESTful HTTP endpoints & related
