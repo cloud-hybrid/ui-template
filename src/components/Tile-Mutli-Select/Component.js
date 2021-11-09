@@ -12,7 +12,7 @@ import {
     TextInput
 } from "@carbon/react";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 /***
  *
@@ -112,61 +112,68 @@ export const Selectables = ({ Children = [Properties()] }) => {
     return Components;
 };
 
+/***
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
+
 const Component = (props) => {
     const {
         width
     } = props;
 
-    const States = [
-        useState([false, "Value"]),
-        useState([false, "Value"]),
-        useState([false, "Value"])
-    ];
+    /// useCallback(fn, deps)
+    const Prefix = "tile";
 
+    const A = useState({
+        id: [Prefix, "1"].join("-"),
+        name: [Prefix, "selectable", "1"].join("-"),
+        selected: false,
+        value: "",
+        disabled: false,
+        className: Styles.selectable
+    });
+
+    const B = useState({
+        id: [Prefix, "2"].join("-"),
+        name: [Prefix, "selectable", "2"].join("-"),
+        selected: false,
+        value: "",
+        disabled: false,
+        className: Styles.selectable
+    });
+
+    const C = useState({
+        id: [Prefix, "3"].join("-"),
+        name: [Prefix, "selectable", "3"].join("-"),
+        selected: false,
+        value: "",
+        disabled: false,
+        className: Styles.selectable
+    });
 
     return (
         <div role="group" aria-label="selectable tiles" className={(width) ? Styles.full : null}>
-            <Column>
-                <Row>
-                    <SelectableTile
-                        id="tile-1"
-                        name="tiles"
-                        selected={ States[0][0][0] }
-                        onClick={ () => States[0][1]( ! States[0][0][0]) }
-                        value={ "" }
-                        disabled={ false }
-                        className={ Styles.selectable }
-                    >
-                        Option-1
-                    </SelectableTile>
-                </Row>
-                <Row>
-                    <SelectableTile
-                        id="tile-2"
-                        name="tiles"
-                        selected={ States[1][0][0] }
-                        onClick={ () => States[1][1]( ! States[0][0][0]) }
-                        value={ "" }
-                        disabled={ false }
-                        className={ Styles.selectable }
-                    >
-                        Option-2
-                    </SelectableTile>
-                </Row>
-                <Row>
-                    <SelectableTile
-                        id="tile-3"
-                        name="tiles"
-                        selected={ States[2][0][0] }
-                        onClick={ () => States[2][1]( ! States[0][0][0]) }
-                        value={ "" }
-                        disabled={ false }
-                        className={ Styles.selectable }
-                    >
-                        Option-3
-                    </SelectableTile>
-                </Row>
-            </Column>
+            <SelectableTile
+                { ... A[0] }
+                onClick={() => A[1]({ ... A[0], ... A[0]["selected"] })}
+            >
+                Option-1
+            </SelectableTile>
+            <SelectableTile
+                { ... B[0] }
+                onClick={() => B[1]({ ... B[0], ... B[0]["selected"] })}
+            >
+                Option-2
+            </SelectableTile>
+            <SelectableTile
+                { ... C[0] }
+                onClick={() => C[1]({ ... C[0], ... C[0]["selected"] })}
+            >
+                Option-3
+            </SelectableTile>
         </div>
     );
 };
