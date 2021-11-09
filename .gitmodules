@@ -1,3 +1,0 @@
-[submodule ".ci/unit-testing"]
-	path = .ci/unit-testing
-	url = https://github.com/cloud-hybrid/unit-testing.git
