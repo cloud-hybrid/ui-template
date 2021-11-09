@@ -24,7 +24,8 @@ import {
     SideNavMenuItem,
     SwitcherDivider,
     SwitcherItem,
-    HeaderPanel, HeaderMenu
+    HeaderPanel,
+    HeaderMenu
 } from "@carbon/react";
 
 import {
@@ -172,9 +173,9 @@ const Component = ({ Authorizer }) => {
                                 }
                             />
                             <HeaderMenu aria-label={ "Label" } menuLinkName={ "Development" }>
-                                {/*<HeaderMenuItem element={ Link } to={ "/dashboard" } isCurrentPage={ Active("dashboard") } onClick={ () => navigation("/dashboard") }>*/}
-                                {/*    <strong>Dashboard</strong>*/}
-                                {/*</HeaderMenuItem>*/}
+                                {/*<HeaderMenuItem element={ Link } to={ "/dashboard" } isCurrentPage={ Active("dashboard") } onClick={ () => navigation("/dashboard") }>*/ }
+                                {/*    <strong>Dashboard</strong>*/ }
+                                {/*</HeaderMenuItem>*/ }
                                 <HeaderMenuItem element={ Link } to={ "/github" } isCurrentPage={ Active("github") } onClick={ () => navigation("/github") }>
                                     <strong>GitHub</strong>
                                 </HeaderMenuItem>
@@ -376,32 +377,32 @@ const Component = ({ Authorizer }) => {
                             <SwitcherItem
                                 id={ "switcher-side-panel-sign-out-button" }
                                 aria-label="Sign-Out" onClick={
-                                    async () => {
-                                        try {
-                                            console.debug("[Debug]", "Authorization Store Key (0)", STORE);
+                                async () => {
+                                    try {
+                                        console.debug("[Debug]", "Authorization Store Key (0)", STORE);
 
-                                            const Value = await Store.getItem(STORE);
+                                        const Value = await Store.getItem(STORE);
 
-                                            console.debug("[Debug]", "Authorization Store Value (1)", Value);
+                                        console.debug("[Debug]", "Authorization Store Value (1)", Value);
 
-                                            await Store.setItem(STORE, null, (e, value) => {
-                                                if ( e ) {
-                                                    console.error("[Fatal JWT Nullification Error]", e);
-                                                }
+                                        await Store.setItem(STORE, null, (e, value) => {
+                                            if ( e ) {
+                                                console.error("[Fatal JWT Nullification Error]", e);
+                                            }
 
-                                                console.debug("[Debug]", "JWT Nullification Result (2)", value);
-                                            });
+                                            console.debug("[Debug]", "JWT Nullification Result (2)", value);
+                                        });
 
-                                            Opener[1](false);
-                                        } catch ( e ) {
-                                            console.error("[Fatal Unknown Authorized JWT := NULL Error]", e);
-                                            throw new Error("JWT !:= NULL During an Authorized State");
-                                        }
-                                        finally {
-                                            Authorizer[1](false);
-                                        }
+                                        Opener[1](false);
+                                    } catch ( e ) {
+                                        console.error("[Fatal Unknown Authorized JWT := NULL Error]", e);
+                                        throw new Error("JWT !:= NULL During an Authorized State");
+                                    }
+                                    finally {
+                                        Authorizer[1](false);
                                     }
                                 }
+                            }
                                 children={ "Sign-Out" }
                             />
                             <SwitcherDivider/>
