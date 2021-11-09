@@ -56,8 +56,8 @@ ReactDOM.render((
     <DOM/>
 ), document.getElementById("Application"));
 
-(
-    process.env.NODE_ENV === "production"
-)
+(process.env.NODE_ENV === "production")
     ? import("./Worker.js").then((Module) => Module.register())
     : import("./Worker.js").then((Module) => Module.unregister());
+
+(process.env.NODE_ENV !== "production") && console.debug("[Debug]", process.env);

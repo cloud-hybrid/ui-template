@@ -129,7 +129,7 @@ const Component = () => (
                                 >
                                     <img
                                         className={ Styles["home-primary-image"] }
-                                        src={ "Isometric.jpeg" }
+                                        src={ process.env.PUBLIC_URL + "/Isometric.jpeg" }
                                         alt="Carbon illustration"
                                     />
                                 </Column>
@@ -156,7 +156,7 @@ const Component = () => (
                                 >
                                     <img
                                         className={ Styles["home-primary-image"] }
-                                        src={ "Isometric.jpeg" }
+                                        src={ process.env.PUBLIC_URL + "/Isometric.jpeg" }
                                         alt="Carbon illustration"
                                     />
                                 </Column>
@@ -183,7 +183,7 @@ const Component = () => (
                                 >
                                     <img
                                         className={ Styles["home-primary-image"] }
-                                        src={ "Isometric.jpeg" }
+                                        src={ process.env.PUBLIC_URL + "/Isometric.jpeg" }
                                         alt="Carbon illustration"
                                     />
                                 </Column>

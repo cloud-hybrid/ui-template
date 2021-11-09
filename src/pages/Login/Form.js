@@ -180,21 +180,36 @@ const Component = ({Authorizer}) => {
                             if (Response.Status.Code === -1) {
                                 console.warn("@Task: Implement Race-Condition Notification");
                                 console.warn(Response);
-                                return false;
+
+                                setAwaiting(false);
+
+                                return true;
                             } else if (Response.Status.Code === 200) {
                                 console.log("@Task: Implement Successful Notification");
-                                return true
+
+                                setAwaiting(false);
+
+                                return true;
                             } else if (Response.Status.Code >= 300 && Response.Status.Code < 500) {
                                 console.error("@Task: Implement Error Notification");
                                 console.warn(Response);
+
+                                setAwaiting(false);
+
                                 return false
                             } else if (Response.Status.Code >= 500) {
                                 console.warn("@Task: Implement Internal Server Error Notification");
                                 console.warn(Response);
+
+                                setAwaiting(false);
+
                                 return false
                             } else {
                                 console.error("@Task: !!! Handle Unknown Error");
                                 console.error(Response);
+
+                                setAwaiting(false);
+
                                 return false
                             }
                         }
@@ -203,8 +218,6 @@ const Component = ({Authorizer}) => {
                             console.debug("[Debug]", "Validation Outcome", Response);
 
                             if (Response === true) {
-                                setAwaiting(false);
-
                                 Authorizer[1](true);
 
                                 navigate(-1);
@@ -228,7 +241,7 @@ const Component = ({Authorizer}) => {
 
                             Username.value = User;
 
-                            setAwaiting(false);
+                            Authorizer[1]({State: false});
 
                             setValidUsername(false);
                         });

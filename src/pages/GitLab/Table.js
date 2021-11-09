@@ -1,6 +1,7 @@
 import "./SCSS/Search.scss";
+import { Home } from "@carbon/icons-react/next";
 
-import React, { Fragment } from "react";
+import React, { Fragment, useMemo } from "react";
 
 import * as Search from "./SCSS/Search.module.scss";
 
@@ -91,32 +92,8 @@ async function Refresh(setter) {
     });
 }
 
-/***
- *
- * @param Headers {Array}
- * @param Data {Map}
- * @param Page {Number}
- *
- * @returns {JSX.Element}
- *
- * @constructor { () =? () }
- *
- * @type {function(Number)};
- */
-
-const Component = ({ Data, Headers, State, Pages }) => {
-    const Home = "https://gitlab.cloud-technology.io/";
-
-    const Total = (
-        Data
-    ) ? Data?.length : 0;
-    const Projects = new Array(Total);
-
-    const Exclusions = 2;
-
-    Headers = Headers.slice(0, Headers.length - Exclusions);
-
-    Data.forEach((Repository, Index) => {
+const Compute = (Data, Projects) => Data.forEach((Repository, Index) => {
+    useMemo((Data) => {
         Projects[Index] = {
             id: String(Index),
             disabled: false,
@@ -140,7 +117,37 @@ const Component = ({ Data, Headers, State, Pages }) => {
             ) ? String(Repository.web_url) : "N/A",
             Data: Repository
         };
-    });
+
+        return Projects;
+    }, [ Projects ]);
+});
+
+/***
+ *
+ * @param Headers {Array}
+ * @param Data {Map}
+ * @param Page {Number}
+ *
+ * @returns {JSX.Element}
+ *
+ * @constructor { () =? () }
+ *
+ * @type {function(Number)};
+ */
+
+const Component = ({ Data, Headers, State, Pages }) => {
+    const Home = "https://gitlab.cloud-technology.io/";
+
+    const Total = (
+        Data
+    ) ? Data?.length : 0;
+    const Projects = new Array(Total);
+
+    const Exclusions = 2; // Checkbox + Dropdown
+
+    Headers = Headers.slice(0, Headers.length - Exclusions);
+
+    Compute(Data, Projects);
 
     return (
         <DataTable
@@ -155,23 +162,22 @@ const Component = ({ Data, Headers, State, Pages }) => {
             useStaticWidth={ false }
             render={
                 ({
-                    rows,
-                    headers,
-                    getTableProps,
-                    getTableContainerProps,
-                    getSelectionProps,
-                    getExpandHeaderProps,
-                    getHeaderProps,
-                    getRowProps,
-                    getToolbarProps,
-                    getBatchActionProps
-                }) => (
+                     rows,
+                     headers,
+                     getTableProps,
+                     getTableContainerProps,
+                     getSelectionProps,
+                     getExpandHeaderProps,
+                     getHeaderProps,
+                     getRowProps,
+                     getToolbarProps,
+                     getBatchActionProps
+                 }) => (
                     <TableContainer title={ "Cloud-Technology" } description="Cloud-Technology's GitHub Repositories" { ... getTableContainerProps() }>
                         <TableToolbar { ... getToolbarProps() } className={ "io-table-toolbar" }>
                             <TableBatchActions { ... getBatchActionProps() }>
                                 <TableBatchAction
                                     id="Development-Table-JSON-Trigger-Button"
-                                    tabIndex={ getBatchActionProps().shouldShowBatchActions ? 0 : -1 }
                                     renderIcon={ DICO }
                                     onClick={ batchActionClick }
                                 >
@@ -179,7 +185,6 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                 </TableBatchAction>
                                 <TableBatchAction
                                     id="Development-Table-Metrics-Trigger-Button"
-                                    tabIndex={ getBatchActionProps().shouldShowBatchActions ? 0 : -1 }
                                     renderIcon={ Metrics }
                                     onClick={ batchActionClick }
                                 >
@@ -187,7 +192,6 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                 </TableBatchAction>
                                 <TableBatchAction
                                     id="Development-Table-Download-Trigger-Button"
-                                    tabIndex={ getBatchActionProps().shouldShowBatchActions ? 0 : -1 }
                                     renderIcon={ CSV }
                                     onClick={ batchActionClick }
                                 >
@@ -234,7 +238,7 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                         }
                                         expanded={ false }
                                         labelText={ "Test-Label-Text" }
-                                        tabIndex={ getBatchActionProps().shouldShowBatchActions ? -1 : 0 }
+                                        tabIndex={ 0 }
                                     />
 
                                 }
@@ -282,7 +286,7 @@ const Component = ({ Data, Headers, State, Pages }) => {
 
                                             const Data = Row.Data;
 
-                                            console.log(Data);
+                                            /// console.log(Data);
 
                                             return (
                                                 <Fragment key={ String(Index) }>
@@ -402,7 +406,8 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                                     </TableExpandedRow>
                                                 </Fragment>
                                             );
-                                        }) }
+                                        })
+                                }
                             </TableBody>
                         </Table>
                         { (

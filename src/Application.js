@@ -34,7 +34,6 @@ const Application = () => {
     // Window URL Tracking (Stateful)
     const location = useLocation();
 
-    // Authorization Route State
     const Authorization = useState(null);
 
     useEffect(() => {
@@ -47,6 +46,7 @@ const Application = () => {
                 $ !== null
             ) ? await Authentication.Validate($, Handler) : null;
 
+            /// Authorization[1](Object.assign({}, Authorization[0], { Status: (Validation?.Status?.Code === 200) }));
             Authorization[1](Validation?.Status?.Code === 200);
         };
 

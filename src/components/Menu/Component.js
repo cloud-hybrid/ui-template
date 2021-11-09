@@ -4,7 +4,7 @@ import * as Panel from "./SCSS/Side-Panel.module.scss";
 
 import { Store, STORE } from "./../Authenticate";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import {
     Header,
@@ -141,7 +141,7 @@ const Component = ({ Authorizer }) => {
                                                 onClickSideNavExpand();
                                             }
                                         }
-                                        isActive={ isSideNavExpanded }
+                                        isActive={ isSideNavExpanded === true }
                                     />
                                 ) : (
                                     <></>
@@ -221,35 +221,41 @@ const Component = ({ Authorizer }) => {
                                 >
                                     <SideNavItems>
                                         <SideNavLink
-                                            async
-                                            href={ "/gitlab" }
                                             renderIcon={ Icons.Development }
-                                            /// ref={useRef(isSideNavExpanded)}
-                                            onClick={ (event) => {
-                                                onClickSideNavExpand();
-                                            } }
+                                            isSideNavExpanded={ isSideNavExpanded }
+                                            isActive={ Active("gitlab") }
+                                            onClick={
+                                                () => {
+                                                    navigation("/gitlab");
+                                                    onClickSideNavExpand();
+                                                }
+                                            }
                                         >
                                             GitLab
                                         </SideNavLink>
                                         <SideNavLink
-                                            async
-                                            href={ "/github" }
-                                            renderIcon={ Icons.Dashboard }
-                                            /// ref={useRef(isSideNavExpanded)}
-                                            onClick={ (event) => {
-                                                onClickSideNavExpand();
-                                            } }
+                                            renderIcon={ Icons.Development }
+                                            isSideNavExpanded={ isSideNavExpanded }
+                                            isActive={ Active("github") }
+                                            onClick={
+                                                () => {
+                                                    navigation("/github");
+                                                    onClickSideNavExpand();
+                                                }
+                                            }
                                         >
                                             GitHub
                                         </SideNavLink>
                                         <SideNavLink
-                                            async
-                                            href={ "/pipelines" }
-                                            renderIcon={ Icons.Code }
-                                            /// ref={useRef(isSideNavExpanded)}
-                                            onClick={ (event) => {
-                                                onClickSideNavExpand();
-                                            } }
+                                            renderIcon={ Icons.Development }
+                                            isSideNavExpanded={ isSideNavExpanded }
+                                            isActive={ Active("pipelines") }
+                                            onClick={
+                                                () => {
+                                                    navigation("/pipelines");
+                                                    onClickSideNavExpand();
+                                                }
+                                            }
                                         >
                                             Pipelines
                                         </SideNavLink>
@@ -299,7 +305,7 @@ const Component = ({ Authorizer }) => {
                         }
                         <HeaderGlobalBar>
                             <HeaderGlobalAction
-                                id={"primary-menu-notifications-button"}
+                                id={ "primary-menu-notifications-button" }
                                 aria-label="Notifications"
                                 tooltipAlignment="start"
                                 renderIcon={ Notification }
@@ -319,7 +325,7 @@ const Component = ({ Authorizer }) => {
                                 }
                             />
                             <HeaderGlobalAction
-                                id={"primary-menu-user-profile-button"}
+                                id={ "primary-menu-user-profile-button" }
                                 aria-label="User Avatar"
                                 children={ (
                                     <></>
@@ -332,7 +338,7 @@ const Component = ({ Authorizer }) => {
                                 }
                             />
                             <HeaderGlobalAction
-                                id={"primary-menu-switcher-button"}
+                                id={ "primary-menu-switcher-button" }
                                 aria-label="Switcher"
                                 isActive={ Opener[0] }
                                 children={ (
@@ -365,32 +371,35 @@ const Component = ({ Authorizer }) => {
                     ) ? (
                         <Switcher aria-label={ "Switcher Container" }>
                             <SwitcherItem
-                                id={"switcher-side-panel-sign-out-button"}
+                                id={ "switcher-side-panel-sign-out-button" }
                                 aria-label="Sign-Out" onClick={
-                                async () => {
-                                    try {
-                                        console.debug("[Debug]", "Authorization Store Key (0)", STORE);
+                                    async () => {
+                                        try {
+                                            console.debug("[Debug]", "Authorization Store Key (0)", STORE);
 
-                                        const Value = await Store.getItem(STORE);
+                                            const Value = await Store.getItem(STORE);
 
-                                        console.debug("[Debug]", "Authorization Store Value (1)", Value);
+                                            console.debug("[Debug]", "Authorization Store Value (1)", Value);
 
-                                        await Store.setItem(STORE, null, (e, value) => {
-                                            if ( e ) {
-                                                console.error("[Fatal JWT Nullification Error]", e);
-                                            }
+                                            await Store.setItem(STORE, null, (e, value) => {
+                                                if ( e ) {
+                                                    console.error("[Fatal JWT Nullification Error]", e);
+                                                }
 
-                                            console.debug("[Debug]", "JWT Nullification Result (2)", value);
-                                        });
-                                    } catch ( e ) {
-                                        console.error("[Fatal Unknown Authorized JWT := NULL Error]", e);
-                                        throw new Error("JWT !:= NULL During an Authorized State");
-                                    }
-                                    finally {
-                                        Authorizer[1](false);
+                                                console.debug("[Debug]", "JWT Nullification Result (2)", value);
+                                            });
+
+                                            Opener[1](false);
+                                        } catch ( e ) {
+                                            console.error("[Fatal Unknown Authorized JWT := NULL Error]", e);
+                                            throw new Error("JWT !:= NULL During an Authorized State");
+                                        }
+                                        finally {
+                                            Authorizer[1](false);
+                                        }
                                     }
                                 }
-                            } children={ "Sign-Out" }
+                                children={ "Sign-Out" }
                             />
                             <SwitcherDivider/>
                             <SwitcherItem
