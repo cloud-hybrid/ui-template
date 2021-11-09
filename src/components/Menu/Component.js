@@ -299,6 +299,7 @@ const Component = ({ Authorizer }) => {
                         }
                         <HeaderGlobalBar>
                             <HeaderGlobalAction
+                                id={"primary-menu-notifications-button"}
                                 aria-label="Notifications"
                                 tooltipAlignment="start"
                                 renderIcon={ Notification }
@@ -318,6 +319,7 @@ const Component = ({ Authorizer }) => {
                                 }
                             />
                             <HeaderGlobalAction
+                                id={"primary-menu-user-profile-button"}
                                 aria-label="User Avatar"
                                 children={ (
                                     <></>
@@ -330,6 +332,7 @@ const Component = ({ Authorizer }) => {
                                 }
                             />
                             <HeaderGlobalAction
+                                id={"primary-menu-switcher-button"}
                                 aria-label="Switcher"
                                 isActive={ Opener[0] }
                                 children={ (
@@ -362,6 +365,7 @@ const Component = ({ Authorizer }) => {
                     ) ? (
                         <Switcher aria-label={ "Switcher Container" }>
                             <SwitcherItem
+                                id={"switcher-side-panel-sign-out-button"}
                                 aria-label="Sign-Out" onClick={
                                 async () => {
                                     try {

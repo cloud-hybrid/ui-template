@@ -4,13 +4,10 @@ import { Grid, Column, Row } from "@carbon/react";
 
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 
-import { default as Menu } from "./components/Menu/Index";
-
-import { default as BTT } from "./components/Back-To-Top/Index";
-
-import { default as Breadcrumbs } from "./components/Breadcrumb";
-
-import { default as Spinner } from "./components/Loader";
+import { default as Menu            } from "./components/Menu";
+import { default as BTT             } from "./components/Back-To-Top";
+import { default as Breadcrumbs     } from "./components/Breadcrumb";
+import { default as Spinner         } from "./components/Loader";
 
 /***
  * Authentication Hook
@@ -30,19 +27,9 @@ const Dashboard = {
     Mobile: Import(() => import("./pages/Dashboard/Pages/Mobile"))
 };
 
-import { default as Version } from "./components/Version";
-
 import { default as Home } from "./pages/Home";
 
-/// import { default as Home } from "./pages/Home";
-/// import { default as Login } from "./pages/Login";
-/// import { default as GitHub } from "./pages/GitHub";
-/// import { default as GitLab } from "./pages/GitLab";
-/// import { default as Pipelines } from "./pages/Pipelines";
-/// import { default as Template } from "./pages/Template";
-
 import "./Application.scss";
-
 const Application = () => {
     // Window URL Tracking (Stateful)
     const location = useLocation();
