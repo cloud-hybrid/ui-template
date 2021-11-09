@@ -6,6 +6,8 @@ import * as Styles from "./SCSS/Index.module.scss";
 import {
     Button,
     Modal,
+    Column,
+    Row,
     SelectableTile,
     TextInput
 } from "@carbon/react";
@@ -22,7 +24,7 @@ import { useState } from "react";
  *
  */
 
-const Selectable = ({ props }) => {
+export const Selectable = ({ props }) => {
     const [selected, setSelected] = useState(false);
 
     return (
@@ -98,7 +100,7 @@ Selectable.defaultProps = {
  *
  */
 
-const Selectables = ({ Children = [Properties()] }) => {
+export const Selectables = ({ Children = [Properties()] }) => {
     const Components = [];
 
     Children.forEach(
@@ -110,48 +112,61 @@ const Selectables = ({ Children = [Properties()] }) => {
     return Components;
 };
 
-const Component = () => {
+const Component = (props) => {
+    const {
+        width
+    } = props;
+
     const States = [
         useState([false, "Value"]),
         useState([false, "Value"]),
         useState([false, "Value"])
     ];
 
+
     return (
-        <div role="group" aria-label="selectable tiles">
-            <SelectableTile
-                id="tile-1"
-                name="tiles"
-                selected={ States[0][0][0] }
-                onClick={ () => States[0][1]( ! States[0][0][0]) }
-                value={ "" }
-                disabled={ false }
-                className={ ["unselectable", Styles["selectable-tile"]].join(" ") }
-            >
-                Option-1
-            </SelectableTile>
-            <SelectableTile
-                id="tile-2"
-                name="tiles"
-                selected={ States[1][0][0] }
-                onClick={ () => States[1][1]( ! States[0][0][0]) }
-                value={ "" }
-                disabled={ false }
-                className={ ["unselectable", Styles["selectable-tile"]].join(" ") }
-            >
-                Option-2
-            </SelectableTile>
-            <SelectableTile
-                id="tile-3"
-                name="tiles"
-                selected={ States[2][0][0] }
-                onClick={ () => States[2][1]( ! States[0][0][0]) }
-                value={ "" }
-                disabled={ false }
-                className={ ["unselectable", Styles["selectable-tile"]].join(" ") }
-            >
-                Option-3
-            </SelectableTile>
+        <div role="group" aria-label="selectable tiles" className={(width) ? Styles.full : null}>
+            <Column>
+                <Row>
+                    <SelectableTile
+                        id="tile-1"
+                        name="tiles"
+                        selected={ States[0][0][0] }
+                        onClick={ () => States[0][1]( ! States[0][0][0]) }
+                        value={ "" }
+                        disabled={ false }
+                        className={ Styles.selectable }
+                    >
+                        Option-1
+                    </SelectableTile>
+                </Row>
+                <Row>
+                    <SelectableTile
+                        id="tile-2"
+                        name="tiles"
+                        selected={ States[1][0][0] }
+                        onClick={ () => States[1][1]( ! States[0][0][0]) }
+                        value={ "" }
+                        disabled={ false }
+                        className={ Styles.selectable }
+                    >
+                        Option-2
+                    </SelectableTile>
+                </Row>
+                <Row>
+                    <SelectableTile
+                        id="tile-3"
+                        name="tiles"
+                        selected={ States[2][0][0] }
+                        onClick={ () => States[2][1]( ! States[0][0][0]) }
+                        value={ "" }
+                        disabled={ false }
+                        className={ Styles.selectable }
+                    >
+                        Option-3
+                    </SelectableTile>
+                </Row>
+            </Column>
         </div>
     );
 };
@@ -207,5 +222,13 @@ export const Opener = ({ open, setOpen }) => {
         </ModalStateManager>
     );
 };
+
+Component.defaultProps = {
+    width: "full"
+}
+
+Component.propTypes = {
+    width: PropTypes.oneOf(["full", "normal", null])
+}
 
 export default Component;

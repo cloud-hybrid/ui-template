@@ -21,6 +21,7 @@ const GitLab = Import(() => import("./pages/GitLab"));
 const Pipelines = Import(() => import("./pages/Pipelines"));
 const Template = Import(() => import("./pages/Template"));
 const Snippet = Import(() => import("./pages/Development/Code-Snippet-Awaitable"));
+const Selectable = Import(() => import("./pages/Development/Data-Selectables"));
 
 const Dashboard = {
     Index: Import(() => import("./pages/Dashboard/Pages/Index")),
@@ -196,6 +197,18 @@ const Application = () => {
                                                     : (
                                                         <Navigate to={ "/login" }/>
                                                     )
+                                            }
+                                        </Spinner>
+                                    ) }
+                                />
+                                <Route
+                                    path={ "/selectable" }
+                                    element={ (
+                                        <Spinner timeout={ 1000 } description={ "Validating Authorized Session ..." }>
+                                            {
+                                                (Authorization[0] === true)
+                                                    ? (<Selectable description={"Loading Selectable Tile(s) ..."}/>)
+                                                    : (<Navigate to={ "/login" }/>)
                                             }
                                         </Spinner>
                                     ) }

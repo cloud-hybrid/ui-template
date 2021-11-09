@@ -156,15 +156,12 @@ const Component = ({ Authorizer }) => {
                             Nexus
                         </HeaderName>
                         <HeaderNavigation aria-label="Nexus">
-                            {/* ... Current-Page State --> isCurrentPage={location.hash === "#/github"} onClick={() => handleCurrentPage("/github")} */ }
                             <HeaderMenuItem element={ Link } to={ "/github" } isCurrentPage={ Active("github") } onClick={ () => navigation("/github") }>
                                 GitHub
                             </HeaderMenuItem>
-                            {/* ... Current-Page State --> isCurrentPage={location.hash === "#/gitlab"} onClick={() => handleCurrentPage("/gitlab")} */ }
                             <HeaderMenuItem element={ Link } to={ "/gitlab" } isCurrentPage={ Active("gitlab") } onClick={ () => navigation("/gitlab") }>
                                 GitLab
                             </HeaderMenuItem>
-                            {/* ... Current-Page State --> isCurrentPage={location.hash === "#/pipelines"} onClick={() => handleCurrentPage("/pipelines")} */ }
                             <HeaderMenuItem element={ Link } to={ "/pipelines" } isCurrentPage={ Active("pipelines") } onClick={ () => navigation("/pipelines") }>
                                 Pipelines
                             </HeaderMenuItem>
