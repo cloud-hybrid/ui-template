@@ -156,14 +156,8 @@ const Component = ({ Authorizer }) => {
                             Nexus
                         </HeaderName>
                         <HeaderNavigation aria-label="Nexus">
-                            <HeaderMenuItem element={ Link } to={ "/github" } isCurrentPage={ Active("github") } onClick={ () => navigation("/github") }>
-                                GitHub
-                            </HeaderMenuItem>
                             <HeaderMenuItem element={ Link } to={ "/gitlab" } isCurrentPage={ Active("gitlab") } onClick={ () => navigation("/gitlab") }>
                                 GitLab
-                            </HeaderMenuItem>
-                            <HeaderMenuItem element={ Link } to={ "/pipelines" } isCurrentPage={ Active("pipelines") } onClick={ () => navigation("/pipelines") }>
-                                Pipelines
                             </HeaderMenuItem>
                             <hr
                                 width="1px"
@@ -178,14 +172,26 @@ const Component = ({ Authorizer }) => {
                                 }
                             />
                             <HeaderMenu aria-label={ "Label" } menuLinkName={ "Development" }>
-                                <HeaderMenuItem element={ Link } to="/template">
+                                {/*<HeaderMenuItem element={ Link } to={ "/dashboard" } isCurrentPage={ Active("dashboard") } onClick={ () => navigation("/dashboard") }>*/}
+                                {/*    <strong>Dashboard</strong>*/}
+                                {/*</HeaderMenuItem>*/}
+                                <HeaderMenuItem element={ Link } to={ "/github" } isCurrentPage={ Active("github") } onClick={ () => navigation("/github") }>
+                                    <strong>GitHub</strong>
+                                </HeaderMenuItem>
+                                <HeaderMenuItem element={ Link } to={ "/pipelines" } isCurrentPage={ Active("pipelines") } onClick={ () => navigation("/pipelines") }>
+                                    <strong>Pipelines</strong>
+                                </HeaderMenuItem>
+                                <HeaderMenuItem element={ Link } to={ "/template" } isCurrentPage={ Active("template") } onClick={ () => navigation("/template") }>
                                     <strong>Template</strong>
                                 </HeaderMenuItem>
-                                <HeaderMenuItem element={ Link } to="/notifications">
-                                    <strong>Notifications</strong>
-                                </HeaderMenuItem>
-                                <HeaderMenuItem element={ Link } to="/snippet">
+                                <HeaderMenuItem element={ Link } to={ "/snippet" } isCurrentPage={ Active("snippet") } onClick={ () => navigation("/snippet") }>
                                     <strong>Code-Snippet</strong>
+                                </HeaderMenuItem>
+                                <HeaderMenuItem element={ Link } to={ "/tiles" } isCurrentPage={ Active("tiles") } onClick={ () => navigation("/tiles") }>
+                                    <strong>Tiles</strong>
+                                </HeaderMenuItem>
+                                <HeaderMenuItem element={ Link } to={ "/list" } isCurrentPage={ Active("list") } onClick={ () => navigation("/list") }>
+                                    <strong>Selectable-List</strong>
                                 </HeaderMenuItem>
                             </HeaderMenu>
                             <hr

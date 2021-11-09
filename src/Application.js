@@ -21,7 +21,8 @@ const GitLab = Import(() => import("./pages/GitLab"));
 const Pipelines = Import(() => import("./pages/Pipelines"));
 const Template = Import(() => import("./pages/Template"));
 const Snippet = Import(() => import("./pages/Development/Code-Snippet-Awaitable"));
-const Selectable = Import(() => import("./pages/Development/Data-Selectables"));
+const Tiles = Import(() => import("./pages/Development/Tiles"));
+const List = Import(() => import("./pages/Development/Selectable-List"));
 
 const Dashboard = {
     Index: Import(() => import("./pages/Dashboard/Pages/Index")),
@@ -202,12 +203,24 @@ const Application = () => {
                                     ) }
                                 />
                                 <Route
-                                    path={ "/selectable" }
+                                    path={ "/tiles" }
                                     element={ (
                                         <Spinner timeout={ 1000 } description={ "Validating Authorized Session ..." }>
                                             {
                                                 (Authorization[0] === true)
-                                                    ? (<Selectable description={"Loading Selectable Tile(s) ..."}/>)
+                                                    ? (<Tiles description={"Loading Selectable Tile(s) ..."}/>)
+                                                    : (<Navigate to={ "/login" }/>)
+                                            }
+                                        </Spinner>
+                                    ) }
+                                />
+                                <Route
+                                    path={ "/list" }
+                                    element={ (
+                                        <Spinner timeout={ 1000 } description={ "Validating Authorized Session ..." }>
+                                            {
+                                                (Authorization[0] === true)
+                                                    ? (<List description={"Loading Selectable List ..."}/>)
                                                     : (<Navigate to={ "/login" }/>)
                                             }
                                         </Spinner>
