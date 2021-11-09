@@ -18,7 +18,7 @@ import {
     Tabs
 } from "@carbon/react";
 
-import { default as Selectable } from "./../../components/Tile-Mutli-Select/Index";
+import { default as Selectable } from "./../../components/Tile-Mutli-Select";
 
 import { default as List } from "./../../components/Selectable-List";
 

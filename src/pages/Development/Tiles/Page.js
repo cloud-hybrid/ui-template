@@ -3,12 +3,7 @@ import PropTypes from "prop-types";
 
 import * as Styles from "./SCSS/Index.module.scss";
 
-import {
-    Column,
-    Row
-} from "@carbon/react";
-
-import { default as Selectable } from "./../../../components/Tile-Mutli-Select/Index";
+import { default as Selectable } from "./../../../components/Tile-Mutli-Select";
 
 /***
  *
