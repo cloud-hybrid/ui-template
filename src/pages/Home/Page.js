@@ -95,7 +95,7 @@ const Component = () => (
             <Row>
                 <Column lg={ 16 } md={ 8 } sm={ 4 } className={ Styles["home-banner"] }>
                     <h1 className={ Styles["home-heading"] }>
-                        Design &amp; build with Carbon
+                        Design &amp; Engineer with Nexus
                     </h1>
                 </Column>
             </Row>
@@ -105,20 +105,20 @@ const Component = () => (
                         aria-label="Tab Navigation"
                         className={ Styles["home-tabs-group"] }
                     >
-                        <Tab label="About" className={ Styles["home-label"] }>
+                        <Tab label="Overview" className={ Styles["home-label"] }>
                             <Grid fullWidth={ true }>
                                 <Column
                                     md={ 4 }
                                     lg={ 7 }
                                     sm={ 4 }
                                 >
-                                    <h2 className={ Styles["home-subheading"] }>Overview</h2>
+                                    <h2 className={ Styles["home-subheading"] }>
+                                        Foster Innovation
+                                    </h2>
                                     <p className={ Styles["home-paragraph"] }>
-                                        Carbon is IBM’s open-source design system for digital products
-                                        and experiences. With the IBM Design Language as its
-                                        foundation, the system consists of working code, design tools
-                                        and resources, human interface guidelines, and a vibrant
-                                        community of contributors.
+                                        Nexus is a managed cloud service & provided software library that interface(s)
+                                        community-driven APIs and extends IBM’s open-source Design System
+                                        to create a seamless, easy-to-use management experience.
                                     </p>
                                     <Button>Learn more</Button>
                                 </Column>
@@ -142,10 +142,11 @@ const Component = () => (
                                     lg={ 7 }
                                     sm={ 4 }
                                 >
-                                    <h2 className={ Styles["home-subheading"] }>Designing with Carbon</h2>
+                                    <h2 className={ Styles["home-subheading"] }>
+                                        Express Creativeness
+                                    </h2>
                                     <p className={ Styles["home-paragraph"] }>
-                                        Rapidly build beautiful and accessible experiences. The Carbon
-                                        kit contains all resources you need to get started.
+                                        Catered for both the engineer or the artisan - users in need of a new platform will find Nexus a suitable replacement for their business & engineering requirements.
                                     </p>
                                     <Button>Learn more</Button>
                                 </Column>
@@ -162,17 +163,20 @@ const Component = () => (
                                 </Column>
                             </Grid>
                         </Tab>
-                        <Tab label="Develop" className={ Styles["home-label"] }>
+                        <Tab label="Development" className={ Styles["home-label"] }>
                             <Grid fullWidth={ true }>
                                 <Column
                                     md={ 4 }
                                     lg={ 7 }
                                     sm={ 4 }
                                 >
-                                    <h2 className={ Styles["home-subheading"] }>Development</h2>
+                                    <h2 className={ Styles["home-subheading"] }>
+                                        Standardize Automation
+                                    </h2>
                                     <p className={ Styles["home-paragraph"] }>
-                                        Carbon provides Styles and components in Vanilla, React,
-                                        Angular, and Vue for anyone building on the web.
+                                        With strong automation-first design principals & intuitive web UIs, eliminate repetitive
+                                        business procedures or engineering related technical debt through simple and easy-to-understand
+                                        CDKs & VCS workflows.
                                     </p>
                                     <Button>Learn more</Button>
                                 </Column>
@@ -196,18 +200,18 @@ const Component = () => (
         <Column lg={ 16 } md={ 8 } sm={ 4 } className={ Styles["home-row-3"] }>
             <Sectional heading="The Principles" className={ Styles["home-row-3"] }>
                 <Card
-                    heading="Carbon is Open"
-                    body="It's a distributed effort, guided by the principles of the open-source movement. Carbon's users are also it's makers, and everyone is encouraged to contribute."
+                    heading="Nexus is Open"
+                    body="All through distributed efforts, & guided by the principles of the open-source movement - Nexus is motivated to share safe and efficient software. Everyone is encouraged to contribute."
                     icon={ <PersonFavorite size={ 50 }/> }
                 />
                 <Card
-                    heading="Carbon is Modular"
-                    body="Carbon's modularity ensures maximum flexibility in execution. It's components are designed to work seamlessly with each other, in whichever combination suits the needs of the user."
+                    heading="Nexus is Modular"
+                    body="Nexus ensures maximum flexibility in execution through a modular API. Through compositions or abstractions, either design principle suits the needs of the user."
                     icon={ <Application size={ 50 }/> }
                 />
                 <Card
-                    heading="Carbon is Consistent"
-                    body="Based on the comprehensive IBM Design Language, every element and component of Carbon was designed from the ground up to work elegantly together to ensure consistent, cohesive user experiences."
+                    heading="Nexus is Consistent"
+                    body="Every library, every package, and every module was designed from the ground up to work elegantly to ensure consistent, cohesive, and above all else, an intuitive user experience."
                     icon={ <Globe size={ 50 }/> }
                 />
             </Sectional>

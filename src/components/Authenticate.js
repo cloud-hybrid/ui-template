@@ -1,3 +1,10 @@
+import PropTypes from "prop-types";
+import React from "react";
+
+import { Navigate } from "react-router-dom";
+
+import { Validator } from "./../components/Loader";
+
 const Request = require("axios");
 const Adapter = require("axios-cache-adapter");
 const Forage = require("localforage");
@@ -125,3 +132,61 @@ export const Token = async (Handler) => {
 export const JWT = async () => {
     return await Store.getItem(STORE);
 }
+
+/***
+ *
+ * Wrapper Redirect for Authorization-Only Component Page(s)
+ *
+ * @param Page {React.ExoticComponent}
+ * @param Session {Boolean}
+ * @param description {String}
+ *
+ * @returns {JSX.Element} Authorizer
+ *
+ * @constructor
+ *
+ */
+
+export const Authorizer = ({ Page, Session, description }) => {
+    if (Page === null) {
+        throw Error("Page Cannot be Null");
+    }
+
+    if (Session === null) {
+        throw Error("Authorization Session Cannot be Null");
+    }
+
+    if (description === null) {
+        throw Error("Page Loader's Description Cannot be Null");
+    }
+
+    return (
+        <Validator>
+            {
+                (Session === true)
+                    ? (<Page description={ description }/>)
+                    : (<Navigate to={ "/login" }/>)
+            }
+        </Validator>
+    );
+};
+
+Authorizer.propTypes = {
+    /***
+     * @type {React.ExoticComponent}
+     * @requires {React.ExoticComponent}
+     */
+    Page: PropTypes.object.isRequired,
+
+    /***
+     * @type {Boolean|null}
+     * @requires {Boolean|null}
+     */
+    Session: PropTypes.oneOf([true, false, null]),
+
+    /***
+     * @type {String}
+     * @requires {String}
+     */
+    description: PropTypes.string
+};

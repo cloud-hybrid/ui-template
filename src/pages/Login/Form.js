@@ -50,12 +50,12 @@ const Component = ({Authorizer}) => {
             const Username = document.getElementById("username-field");
             const Password = document.getElementById("password-field");
             const Submit = document.getElementById("submit-button");
-            const Form = document.getElementById("login-form");
+            /// const Form = document.getElementById("login-form");
 
+
+            // --> Page Load
             Username.autofocus = true;
-
             Username.focus();
-            Username.select();
             Username.click();
 
             document.getElementById("login-form")?.addEventListener("submit", (event) => {
@@ -68,6 +68,7 @@ const Component = ({Authorizer}) => {
             });
 
             document.getElementById("username-field")?.addEventListener("keydown", (event) => {
+                if (!validUsername)
                 if (event.key === "Enter") {
                     Username.toggleAttribute("readonly", true);
                     Password.toggleAttribute("readonly", true);
@@ -78,9 +79,7 @@ const Component = ({Authorizer}) => {
                     console.debug("[Debug]", "Username", "Return Key Event");
 
                     Username.focus();
-                    Username.select();
                     Username.click();
-
                     Submit.click();
                 }
             });
@@ -96,9 +95,7 @@ const Component = ({Authorizer}) => {
                     console.debug("[Debug]", "Password", "Return Key Event");
 
                     Username.focus();
-                    Username.select();
                     Username.click();
-
                     Submit.click();
                 }
 
