@@ -13,42 +13,12 @@ The Cloud Dashboard & User Interface for *Cloud-Technology LLC.*
     - https://www.npmjs.com/package/react-devtools-core
 - [ ] Review & Document an Applicable use-case for a Merged, Shallow `useState` (Probably Login)
     - https://reactjs.org/docs/state-and-lifecycle.html#using-state-correctly
-- [ ] Remove Hardcoded Credentials from Selenium Test-Case(s)
 
 Cloud-Technology's Dashboard is a set of user-friendly utilities that interface RESTful HTTP endpoints & related
 database CRUD actions. The User-Interface is consistent in visibility, styling, but above all else, ***functionality***.
 
 As a *Single-Page-Application* (*SPA*), the client-sided front-end can remain functional so long as the API & dependent
 endpoints remain online -- largely a benefit from micro-serviced architecture(s).
-
-### Code Splitting ###
-
-The following project makes use
-of [code-splitting](https://reactjs.org/docs/code-splitting.html#route-based-code-splitting).
-
-Combined with `react-dom-router`, project(s) benefit from both code-spliting *and*
-development ease when establishing **page transitions**.
-
-**Example**
-
-```js
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
-const Home = lazy(() => import("./routes/Home"));
-const About = lazy(() => import("./routes/About"));
-
-const App = () => (
-        <Router>
-            <Suspense fallback={ <div>Loading...</div> }>
-                <Switch>
-                    <Route exact path="/" component={ Home }/>
-                    <Route path="/about" component={ About }/>
-                </Switch>
-            </Suspense>
-        </Router>
-);
-```
 
 ## Usage ##
 
