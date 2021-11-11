@@ -95,7 +95,7 @@ const Component = () => (
             <Row>
                 <Column lg={ 16 } md={ 8 } sm={ 4 } className={ Styles["home-banner"] }>
                     <h1 className={ Styles["home-heading"] }>
-                        Design &amp; Engineer with Nexus
+                        Design &amp; Engineering
                     </h1>
                 </Column>
             </Row>

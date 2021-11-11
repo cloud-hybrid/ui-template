@@ -9,20 +9,16 @@ import { default as BTT } from "./components/Back-To-Top";
 import { default as Breadcrumbs } from "./components/Breadcrumb";
 import { default as Spinner } from "./components/Loader";
 
-/***
- * Authentication Hook
- */
+import { Authorizer, JWT, Validate, Cancellation } from "./components/Authenticate";
 
-import  { Authorizer, JWT, Validate, Cancellation } from "./components/Authenticate";
-
-const Login = Import(() => import("./pages/Login"));
-const GitHub = Import(() => import("./pages/GitHub"));
-const GitLab = Import(() => import("./pages/GitLab"));
-const Pipelines = Import(() => import("./pages/Pipelines"));
-const Template = Import(() => import("./pages/Template"));
-const Snippet = Import(() => import("./pages/Development/Code-Snippet-Awaitable"));
-const Tiles = Import(() => import("./pages/Development/Tiles"));
-const List = Import(() => import("./pages/Development/Selectable-List"));
+const Login = Import(() =>      import("./pages/Login"));
+const GitHub = Import(() =>     import("./pages/GitHub"));
+const GitLab = Import(() =>     import("./pages/GitLab"));
+const Template = Import(() =>   import("./pages/Template"));
+const Pipelines = Import(() =>  import("./pages/Pipelines"));
+const Tiles = Import(() =>      import("./pages/Development/Tiles"));
+const List = Import(() =>       import("./pages/Development/Selectable-List"));
+const Snippet = Import(() =>    import("./pages/Development/Code-Snippet-Awaitable"));
 
 const Dashboard = {
     Index: Import(() => import("./pages/Dashboard/Pages/Index")),
@@ -34,9 +30,7 @@ import { default as Home } from "./pages/Home";
 import "./Application.scss";
 
 const Application = () => {
-    // Window URL Tracking (Stateful)
     const location = useLocation();
-
     const Authorization = useState(null);
 
     useEffect(() => {
@@ -48,13 +42,11 @@ const Application = () => {
             const Validation = (
                 $ !== null
             ) ? await Validate($, Handler) : null;
-
-            /// Authorization[1](Object.assign({}, Authorization[0], { Status: (Validation?.Status?.Code === 200) }));
-
             Authorization[1](Validation?.Status?.Code === 200);
         };
 
         Token(Authorization).catch((e) => {
+            console.warn("[Warning]", "Authentication (Application) Authorization Error");
             throw new Error(JSON.stringify(e, null, 4));
         });
     }, []);
@@ -84,11 +76,11 @@ const Application = () => {
                                 />
 
                                 <Route
-                                    path={ "/login" } element={
-                                    <Spinner timeout={ 1250 } description={ "Establishing Secure Context ..." }>
-                                        <Login Authorizer={ Authorization }/>
-                                    </Spinner>
-                                }
+                                    element={
+                                        <Spinner timeout={ 1250 } description={ "Establishing Secure Context ..." }>
+                                            <Login Authorizer={ Authorization }/>
+                                        </Spinner>
+                                    } path={ "/login" }
                                 />
 
                                 { /* Authorized Endpoint(s) */ }

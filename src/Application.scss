@@ -1,21 +1,20 @@
 /* =============================================================================
-Application Style Sheet (SCSS)
+ --> Application Style Sheet (SCSS)
 *//*========================================================================= */
 
 /* -------------------
-Namespace Imports
+ --> Namespace Imports
 *//*-----------------*/
 
 @use "@carbon/react/scss/breakpoint" as *;
 
 /* -------------------
-Global Overwrites
+ --> Global Overwrites
 *//*-----------------*/
 
 /* -------------------------
-Table User Agent Styles
-*/
-// -----------------------
+ --> Table User Agent Styles
+*/// -----------------------
 
 th, tr, td {
     box-shadow:     none !important;
@@ -130,7 +129,7 @@ tr[data-child-row] {
 }
 
 /* ---------------
-Media Queries
+ --> Media Queries
 *//*-----------------*/
 @media (max-width: 42rem) {
     .cds--content .cds--css-grid {
@@ -149,7 +148,7 @@ Media Queries
 }
 
 /* -------------------
-Functional Mixins
+ --> Functional Mixins
 *//*-----------------*/
 
 // @Unselectable, Highlightable Element(s)
@@ -200,7 +199,7 @@ Functional Mixins
 }
 
 /* -------------------
-Utility Selectors
+ --> Utility Selectors
 *//*-----------------*/
 
 .no-select {
