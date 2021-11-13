@@ -1,0 +1,99 @@
+import _defineProperty from "@babel/runtime/helpers/defineProperty";
+import _objectWithoutProperties from "@babel/runtime/helpers/objectWithoutProperties";
+var _excluded = ["className"];
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+//
+// Copyright IBM Corp. 2020, 2021
+//
+// This source code is licensed under the Apache-2.0 license found in the
+// LICENSE file in the root directory of this source tree.
+//
+// Import portions of React that are needed.
+import React from 'react'; // Other standard imports.
+
+import PropTypes from 'prop-types';
+import cx from 'classnames';
+import { pkg } from '../../settings'; // Carbon and package components we use.
+
+import { Button } from 'carbon-components-react'; // The block part of our conventional BEM class names (blockClass__E--M).
+
+var componentName = 'ActionBarItem';
+var blockClass = "".concat(pkg.prefix, "--action-bar-item"); // NOTE: the component SCSS is not imported here: it is rolled up separately.
+
+/**
+ * The ActionBarItem is used in the page header to populate the action bar
+ */
+
+export var ActionBarItem = /*#__PURE__*/React.forwardRef(function (_ref, ref) {
+  var className = _ref.className,
+      rest = _objectWithoutProperties(_ref, _excluded);
+
+  return /*#__PURE__*/React.createElement(Button, _objectSpread(_objectSpread({}, rest), {}, {
+    ref: ref,
+    className: cx(blockClass, className),
+    hasIconOnly: true,
+    kind: 'ghost',
+    size: 'field',
+    tooltipPosition: 'bottom',
+    tooltipAlignment: 'end',
+    type: 'button'
+  }));
+}); // Return a placeholder if not released and not enabled by feature flag
+
+ActionBarItem = pkg.checkComponentEnabled(ActionBarItem, componentName); // Props the user cannot change
+
+var reservedProps = ['hasIconOnly', 'kind', 'size', 'tooltipPosition', 'tooltipAlignment', 'type']; // Base props on Carbon Button
+
+var propTypes = _objectSpread({}, Button.propTypes);
+
+var defaultProps = _objectSpread({}, Button.defaultProps); // Remove reserved props
+
+
+reservedProps.forEach(function (prop) {
+  delete propTypes[prop];
+  delete defaultProps[prop];
+});
+ActionBarItem.displayName = componentName;
+ActionBarItem.propTypes = _objectSpread(_objectSpread({}, propTypes), {}, {
+  /* ***************************************
+  /
+  /  The declarations below allow storybook & DocGen to produce documentation.
+  /  Some or all of them may be inherited from the underlying Carbon component.
+  /
+  / ****************************************/
+
+  /**
+   * Specify an optional className to be added to your Button
+   *
+   * (inherited from Carbon Button)
+   */
+  className: PropTypes.string,
+
+  /**
+   * If specifying the `renderIcon` prop, provide a description for that icon that can
+   * be read by screen readers
+   *
+   * (inherited from Carbon Button)
+   */
+  iconDescription: PropTypes.string,
+
+  /**
+   * Optional click handler
+   *
+   * (inherited from Carbon Button)
+   */
+  onClick: PropTypes.func,
+
+  /**
+   * Optional prop to allow overriding the icon rendering.
+   * Can be a React component class
+   *
+   * (inherited from Carbon Button)
+   */
+  renderIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
+});
+ActionBarItem.defaultProps = _objectSpread({}, defaultProps);

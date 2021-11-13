@@ -1,0 +1,23 @@
+{
+  "extends": ["stylelint-config-carbon"],
+  "plugins": ["stylelint-plugin-carbon-tokens"],
+  "rules": {
+    "carbon/layout-token-use": [true],
+    "carbon/motion-token-use": [true],
+    "carbon/theme-token-use": [true],
+    "carbon/type-token-use": [true],
+    "declaration-property-value-disallowed-list": null,
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": ["/^spacing-/"]
+      }
+    ],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["export"]
+      }
+    ]
+  }
+}

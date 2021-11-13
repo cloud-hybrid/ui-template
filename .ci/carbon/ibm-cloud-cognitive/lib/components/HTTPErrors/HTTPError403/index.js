@@ -1,0 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "HTTPError403", {
+  enumerable: true,
+  get: function get() {
+    return _HTTPError.HTTPError403;
+  }
+});
+
+var _HTTPError = require("./HTTPError403");

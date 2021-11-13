@@ -221,10 +221,6 @@ Tree.Modules.forEach((Element, Index) => {
         );
     }
 
-    // Generation[Key].Archive = ...
-    if ( !FS.existsSync(Path.normalize(Target)) ) FS
-        .mkdirSync(Archive);
-
     // Generation[Key].Date = ...
     if ( !FS.existsSync(Path.normalize(Target)) ) {
         FS.mkdirSync(Target);

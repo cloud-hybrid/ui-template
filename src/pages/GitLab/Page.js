@@ -70,13 +70,6 @@ const Component = () => {
             sortable: false,
             value: "URL"
         },
-        
-        {
-            key: "Git-HTTP-URL",
-            header: "Git-HTTP-URL",
-            sortable: false,
-            value: "URL"
-        },
 
         {
             key: "CI-CD",

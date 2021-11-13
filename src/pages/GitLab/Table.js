@@ -1,9 +1,8 @@
 import "./SCSS/Search.scss";
-import { Home } from "@carbon/icons-react/next";
 
 import React, { Fragment, useMemo } from "react";
 
-import * as Search from "./SCSS/Search.module.scss";
+//import * as Search from "./SCSS/Search.module.scss";
 
 import {
     Button,
@@ -26,13 +25,15 @@ import {
     TableSelectRow,
     TableToolbar,
     TableToolbarContent,
-    TableToolbarSearch
+//    TableToolbarSearch
 } from "@carbon/react";
 
 import { Data_132 as DICO } from "@carbon/icons-react/lib/__generated__/bucket-7";
 import { ChartCombo32 as Metrics } from "@carbon/icons-react/lib/__generated__/bucket-3";
 import { CrossTab32 as CSV } from "@carbon/icons-react/lib/__generated__/bucket-6";
 import { Renew32 as Reload } from "@carbon/icons-react/lib/__generated__/bucket-20";
+
+import "./SCSS/Overflow.scss";
 
 import * as Light from "./SCSS/Light.module.scss";
 import * as Bold from "./SCSS/Bold.module.scss";
@@ -46,10 +47,9 @@ import { default as Pagination } from "./Paginator";
 
 import { Tag as Visibility } from "carbon-components-react";
 
-/// import stickyHeader from "carbon-components-react/lib/components/DataTable/DataTable";
-/// import translateWithId from "carbon-components-react/lib/components/DataTable/DataTable";
-/// import sortRow from "carbon-components-react/lib/components/DataTable/DataTable";
-/// import useStaticWidth from "carbon-components-react/lib/components/DataTable/DataTable";
+//import { OverflowMenuVertical, Launch } from "@carbon/icons-react/next";
+//
+//import { default as Modal } from "./Modal.js";
 
 const URL = ({ url, home }) => {
     return (
@@ -63,8 +63,14 @@ const URL = ({ url, home }) => {
             </li>
             { home && (
                 <li style={ { display: "inline" } }>
-                    <span>&nbsp;|&nbsp;</span>
-                    <Link href={ home }>Gitlab</Link>
+                    <span>
+                        {
+                            " " + "|" + " "
+                        }
+                    </span>
+                    <Link href={ home }>
+                        Gitlab
+                    </Link>
                 </li>
             ) }
         </ul>
@@ -100,18 +106,10 @@ const Compute = (Data, Projects) => Data.forEach((Repository, Index) => {
             isExpanded: false,
             isSelected: false,
             cells: Object.values({ Repository }),
-            UID: (
-                Repository.id !== null
-            ) ? String(Repository.id) : 0,
-            Name: (
-                Repository.name !== null
-            ) ? String(Repository.name) : "N/A",
-            Visibility: (
-                Repository.visibility !== null
-            ) ? String(Repository.visibility).toUpperCase() : "Internal",
-            Activity: (
-                Repository.last_activity_at !== null
-            ) ? String(Repository.last_activity_at) : "N/A",
+            UID: (Repository.id !== null) ? String(Repository.id) : 0,
+            Name: (Repository.name !== null) ? String(Repository.name) : "N/A",
+            Visibility: (Repository.visibility !== null) ? String(Repository.visibility).toUpperCase() : "Internal",
+            Activity: (Repository.last_activity_at !== null) ? String(Repository.last_activity_at) : "N/A",
             URL: (
                 Repository.web_url !== null
             ) ? String(Repository.web_url) : "N/A",
@@ -122,19 +120,6 @@ const Compute = (Data, Projects) => Data.forEach((Repository, Index) => {
     }, [ Projects ]);
 });
 
-/***
- *
- * @param Headers {Array}
- * @param Data {Map}
- * @param Page {Number}
- *
- * @returns {JSX.Element}
- *
- * @constructor { () =? () }
- *
- * @type {function(Number)};
- */
-
 const Component = ({ Data, Headers, State, Pages }) => {
     const Home = "https://gitlab.cloud-technology.io/";
 
@@ -143,9 +128,7 @@ const Component = ({ Data, Headers, State, Pages }) => {
     ) ? Data?.length : 0;
     const Projects = new Array(Total);
 
-    const Exclusions = 2; // Checkbox + Dropdown
-
-    Headers = Headers.slice(0, Headers.length - Exclusions);
+    Headers = Headers.slice(0, Headers.length);
 
     Compute(Data, Projects);
 
@@ -153,12 +136,9 @@ const Component = ({ Data, Headers, State, Pages }) => {
         <DataTable
             rows={ Projects }
             headers={ Headers }
-            isSortable={ true }
+            isSortable={ false }
             size={ "normal" }
             stickyHeader={ false }
-            //            sortRow={ (event) => {
-            //                console.debug(event);
-            //            } }
             useStaticWidth={ false }
             render={
                 ({
@@ -201,45 +181,39 @@ const Component = ({ Data, Headers, State, Pages }) => {
                             <TableToolbarContent>
                                 {
 
-                                    <TableToolbarSearch
-                                        persistent={ true }
-                                        defaultExpanded={ true }
-                                        searchContainerClass={ Search.search }
-                                        // onChange={
-                                        //     (event) => {
-                                        //         console.debug("[Debug]", "Search Change Event", event);
-                                        //     }
-                                        // }
-                                        placeholder={ " " }
-                                        onExpand={
-                                            (event) => {
-                                                const Element = document.getElementsByClassName(Search.search).item(0);
-                                                const Input = document.getElementsByClassName("cds--search-input").item(0);
-
-                                                (
-                                                    event.type === "blur"
-                                                ) ? console.debug("[Debug]", "Search Collapse Event")
-                                                    : console.debug("[Debug]", "Search Expand Event");
-
-                                                if ( event.type === "focus" ) {
-                                                    Input.style.outline = "0";
-                                                    Input.style.paddingLeft = "3.0rem";
-                                                    Input.style.paddingRight = "3.0rem";
-
-                                                    Element.setAttribute("expanded", "true");
-                                                } else {
-                                                    Input.style.outline = "0";
-                                                    Input.style.paddingLeft = "0.0rem";
-                                                    Input.style.paddingRight = "0.0rem";
-
-                                                    Element.removeAttribute("expanded");
-                                                }
-                                            }
-                                        }
-                                        expanded={ false }
-                                        labelText={ "Test-Label-Text" }
-                                        tabIndex={ 0 }
-                                    />
+//                                    <TableToolbarSearch
+//                                        persistent={ true }
+//                                        defaultExpanded={ true }
+//                                        searchContainerClass={ Search.search }
+//                                        placeholder={ " " }
+//                                        onExpand={
+//                                            (event) => {
+//                                                const Element = document.getElementsByClassName(Search.search).item(0);
+//                                                const Input = document.getElementsByClassName("cds--search-input").item(0);
+//
+//                                                (event.type === "blur")
+//                                                    ? console.debug("[Debug]", "Search Collapse Event")
+//                                                    : console.debug("[Debug]", "Search Expand Event");
+//
+//                                                if ( event.type === "focus" ) {
+//                                                    Input.style.outline = "0";
+//                                                    Input.style.paddingLeft = "3.0rem";
+//                                                    Input.style.paddingRight = "3.0rem";
+//
+//                                                    Element.setAttribute("expanded", "true");
+//                                                } else {
+//                                                    Input.style.outline = "0";
+//                                                    Input.style.paddingLeft = "0.0rem";
+//                                                    Input.style.paddingRight = "0.0rem";
+//
+//                                                    Element.removeAttribute("expanded");
+//                                                }
+//                                            }
+//                                        }
+//                                        labelText={ "Test-Label-Text" }
+//                                        expanded={ false }
+//                                        tabIndex={ 0 }
+//                                    />
 
                                 }
                                 <Button
@@ -262,11 +236,10 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                     <TableExpandHeader enableToggle={ true } { ... getExpandHeaderProps() } />
                                     <TableSelectAll { ... getSelectionProps() } />
                                     {
-                                        Headers.map((Header, Index) => (
-                                                Header.value === "Name"
-                                            )
+                                        Headers.map(
+                                            (Header) => (Header.value === "Name")
                                                 ? (
-                                                    <TableHeader { ... getHeaderProps({ header: Header }) } colSpan={ 1 }>
+                                                    <TableHeader { ... getHeaderProps({ header: Header }) } colSpan={ 1 } >
                                                         { Header.value }
                                                     </TableHeader>
                                                 ) : (
@@ -286,15 +259,13 @@ const Component = ({ Data, Headers, State, Pages }) => {
 
                                             const Data = Row.Data;
 
-                                            /// console.log(Data);
-
                                             return (
                                                 <Fragment key={ String(Index) }>
                                                     <TableExpandRow expandIconDescription={ "Select to Expand Repository's Description" } { ... getRowProps({ row: Row }) }>
                                                         <TableSelectRow { ... getSelectionProps({ row: Row }) } />
                                                         <TableCell
-                                                            key={ String(Index) + "-" + "ID" + "-" + Row.UID } name={ String(
-                                                            Index) + "-" + "ID" + "-" + Row.UID }
+                                                            key={ String(Index) + "-" + "ID" + "-" + Row.UID }
+                                                            name={ String(Index) + "-" + "ID" + "-" + Row.UID }
                                                         >
                                                             <CodeSnippet
                                                                 type="single"
@@ -332,9 +303,7 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                                             id={ String(Index) + "-" + "Visibility" + "-" + Row.UID }
                                                         >
                                                             {
-                                                                (
-                                                                    Row.Visibility === "PUBLIC"
-                                                                ) ? (
+                                                                (Row.Visibility === "PUBLIC") ? (
                                                                     <Visibility
                                                                         id={ "Visibility-Tag" + "-" + String(Index) }
                                                                         className={ Tag.tag }
@@ -369,7 +338,6 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                                                         ) }
                                                                         onClick={ () => window.open(Row.URL) }
                                                                     />
-
                                                                 )
                                                             }
                                                         </TableCell>
@@ -377,26 +345,43 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                                             id={ String(Index) + "-" + "URL" + "-" + Row.UID }
                                                             key={ String(Index) + "-" + "URL" + "-" + Row.UID }
                                                         >
-                                                            <URL
-                                                                url={ Row.URL } home={ Home } key={ "VCS-URL-Link-Key" + "-" + String(
-                                                                Index) }
-                                                            />
+                                                            <URL url={ Row.URL } home={ Home } key={ "VCS-URL-Link-Key" + "-" + String(Index) }/>
+                                                        </TableCell>
+                                                        <TableCell
+                                                            id={ String(Index) + "-" + "Overflow" + "-" + Row.UID }
+                                                            key={ String(Index) + "-" + "Overflow" + "-" + Row.UID }
+                                                        >
+                                                            { /*
+                                                            <OverflowMenu light={true} style={{ color: "white" }}>
+                                                                <OverflowMenuItem itemText="Option 1"/>
+                                                                <OverflowMenuItem itemText="Option 3" />
+                                                                <OverflowMenuItem itemText="Option 4" hasDivider/>
+                                                            </OverflowMenu>
+                                                             */ }
+
+                                                            {/*<Modal id={Row.UID} />*/}
                                                         </TableCell>
                                                     </TableExpandRow>
                                                     <TableExpandedRow colSpan={ headers.length + 2 }>
                                                         <br/>
                                                         <p>
-                                                            <strong>Description</strong> - { " " }
+                                                            <strong>
+                                                                Description
+                                                            </strong> - { " " }
                                                             {
-                                                                (
-                                                                    Data[Index]?.description
-                                                                ) ? Data[Index].description : "N/A"
+                                                                (Data[Index]?.description)
+                                                                    ? Data[Index].description
+                                                                    : "N/A"
                                                             }
                                                         </p>
                                                         <hr style={ { marginBottom: "1.25rem" } }/>
                                                         <CodeSnippet
-                                                            type={ "multi" } wrapText={ false } copyButtonDescription={ "Copy Repository Data to Clipboard" }
-                                                            feedback={ "Copied" } maxCollapsedNumberOfRows={ 100 } className={ Code.code }
+                                                            type={ "multi" }
+                                                            wrapText={ false }
+                                                            copyButtonDescription={ "Copy Repository Data to Clipboard" }
+                                                            feedback={ "Copied" }
+                                                            maxCollapsedNumberOfRows={ 100 }
+                                                            className={ Code.code }
                                                         >
                                                             {
                                                                 JSON.stringify(Row.Data, null, 4)
@@ -410,13 +395,9 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                 }
                             </TableBody>
                         </Table>
-                        { (
-                            Data
-                        ) ? (
-                            <Pagination Pages={ Pages }/>
-                        ) : (
-                            <></>
-                        ) }
+                        {
+                            (Data) ? (<Pagination Pages={ Pages }/>) : (<></>)
+                        }
                     </TableContainer>
                 ) }
         />

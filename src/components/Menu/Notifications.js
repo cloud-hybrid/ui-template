@@ -1,6 +1,7 @@
+// import { NotificationsPanel } from "@carbon/ibm-cloud-cognitive/es/components/NotificationsPanel";
 import { NotificationsPanel } from "./../../carbon/ibm-cloud-cognitive/es/components/NotificationsPanel";
 
-import "./../../carbon/ibm-cloud-cognitive/css/index-full-carbon.min.css";
+import "@carbon/ibm-cloud-cognitive/css/index-without-carbon.min.css";
 
 import "./SCSS/Notification.scss";
 

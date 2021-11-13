@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import { AboutModal } from "@carbon/ibm-cloud-cognitive";
-//import { Button } from "@carbon/react";
 import { Link } from "@carbon/react";
 
 const Year = new Date().getFullYear();
@@ -19,8 +18,8 @@ const Legal = () => (
     </>
 );
 
-import "./Index.scss";
-import * as Styles from "./Index.module.scss";
+import "./SCSS/Index.scss";
+import * as Styles from "./SCSS/Index.module.scss";
 
 const Component = (props) => {
     window.onerror = Ignore;
@@ -89,7 +88,6 @@ const Component = (props) => {
                 </>
             ) }
         />
-        //        </>
     );
 };
 

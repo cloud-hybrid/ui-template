@@ -14,6 +14,29 @@ The Cloud Dashboard & User Interface for *Cloud-Technology LLC.*
 - [ ] Review & Document an Applicable use-case for a Merged, Shallow `useState` (Probably Login)
     - https://reactjs.org/docs/state-and-lifecycle.html#using-state-correctly
 
+- [ ] Update BreadCrumbs to use
+
+```javascript
+function Course() {
+    let { id } = useParams<"id">();
+
+    return (
+            <div>
+                <h2>
+                    Welcome to the {id!.split("-").map(capitalizeString).join(" ")} course!
+                </h2>
+
+                <p>This is a great course. You're gonna love it!</p>
+
+                <Link to="/courses">See all courses</Link>
+            </div>
+    );
+}
+
+function capitalizeString(s: string): string {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+}
+```
 Cloud-Technology's Dashboard is a set of user-friendly utilities that interface RESTful HTTP endpoints & related
 database CRUD actions. The User-Interface is consistent in visibility, styling, but above all else, ***functionality***.
 

@@ -33,22 +33,23 @@ const Tabular = ({ rows, headers }) => {
             rows={ rows }
             headers={ headers }
             render={ ({
-                rows,
-                headers,
-                getHeaderProps,
-                getRowProps,
-                selectRow,
-                getTableProps,
-                getExpandHeaderProps,
-                getSelectionProps
-            }) => (
-                <TableContainer title="Carbon Repositories"
-                    description="A collection of public Carbon repositories." className={ Styles.repoPageGithubDataTableContainer }
+                          rows,
+                          headers,
+                          getHeaderProps,
+                          getRowProps,
+                          getTableProps,
+                          getExpandHeaderProps,
+                          getSelectionProps
+                      }) => (
+                <TableContainer
+                    title="[Title]"
+                    description="[Description]"
+                    className={ Styles.repoPageGithubDataTableContainer }
                 >
                     <Table { ... getTableProps() }>
                         <TableHead>
                             <TableRow>
-                                <TableExpandHeader enableToggle={true} { ... getExpandHeaderProps() } />
+                                <TableExpandHeader enableToggle={ true } { ... getExpandHeaderProps() } />
                                 <TableSelectAll { ... getSelectionProps() } />
                                 <TableExpandHeader { ... getExpandHeaderProps() } />
                                 {
@@ -71,9 +72,15 @@ const Tabular = ({ rows, headers }) => {
                                         <TableExpandRow { ... getRowProps({ row }) }>
                                             <TableSelectRow { ... getSelectionProps({ row }) } />
                                             <TableCell key={ "expand" }>{ "" }</TableCell>
-                                            { row.cells.map((cell) => (
-                                                <TableCell key={ cell.id }>{ cell.value }</TableCell>
-                                            )) }
+                                            {
+                                                row.cells.map((cell) => (
+                                                    <TableCell key={ cell.id }>
+                                                        {
+                                                            cell.value
+                                                        }
+                                                    </TableCell>
+                                                ))
+                                            }
                                         </TableExpandRow>
                                         <TableExpandedRow colSpan={ headers.length + 3 }>
                                             <p>{ getRowDescription(row.id) }</p>

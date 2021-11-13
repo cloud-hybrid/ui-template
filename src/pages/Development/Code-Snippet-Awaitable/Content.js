@@ -90,3 +90,81 @@ const Component = () => {
 Component.propTypes = {};
 
 export default Component;
+
+export const Requestable = ({ url, headers }) => {
+    const [ data, setData ] = useState(false);
+    const [ loading, setLoading ] = useState(false);
+    const [ error, setError ] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+
+            try {
+                const $ = await axios(url, { headers });
+
+                setData($.data);
+                setError(false);
+
+            } catch ( error ) {
+                console.warn(error);
+                setError({
+                    column: error?.column,
+                    line: error?.line,
+                    message: error?.message,
+                    stack: error?.stack
+                });
+            }
+
+            finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData().finally(() => {
+            console.debug("[Debug] Loading Complete");
+        });
+    }, [ url ]);
+
+    const Awaitable = () => (loading) && (<CodeSnippetSkeleton type={ "multi" }/>);
+
+    const Error = () => (error && !loading) && (
+        <Inline
+            kind={ "error" }
+            lowContrast={ true }
+            role={ "alert" }
+            statusIconDescription={ "Status-Icon" }
+            iconDescription={ "Close Error Message" }
+            title={ "Error" }
+            subtitle={ error?.message }
+            hideCloseButton={ true }
+        />
+    );
+
+    const Data = () => (data && !loading) && (
+        <CodeSnippet
+            type={ "multi" }
+            className={ Styles.snippet }
+            children={
+                JSON.stringify(data, null, 4)
+            }
+            showMoreText={ "Expand" }
+            showLessText={ "Collapse" }
+            maxCollapsedNumberOfRows={ 15 }
+            wrapText={ false }
+        />
+    );
+
+    return (
+        <>
+            { (<Error/>) }
+            { (<Awaitable/>) }
+            { (<Data/>) }
+        </>
+    );
+};
+
+Requestable.propTypes = {
+    url: PropTypes.string
+};
+

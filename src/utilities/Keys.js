@@ -1,4 +1,4 @@
-export const Tab = {
+export const Skeleton = {
     key: "Tab",
     which: 9,
     keyCode: 9,

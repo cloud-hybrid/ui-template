@@ -2,19 +2,19 @@
 
 /* Colors --- */
 
-@use "~@carbon/colors/scss/mixins" as *;
+@use "@carbon/colors/scss/mixins" as *;
 
 /* SCSS, React Styles --- */
 
-@use "~@carbon/react/scss/motion" as *;
-@use "~@carbon/react/scss/spacing" as *;
-@use "~@carbon/react/scss/breakpoint" as *;
+@use "@carbon/react/scss/motion" as *;
+@use "@carbon/react/scss/spacing" as *;
+@use "@carbon/react/scss/breakpoint" as *;
 
 /* Theme Export(s) --- */
 
-@use "~@carbon/themes/scss/generated/tokens" as Tokens;
-@use "~@carbon/themes/scss/generated/mixins" as Mixins;
-@use "~@carbon/themes/scss/generated/themes" as Themes;
+@use "@carbon/themes/scss/generated/tokens" as Tokens;
+@use "@carbon/themes/scss/generated/mixins" as Mixins;
+@use "@carbon/themes/scss/generated/themes" as Themes;
 
 .button {
     width: $spacing-09;

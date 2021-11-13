@@ -41,7 +41,7 @@ import {
     UserData
 } from "@carbon/icons-react/next";
 
-import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { default as Mode } from "./Mode-Tagger";
 import { default as Version } from "./Version.js";
@@ -185,6 +185,9 @@ const Component = ({ Authorizer }) => {
                                 <HeaderMenuItem element={ Link } to={ "/template" } isCurrentPage={ Active("template") } onClick={ () => navigation("/template") }>
                                     <strong>Template</strong>
                                 </HeaderMenuItem>
+                                <HeaderMenuItem element={ Link } to={ "/awaitable" } isCurrentPage={ Active("awaitable") } onClick={ () => navigation("/awaitable") }>
+                                    <strong>Awaitable</strong>
+                                </HeaderMenuItem>
                                 <HeaderMenuItem element={ Link } to={ "/snippet" } isCurrentPage={ Active("snippet") } onClick={ () => navigation("/snippet") }>
                                     <strong>Code-Snippet</strong>
                                 </HeaderMenuItem>
@@ -193,6 +196,9 @@ const Component = ({ Authorizer }) => {
                                 </HeaderMenuItem>
                                 <HeaderMenuItem element={ Link } to={ "/list" } isCurrentPage={ Active("list") } onClick={ () => navigation("/list") }>
                                     <strong>Selectable-List</strong>
+                                </HeaderMenuItem>
+                                <HeaderMenuItem element={ Link } to={ "/table" } isCurrentPage={ Active("table") } onClick={ () => navigation("/table") }>
+                                    <strong>Test-Table</strong>
                                 </HeaderMenuItem>
                             </HeaderMenu>
                             <hr
@@ -317,9 +323,6 @@ const Component = ({ Authorizer }) => {
                                     <></>
                                 ) }
                                 id={ "global-menu-notifications" }
-                                onClickCapture={ (event) => {
-                                    console.debug(event);
-                                } }
                                 onClick={
                                     (event) => {
                                         event.preventDefault();

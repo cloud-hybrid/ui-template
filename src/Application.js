@@ -11,14 +11,17 @@ import { default as Spinner } from "./components/Loader";
 
 import { Authorizer, JWT, Validate, Cancellation } from "./components/Authenticate";
 
-const Login = Import(() =>      import("./pages/Login"));
-const GitHub = Import(() =>     import("./pages/GitHub"));
-const GitLab = Import(() =>     import("./pages/GitLab"));
-const Template = Import(() =>   import("./pages/Template"));
-const Pipelines = Import(() =>  import("./pages/Pipelines"));
-const Tiles = Import(() =>      import("./pages/Development/Tiles"));
-const List = Import(() =>       import("./pages/Development/Selectable-List"));
-const Snippet = Import(() =>    import("./pages/Development/Code-Snippet-Awaitable"));
+const Login = Import(() => import("./pages/Login"));
+const GitHub = Import(() => import("./pages/GitHub"));
+const GitLab = Import(() => import("./pages/GitLab"));
+const ID = Import(() => import("./pages/GitLab/Project"));
+const Template = Import(() => import("./pages/Template"));
+const Pipelines = Import(() => import("./pages/Pipelines"));
+const Tiles = Import(() => import("./pages/Development/Tiles"));
+const Awaitable = Import(() => import("./pages/Development/Awaitable"));
+const List = Import(() => import("./pages/Development/Selectable-List"));
+const Table = Import(() => import("./pages/Development/Test-Table"));
+const Snippet = Import(() => import("./pages/Development/Code-Snippet-Awaitable"));
 
 const Dashboard = {
     Index: Import(() => import("./pages/Dashboard/Pages/Index")),
@@ -98,6 +101,16 @@ const Application = () => {
                                 <Route
                                     element={ (
                                         <Authorizer
+                                            Page={ ID }
+                                            Session={ Authorization[0] }
+                                            description={ "Loading Test Table ..." }
+                                        />
+                                    ) } path={ "/gitlab/:id" }
+                                />
+
+                                <Route
+                                    element={ (
+                                        <Authorizer
                                             Page={ GitHub }
                                             Session={ Authorization[0] }
                                             description={ "Loading VCS Organization ..." }
@@ -135,6 +148,16 @@ const Application = () => {
                                     ) } path={ "/template" }
                                 />
 
+                                <Route
+                                    element={ (
+                                        <Authorizer
+                                            Page={ Awaitable }
+                                            Session={ Authorization[0] }
+                                            description={ "Loading Awaitable Page ..." }
+                                        />
+                                    ) } path={ "/awaitable" }
+                                />
+
                                 { /* Development Component(s) */ }
 
                                 <Route
@@ -165,6 +188,16 @@ const Application = () => {
                                             description={ "Loading List Component ..." }
                                         />
                                     ) } path={ "/list" }
+                                />
+
+                                <Route
+                                    element={ (
+                                        <Authorizer
+                                            Page={ Table }
+                                            Session={ Authorization[0] }
+                                            description={ "Loading Test Table ..." }
+                                        />
+                                    ) } path={ "/table" }
                                 />
                                 <Route path={ "/*" } element={ (<Navigate to={ "/" }/>) }/>
                             </Routes>

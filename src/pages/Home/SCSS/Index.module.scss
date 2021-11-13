@@ -1,11 +1,8 @@
 @use "./../../../Application" as *;
 
 @use "@carbon/react/scss/type" as *;
-/// @use "@carbon/react/scss/type" as Type;
 @use "@carbon/react/scss/spacing" as *;
-/// @use "@carbon/react/scss/spacing" as Spacing;
 @use "@carbon/react/scss/breakpoint" as *;
-/// @use "@carbon/react/scss/breakpoint" as Breakpoint;
 
 @use "@carbon/styles/scss/utilities/convert" as *;
 
@@ -128,4 +125,9 @@
 
 .component {
     @include disable-selection();
+}
+
+.flex {
+    display: flex;
+    justify-content: space-evenly;
 }
