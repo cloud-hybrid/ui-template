@@ -200,6 +200,9 @@ const Component = ({ Authorizer }) => {
                                 <HeaderMenuItem element={ Link } to={ "/table" } isCurrentPage={ Active("table") } onClick={ () => navigation("/table") }>
                                     <strong>Test-Table</strong>
                                 </HeaderMenuItem>
+                                <HeaderMenuItem element={ Link } to={ "/card" } isCurrentPage={ Active("card") } onClick={ () => navigation("/card") }>
+                                    <strong>Card</strong>
+                                </HeaderMenuItem>
                             </HeaderMenu>
                             <hr
                                 width="1px"
