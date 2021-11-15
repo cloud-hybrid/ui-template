@@ -176,31 +176,31 @@ const Component = ({ Authorizer }) => {
                                 {/*<HeaderMenuItem element={ Link } to={ "/dashboard" } isCurrentPage={ Active("dashboard") } onClick={ () => navigation("/dashboard") }>*/ }
                                 {/*    <strong>Dashboard</strong>*/ }
                                 {/*</HeaderMenuItem>*/ }
-                                <HeaderMenuItem element={ Link } to={ "/github" } isCurrentPage={ Active("github") } onClick={ () => navigation("/github") }>
+                                <HeaderMenuItem element={ Link } to={ "/development/github" } isCurrentPage={ Active("development/github") } onClick={ () => navigation("/development/github") }>
                                     <strong>GitHub</strong>
                                 </HeaderMenuItem>
-                                <HeaderMenuItem element={ Link } to={ "/pipelines" } isCurrentPage={ Active("pipelines") } onClick={ () => navigation("/pipelines") }>
+                                <HeaderMenuItem element={ Link } to={ "/development/pipelines" } isCurrentPage={ Active("development/pipelines") } onClick={ () => navigation("/development/pipelines") }>
                                     <strong>Pipelines</strong>
                                 </HeaderMenuItem>
-                                <HeaderMenuItem element={ Link } to={ "/template" } isCurrentPage={ Active("template") } onClick={ () => navigation("/template") }>
+                                <HeaderMenuItem element={ Link } to={ "/development/template" } isCurrentPage={ Active("development/template") } onClick={ () => navigation("/development/template") }>
                                     <strong>Template</strong>
                                 </HeaderMenuItem>
-                                <HeaderMenuItem element={ Link } to={ "/awaitable" } isCurrentPage={ Active("awaitable") } onClick={ () => navigation("/awaitable") }>
+                                <HeaderMenuItem element={ Link } to={ "/development/awaitable" } isCurrentPage={ Active("development/awaitable") } onClick={ () => navigation("/development/awaitable") }>
                                     <strong>Awaitable</strong>
                                 </HeaderMenuItem>
-                                <HeaderMenuItem element={ Link } to={ "/snippet" } isCurrentPage={ Active("snippet") } onClick={ () => navigation("/snippet") }>
+                                <HeaderMenuItem element={ Link } to={ "/development/snippet" } isCurrentPage={ Active("development/snippet") } onClick={ () => navigation("/development/snippet") }>
                                     <strong>Code-Snippet</strong>
                                 </HeaderMenuItem>
-                                <HeaderMenuItem element={ Link } to={ "/tiles" } isCurrentPage={ Active("tiles") } onClick={ () => navigation("/tiles") }>
+                                <HeaderMenuItem element={ Link } to={ "/development/tiles" } isCurrentPage={ Active("development/tiles") } onClick={ () => navigation("/development/tiles") }>
                                     <strong>Tiles</strong>
                                 </HeaderMenuItem>
-                                <HeaderMenuItem element={ Link } to={ "/list" } isCurrentPage={ Active("list") } onClick={ () => navigation("/list") }>
+                                <HeaderMenuItem element={ Link } to={ "/development/list" } isCurrentPage={ Active("development/list") } onClick={ () => navigation("/development/list") }>
                                     <strong>Selectable-List</strong>
                                 </HeaderMenuItem>
-                                <HeaderMenuItem element={ Link } to={ "/table" } isCurrentPage={ Active("table") } onClick={ () => navigation("/table") }>
+                                <HeaderMenuItem element={ Link } to={ "/development/table" } isCurrentPage={ Active("development/table") } onClick={ () => navigation("/development/table") }>
                                     <strong>Test-Table</strong>
                                 </HeaderMenuItem>
-                                <HeaderMenuItem element={ Link } to={ "/card" } isCurrentPage={ Active("card") } onClick={ () => navigation("/card") }>
+                                <HeaderMenuItem element={ Link } to={ "/development/card" } isCurrentPage={ Active("development/card") } onClick={ () => navigation("/development/card") }>
                                     <strong>Card</strong>
                                 </HeaderMenuItem>
                             </HeaderMenu>

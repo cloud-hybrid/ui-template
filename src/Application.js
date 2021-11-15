@@ -67,7 +67,7 @@ const Application = () => {
                     </Row>
                     <Suspense fallback={ null }>
                         <Spinner timeout={ 1000 } description={ "" }>
-                            <Routes location={ location } basename={ "/" }>
+                            <Routes basename={ "/" }>
                                 {/* Base Endpoint(s) */ }
 
                                 <Route
@@ -116,7 +116,7 @@ const Application = () => {
                                             Session={ Authorization[0] }
                                             description={ "Loading VCS Organization ..." }
                                         />
-                                    ) } path={ "/github" }
+                                    ) } path={ "/development/github" }
                                 />
 
                                 <Route
@@ -126,7 +126,7 @@ const Application = () => {
                                             Session={ Authorization[0] }
                                             description={ "Loading Deployment Pipeline(s) ..." }
                                         />
-                                    ) } path={ "/pipelines" }
+                                    ) } path={ "/development/pipelines" }
                                 />
 
                                 <Route
@@ -136,7 +136,7 @@ const Application = () => {
                                             Session={ Authorization[0] }
                                             description={ "Loading Administrative Dashboard ..." }
                                         />
-                                    ) } path={ "/dashboard" }
+                                    ) } path={ "/development/dashboard" }
                                 />
 
                                 <Route
@@ -146,7 +146,7 @@ const Application = () => {
                                             Session={ Authorization[0] }
                                             description={ "Loading Template Page ..." }
                                         />
-                                    ) } path={ "/template" }
+                                    ) } path={ "/development/template" }
                                 />
 
                                 <Route
@@ -156,7 +156,7 @@ const Application = () => {
                                             Session={ Authorization[0] }
                                             description={ "Loading Awaitable Page ..." }
                                         />
-                                    ) } path={ "/awaitable" }
+                                    ) } path={ "/development/awaitable" }
                                 />
 
                                 { /* Development Component(s) */ }
@@ -168,7 +168,7 @@ const Application = () => {
                                             Session={ Authorization[0] }
                                             description={ "Loading Code Snippet Component ..." }
                                         />
-                                    ) } path={ "/snippet" }
+                                    ) } path={ "/development/snippet" }
                                 />
 
                                 <Route
@@ -178,7 +178,7 @@ const Application = () => {
                                             Session={ Authorization[0] }
                                             description={ "Loading Tile(s) Component ..." }
                                         />
-                                    ) } path={ "/tiles" }
+                                    ) } path={ "/development/tiles" }
                                 />
 
                                 <Route
@@ -188,7 +188,7 @@ const Application = () => {
                                             Session={ Authorization[0] }
                                             description={ "Loading List Component ..." }
                                         />
-                                    ) } path={ "/list" }
+                                    ) } path={ "/development/list" }
                                 />
 
                                 <Route
@@ -198,7 +198,7 @@ const Application = () => {
                                             Session={ Authorization[0] }
                                             description={ "Loading Card Component ..." }
                                         />
-                                    ) } path={ "/card" }
+                                    ) } path={ "/development/card" }
                                 />
 
                                 <Route
@@ -208,7 +208,7 @@ const Application = () => {
                                             Session={ Authorization[0] }
                                             description={ "Loading Test Table ..." }
                                         />
-                                    ) } path={ "/table" }
+                                    ) } path={ "/development/table" }
                                 />
                                 <Route path={ "/*" } element={ (<Navigate to={ "/" }/>) }/>
                             </Routes>
