@@ -22,6 +22,7 @@ const Awaitable = Import(() => import("./pages/Development/Awaitable"));
 const List = Import(() => import("./pages/Development/Selectable-List"));
 const Table = Import(() => import("./pages/Development/Test-Table"));
 const Snippet = Import(() => import("./pages/Development/Code-Snippet-Awaitable"));
+const Card = Import(() => import("./pages/Development/Card"));
 
 const Dashboard = {
     Index: Import(() => import("./pages/Dashboard/Pages/Index")),
@@ -188,6 +189,16 @@ const Application = () => {
                                             description={ "Loading List Component ..." }
                                         />
                                     ) } path={ "/list" }
+                                />
+
+                                <Route
+                                    element={ (
+                                        <Authorizer
+                                            Page={ Card }
+                                            Session={ Authorization[0] }
+                                            description={ "Loading Card Component ..." }
+                                        />
+                                    ) } path={ "/card" }
                                 />
 
                                 <Route

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-
 import PropTypes from "prop-types";
+
+import { default as Table } from "./Table.js";
 
 const Page = () => {
     const [ firstRowIndex, setFirstRowIndex ] = useState(0);
@@ -40,7 +41,9 @@ const Page = () => {
             
             console.debug("[Debug]", "Waiter has Successfully Resolved");
 
-            return (awaiting === false) && null;
+            return (awaiting === false) && (
+                <Table/>
+            );
         }
     }
 };

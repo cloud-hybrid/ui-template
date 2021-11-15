@@ -1,8 +1,4 @@
-import "./SCSS/Search.scss";
-
 import React, { Fragment, useMemo } from "react";
-
-//import * as Search from "./SCSS/Search.module.scss";
 
 import {
     Button,
@@ -49,7 +45,7 @@ import { Tag as Visibility } from "carbon-components-react";
 
 //import { OverflowMenuVertical, Launch } from "@carbon/icons-react/next";
 //
-//import { default as Modal } from "./Modal.js";
+import { default as Modal } from "./Modal.js";
 
 const URL = ({ url, home }) => {
     return (
@@ -99,7 +95,7 @@ async function Refresh(setter) {
 }
 
 const Compute = (Data, Projects) => Data.forEach((Repository, Index) => {
-    useMemo((Data) => {
+    useMemo(() => {
         Projects[Index] = {
             id: String(Index),
             disabled: false,
@@ -115,9 +111,7 @@ const Compute = (Data, Projects) => Data.forEach((Repository, Index) => {
             ) ? String(Repository.web_url) : "N/A",
             Data: Repository
         };
-
-        return Projects;
-    }, [ Projects ]);
+    }, []);
 });
 
 const Component = ({ Data, Headers, State, Pages }) => {
@@ -128,9 +122,25 @@ const Component = ({ Data, Headers, State, Pages }) => {
     ) ? Data?.length : 0;
     const Projects = new Array(Total);
 
-    Headers = Headers.slice(0, Headers.length);
-
-    Compute(Data, Projects);
+    Data.forEach((Repository, Index) => {
+        Projects[Index] = React.useMemo(() => {
+            return {
+                id: String(Index),
+                    disabled: false,
+                isExpanded: false,
+                isSelected: false,
+                cells: Object.values({ Repository }),
+                UID: (Repository.id !== null) ? String(Repository.id) : 0,
+                Name: (Repository.name !== null) ? String(Repository.name) : "N/A",
+                Visibility: (Repository.visibility !== null) ? String(Repository.visibility).toUpperCase() : "Internal",
+                Activity: (Repository.last_activity_at !== null) ? String(Repository.last_activity_at) : "N/A",
+                URL: (
+                Repository.web_url !== null
+            ) ? String(Repository.web_url) : "N/A",
+                Data: Repository
+            }
+        }, []);
+    });
 
     return (
         <DataTable
@@ -259,6 +269,23 @@ const Component = ({ Data, Headers, State, Pages }) => {
 
                                             const Data = Row.Data;
 
+                                            const Snippet = () => {
+                                                return (
+                                                    <CodeSnippet
+                                                        type={ "multi" }
+                                                        wrapText={ false }
+                                                        copyButtonDescription={ "Copy Repository Data to Clipboard" }
+                                                        feedback={ "Copied" }
+                                                        maxCollapsedNumberOfRows={ 100 }
+                                                        className={ Code.code }
+                                                    >
+                                                        {
+                                                            JSON.stringify(Row.Data, null, 4)
+                                                        }
+                                                    </CodeSnippet>
+                                                );
+                                            };
+
                                             return (
                                                 <Fragment key={ String(Index) }>
                                                     <TableExpandRow expandIconDescription={ "Select to Expand Repository's Description" } { ... getRowProps({ row: Row }) }>
@@ -351,15 +378,14 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                                             id={ String(Index) + "-" + "Overflow" + "-" + Row.UID }
                                                             key={ String(Index) + "-" + "Overflow" + "-" + Row.UID }
                                                         >
-                                                            { /*
-                                                            <OverflowMenu light={true} style={{ color: "white" }}>
-                                                                <OverflowMenuItem itemText="Option 1"/>
-                                                                <OverflowMenuItem itemText="Option 3" />
-                                                                <OverflowMenuItem itemText="Option 4" hasDivider/>
-                                                            </OverflowMenu>
-                                                             */ }
-
-                                                            {/*<Modal id={Row.UID} />*/}
+                                                            <div style={{
+                                                                display: "flex",
+                                                                justifyContent: "space-between"
+                                                            }}>
+                                                                <Modal.Environment id={Row.UID} />
+                                                                <Modal.Modify id={Row.UID} />
+                                                                <Modal.Trigger id={Row.UID} />
+                                                            </div>
                                                         </TableCell>
                                                     </TableExpandRow>
                                                     <TableExpandedRow colSpan={ headers.length + 2 }>
@@ -375,18 +401,7 @@ const Component = ({ Data, Headers, State, Pages }) => {
                                                             }
                                                         </p>
                                                         <hr style={ { marginBottom: "1.25rem" } }/>
-                                                        <CodeSnippet
-                                                            type={ "multi" }
-                                                            wrapText={ false }
-                                                            copyButtonDescription={ "Copy Repository Data to Clipboard" }
-                                                            feedback={ "Copied" }
-                                                            maxCollapsedNumberOfRows={ 100 }
-                                                            className={ Code.code }
-                                                        >
-                                                            {
-                                                                JSON.stringify(Row.Data, null, 4)
-                                                            }
-                                                        </CodeSnippet>
+                                                        <Snippet/>
                                                         <br/>
                                                     </TableExpandedRow>
                                                 </Fragment>

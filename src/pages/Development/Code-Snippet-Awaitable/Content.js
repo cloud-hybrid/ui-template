@@ -11,7 +11,7 @@ import "./SCSS/Snippet.scss";
 import * as Styles from "./SCSS/Snippet.module.scss";
 
 const Component = () => {
-    const url = "https://localhost:3000/API/Awaitable?Time=1";
+    const url = "https://localhost:3000/API/Awaitable?Time=5";
 
     const [ data, setData ] = useState(false);
     const [ loading, setLoading ] = useState(false);

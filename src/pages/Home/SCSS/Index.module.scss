@@ -126,8 +126,3 @@
 .component {
     @include disable-selection();
 }
-
-.flex {
-    display: flex;
-    justify-content: space-evenly;
-}

@@ -1,6 +1,6 @@
 {
     "name": "@cloud-technology/ui-template",
-    "version": "0.0.13",
+    "version": "0.0.12",
     "private": true,
     "main": "./src/index.js",
     "scripts": {
@@ -33,28 +33,23 @@
         "carbon-components-react": "^7.47.2",
         "history": "^5.1.0",
         "localforage": "^1.10.0",
-        "match-sorter": "^6.3.1",
         "react": "^17.0.2",
         "react-app-polyfill": "^2.0.0",
         "react-dom": "^17.0.2",
         "react-router-dom": "^6.0.1",
         "react-scripts": "^4.0.3",
-        "react-table": "^7.7.0",
         "webpack": "^4.44.2"
     },
     "devDependencies": {
         "@cloud-technology/npm-outdated": "cloud-hybrid/npm-outdated#Development",
-        "@types/react-table": "^7.7.8",
         "html-webpack-plugin": "^5.5.0",
         "http-proxy-middleware": "^2.0.1",
-        "json-loader": "^0.5.7",
         "postcss-custom-properties": "^10.0.0",
         "postcss-normalize": "^10.0.1",
         "prop-types": "^15.7.2",
         "react-dev-utils": "^11.0.4",
         "sass": "1.38.2",
         "source-map-explorer": "^2.5.2",
-        "styled-components": "^5.3.3",
         "web-vitals": "^2.1.2"
     },
     "lint-staged": {

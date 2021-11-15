@@ -37,9 +37,9 @@ const Component = () => {
         });
     }, []);
 
-    const Handler = API.Awaitable();
+    const Handler =  API.Awaitable();
 
-    const Headers = [
+    const Headers = React.useMemo(() => [
         {
             key: "ID",
             header: "ID",
@@ -72,12 +72,12 @@ const Component = () => {
         },
 
         {
-            key: "CI-CD",
-            header: "CI-CD",
+            key: "Options",
+            header: "Options",
             sortable: false,
-            value: "CI-CD"
+            value: "Options"
         }
-    ];
+    ], []);
 
     const Pages = {
         Rows: {
@@ -96,18 +96,16 @@ const Component = () => {
     };
 
     const Awaitable = () => {
-        if ( awaiting === true ) {
-            return Component();
-        }
+        if ( awaiting === true ) return Component();
 
         const Data = (
             Handler && Handler.Response && Handler.Response[page] !== null
-        ) ? new Array(
-                Handler.Response[page])
-            : new Array(0);
+        ) ? new Array(Handler.Response[page]) : new Array(0);
+
+        const Memoization = React.useMemo(() => Data[Data.length - 1], []);
 
         return (
-            <Tabular Headers={ Headers } Data={ Data.pop() } State={ setAwaiting } Pages={ Pages }/>
+            <Tabular Headers={ Headers } Data={ Memoization } State={ setAwaiting } Pages={ Pages }/>
         );
     };
 

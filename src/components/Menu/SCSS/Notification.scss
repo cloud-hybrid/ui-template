@@ -1,12 +1,10 @@
-.io-menu-notifications {
-    .exp--notifications-panel__notification.exp--notifications-panel__notification-previous {
-        &::before {
-            top: 5px;
-        }
+.exp--notifications-panel__notification.exp--notifications-panel__notification-previous {
+    &::before {
+        top: 5px;
     }
+}
 
-    .exp--notifications-panel__dismiss-single-button.cds--btn.cds--btn--sm.cds--btn--ghost {
-        top:   0.25rem;
-        right: 0.25rem;
-    }
+.exp--notifications-panel__dismiss-single-button.cds--btn.cds--btn--sm.cds--btn--ghost {
+    top:   0.25rem;
+    right: 0.25rem;
 }

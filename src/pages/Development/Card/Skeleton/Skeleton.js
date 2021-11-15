@@ -22,11 +22,9 @@ function Skeleton({ className, ... other }) {
             <SkeletonText width={ sm }/>
             <SkeletonText width={ md } heading/>
             <SkeletonText width={ md }/>
-            <br/>
-            <br/>
+
             <div className={ Styles.wrapper }>
                 <SkeletonText width={ lg }/>
-                <br/>
                 <SkeletonText width={ sm }/>
             </div>
         </Card>
