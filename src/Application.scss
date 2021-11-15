@@ -109,6 +109,7 @@ tr.#{$prefix}--parent-row.#{$prefix}--data-table--selected.#{$prefix}--expandabl
     border-bottom: 1px solid var(--cds-border-inverse) inset;
 }
 
+// Data Table Data Cell Expander
 tr.#{$prefix}--parent-row.#{$prefix}--data-table--selected:not(.#{$prefix}--expandable-row):hover td {
     border-top: 1px solid var(--cds-layer-active);
     border-bottom: 1px solid var(--cds-layer-active);
@@ -116,6 +117,7 @@ tr.#{$prefix}--parent-row.#{$prefix}--data-table--selected:not(.#{$prefix}--expa
     box-shadow: 0 1px var(--cds-layer-active);
 }
 
+// Data Table Data Cell Expander
 tr.#{$prefix}--parent-row.#{$prefix}--data-table--selected:first-of-type td {
     border-bottom: 1px solid var(--cds-layer-active) !important;
     border-top: 1px solid var(--cds-layer-active) !important;
